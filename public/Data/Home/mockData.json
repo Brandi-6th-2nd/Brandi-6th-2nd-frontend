@@ -1,0 +1,12 @@
+{
+    "top_status_data": {
+        "product_status": {
+            "상품 준비": 0,
+            "배송 완료": 3
+        },
+        "product_count": {
+            "전체 상품 수": 3,
+            "노출 상품 수": 3
+        }
+    }
+}

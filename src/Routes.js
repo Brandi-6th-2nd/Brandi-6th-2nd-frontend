@@ -12,6 +12,7 @@ import AccountManage from "./Pages/AccountManage/AccountManage";
 import ProductManage from "./Pages/ProductManage/ProductManage";
 import ProductAdd from "./Pages/ProductAdd/ProductAdd";
 import ProductEdit from "./Pages/ProductEdit/ProductEdit";
+import SideBar from "./Components/SideBar/SideBar";
 
 class Routes extends React.Component {
   render() {
@@ -30,6 +31,7 @@ class Routes extends React.Component {
           <Route exact path="/productAdd" component={ProductAdd} />
           <Route exact path="/productEdit" component={ProductEdit} />
           <Route exact path="/accountManage" component={AccountManage} />
+          <Route exact path="/sideBar" component={SideBar} />
         </Switch>
       </Router>
     );

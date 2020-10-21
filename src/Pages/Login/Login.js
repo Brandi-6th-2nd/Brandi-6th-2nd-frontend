@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import LoginFooter from '../../Components/LoginFooter/LoginFooter';
 
 function Login() {
@@ -23,7 +24,9 @@ function Login() {
           <LoginButton>로그인</LoginButton>
           <JoinArea>
             <Text>아직 셀러가 아니신가요?</Text>
-            <GoToSignUp>회원가입하기</GoToSignUp>
+            <Link to="/signUp">
+              <GoToSignUp>회원가입하기</GoToSignUp>
+            </Link>
           </JoinArea>
         </LoginArea>
       </Content>
@@ -115,7 +118,8 @@ const Text = styled.span`
   font-size: 12px;
 `;
 
-const GoToSignUp = styled.a`
+const GoToSignUp = styled.div`
+  display: inline;
   margin-left: 4px;
   color: #3c72ff;
   font-size: 12px;

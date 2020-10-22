@@ -1,76 +1,50 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import styled from "styled-components";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-
-const MenuContent = [
-  {
-    id: 1,
-    tabIcon: "fas fa-home",
-    tabName: "홈",
-    arrowIcon: "",
-  },
-  {
-    id: 2,
-    tabIcon: "far fa-chart-bar",
-    tabName: "통계",
-    arrowIcon: "fas fa-angle-left",
-  },
-  {
-    id: 3,
-    tabIcon: "fas fa-cart-arrow-down",
-    tabName: "주문관리",
-    arrowIcon: "fas fa-angle-left",
-  },
-  {
-    id: 4,
-    tabIcon: "fas fa-shopping-cart",
-    tabName: "취소/환불 관리",
-    arrowIcon: "fas fa-angle-left",
-  },
-  {
-    id: 5,
-    tabIcon: "fas fa-shopping-bag",
-    tabName: "상품관리",
-    arrowIcon: "fas fa-angle-left",
-  },
-  {
-    id: 6,
-    tabIcon: "far fa-smile",
-    tabName: "고객응대관리",
-    arrowIcon: "fas fa-angle-left",
-  },
-  {
-    id: 7,
-    tabIcon: "fas fa-gift",
-    tabName: "기획전/쿠폰관리",
-    arrowIcon: "fas fa-angle-left",
-  },
-  {
-    id: 8,
-    tabIcon: "far fa-user",
-    tabName: "회원관리",
-    arrowIcon: "fas fa-angle-left",
-  },
-];
+import SideBarContents from "./Components/SideBarContents";
+import SellerMenuContent from "./Components/SellerMenuData";
+import MasterMenuContent from "./Components/MasterMenuData";
 
 function SideBar() {
+  const [isOpen, setIsOpen] = useState(0);
+  const [subIsOpen, setSubIsOpen] = useState(0);
+  const [activateToggler, setActivateToggler] = useState(false);
+  const handlePage = (tabName) => {
+    setIsOpen(tabName);
+    // 페이지 이동 함수 추가
+  };
+  console.log("clicked!!!>>>", activateToggler);
+
   return (
     <Fragment>
       <Header />
-      <PageContentWrapper>
+      <PageContentWrapper width={activateToggler}>
         <SideBarMenu>
-          <SideBarToggler>
-            <i className="fas fa-angle-left"></i>
+          <SideBarToggler
+            onClick={() => setActivateToggler(!activateToggler)}
+            margin={activateToggler}
+          >
+            <i
+              className={
+                !activateToggler ? "fas fa-angle-left" : "fas fa-angle-right"
+              }
+            ></i>
           </SideBarToggler>
-          {MenuContent.map((info, idx) => (
-            <MenuContents key={idx}>
-              <SpanWrapper>
-                <i className={info.tabIcon}></i>
-                <span>{info.tabName}</span>
-              </SpanWrapper>
-              <i className={info.arrowIcon} />
-            </MenuContents>
+          {MasterMenuContent.map((el, idx) => (
+            <SideBarContents
+              setIsOpen={(e) => setIsOpen(e)}
+              isOpen={isOpen}
+              subIsOpen={subIsOpen}
+              setSubIsOpen={setSubIsOpen}
+              key={idx}
+              currentIndex={el.id}
+              tabIcon={el.tabIcon}
+              tabName={el.tabName}
+              arrowIcon={el.arrowIcon}
+              subCategory={el.subCategory}
+              handlePage={handlePage}
+            />
           ))}
         </SideBarMenu>
       </PageContentWrapper>
@@ -82,7 +56,7 @@ function SideBar() {
 export default SideBar;
 
 const PageContentWrapper = styled.div`
-  width: 215px;
+  width: ${(props) => (props.width ? "40px" : "215px")};
   height: 980px;
   background-color: #35363a;
   color: #35363a;
@@ -102,7 +76,8 @@ const SideBarToggler = styled.li`
   justify-content: right;
   float: right;
   border: 0;
-  margin: 15px -1px 15px 191px;
+  margin: ${(props) =>
+    props.margin ? "15px -1px 15px 16px" : "15px -1px 15px 191px"};
   width: 24px;
   height: 23px;
   background-color: #fcfcfc;
@@ -114,30 +89,5 @@ const SideBarToggler = styled.li`
     font-size: 18px;
     height: auto;
     text-shadow: none;
-  }
-`;
-
-const MenuContents = styled.li`
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 13px 10px 15px;
-  width: 100%;
-  border-bottom: 1px solid #414247;
-  color: #eeeeee;
-  cursor: pointer;
-  i {
-    margin-right: 5px;
-  }
-`;
-
-const SpanWrapper = styled.div`
-  i {
-    margin-right: 5px;
-    font-size: 16px;
-  }
-  span {
-    color: #f1f1f1;
-    font-size: 14px;
-    font-weight: 300;
   }
 `;

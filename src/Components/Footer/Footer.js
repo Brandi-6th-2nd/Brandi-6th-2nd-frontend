@@ -2,6 +2,12 @@ import React from "react";
 import styled from "styled-components";
 
 function Footer() {
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
   return (
     <FooterContainer>
       <InnerFooter>
@@ -12,7 +18,7 @@ function Footer() {
         2018 © brandi inc.
       </InnerFooter>
       <FooterTools>
-        <GoTop>
+        <GoTop onClick={() => scrollToTop()}>
           <i class="fas fa-angle-up"></i>
         </GoTop>
       </FooterTools>

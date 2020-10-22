@@ -1,22 +1,13 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
 import styled from "styled-components";
 
-function TopStatusContainer() {
-  const [backData, setBackData] = useState("");
-
-  // mockData 테스트용 코드
-  useEffect(() => {
-    axios
-      .get(`public/Data/Home/mockData.json`)
-      .then((res) => setBackData(res.data.top_status_data));
-  }, []);
-
+function TopStatusContainer({ topStatusData }) {
   return (
     <Wrapper>
       <TopStatusBox>
-        {backData &&
-          Object.entries(backData.product_status).map((data, index) => {
+        {/* Home.js에서 넘겨받은 props(topStatusData)가 선택적으로 출력되도록 설정. product_status 섹션 */}
+        {topStatusData &&
+          Object.entries(topStatusData.product_status).map((data, index) => {
             return (
               <TopStatusContent key={index}>
                 <Title>{data[0]}</Title>
@@ -26,8 +17,9 @@ function TopStatusContainer() {
           })}
       </TopStatusBox>
       <TopStatusBox>
-        {backData &&
-          Object.entries(backData.product_count).map((data, index) => {
+        {/* Home.js에서 넘겨받은 props(topStatusData)가 선택적으로 출력되도록 설정. product_count 섹션 */}
+        {topStatusData &&
+          Object.entries(topStatusData.product_count).map((data, index) => {
             return (
               <TopStatusContent key={index}>
                 <Title>{data[0]}</Title>

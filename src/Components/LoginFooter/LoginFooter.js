@@ -11,8 +11,12 @@ function LoginFooter() {
         inc.
       </CompanyInfo>
       <Service>
-        <TermsOfService>이용약관</TermsOfService>
-        <PrivacyPolicy>개인정보처리방침</PrivacyPolicy>
+        <TermsOfService href="https://docs.google.com/document/d/17wXs6bt8g8eiWdWDgdR9pp6Z5OZ9tE22UDaDQYThbwI/edit">
+          이용약관
+        </TermsOfService>
+        <PrivacyPolicy href="https://www.brandi.co.kr/policy">
+          개인정보처리방침
+        </PrivacyPolicy>
       </Service>
     </Fragment>
   );
@@ -25,7 +29,6 @@ const Fragment = styled.div`
   height: 107.6px;
   background-color: black;
   padding: 20px 0px;
-  z-index: 10;
 `;
 
 const CompanyInfo = styled.div`

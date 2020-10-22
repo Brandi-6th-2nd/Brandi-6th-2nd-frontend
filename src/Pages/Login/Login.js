@@ -15,11 +15,13 @@ function Login() {
           <AdminText>브랜디 어드민 로그인</AdminText>
           <InputBox>
             <UserName id="username" name="username" placeholder="셀러 아이디" />
+            <WarningID>아이디를 입력해주세요.</WarningID>
             <UserPassword
               id="userpassword"
               name="userpassword"
               placeholder="셀러 비밀번호"
             />
+            <WarningPW>비밀번호를 입력해주세요.</WarningPW>
           </InputBox>
           <LoginButton>로그인</LoginButton>
           <JoinArea>
@@ -95,7 +97,17 @@ const UserName = styled.input`
   border-radius: 7px;
 `;
 
+const WarningID = styled.p`
+  display: none;
+  margin-top: 6px;
+  margin-bottom: 12px;
+  font-size: 12px;
+  font-weight: bolder;
+`;
+
 const UserPassword = styled(UserName.withComponent('input'))``;
+
+const WarningPW = styled(WarningID.withComponent('p'))``;
 
 const LoginButton = styled.button`
   width: 320px;

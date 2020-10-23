@@ -18,7 +18,6 @@ function SideBar() {
 
   return (
     <Fragment>
-      <Header />
       <PageContentWrapper width={activateToggler}>
         <SideBarMenu>
           <SideBarToggler
@@ -48,7 +47,6 @@ function SideBar() {
           ))}
         </SideBarMenu>
       </PageContentWrapper>
-      <Footer />
     </Fragment>
   );
 }
@@ -57,7 +55,7 @@ export default SideBar;
 
 const PageContentWrapper = styled.div`
   width: ${(props) => (props.width ? "40px" : "215px")};
-  height: 980px;
+  height: 100vh;
   background-color: #35363a;
   color: #35363a;
 `;

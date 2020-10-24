@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import SellerFilterBox from "./SellerFilterBox";
 import MiddleFilterBox from "./MiddleFilterBox";
+import ProductTable from "./ProductTable";
 import styled from "styled-components";
 
 function SellerProductManage() {
@@ -9,6 +10,7 @@ function SellerProductManage() {
       <Title>상품 관리</Title>
       <SellerFilterBox />
       <MiddleFilterBox />
+      <ProductTable />
     </Fragment>
   );
 }

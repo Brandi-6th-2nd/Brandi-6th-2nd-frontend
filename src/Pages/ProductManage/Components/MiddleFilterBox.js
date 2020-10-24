@@ -20,8 +20,12 @@ function MiddleFilterBox() {
         </Select>
       </PageBar>
       <OptionBar>
-        <Button>선택상품 엑셀 다운로드</Button>
-        <Button>전체상품 엑셀 다운로드</Button>
+        <Button>
+          <i class="far fa-file-excel"></i>&nbsp;선택상품 엑셀 다운로드
+        </Button>
+        <Button>
+          <i class="far fa-file-excel"></i>&nbsp;전체상품 엑셀 다운로드
+        </Button>
         <Select option>
           <option value="">판매여부</option>
           <option value="판매">판매</option>
@@ -32,7 +36,9 @@ function MiddleFilterBox() {
           <option value="진열">진열</option>
           <option value="미진열">미진열</option>
         </Select>
-        <Button apply>적용</Button>
+        <Button apply>
+          <i class="fas fa-check"></i>&nbsp;적용
+        </Button>
       </OptionBar>
     </Fragment>
   );

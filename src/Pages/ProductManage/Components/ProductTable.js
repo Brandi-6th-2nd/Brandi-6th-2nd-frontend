@@ -1,7 +1,9 @@
 import React, { Fragment } from "react";
 import styled from "styled-components";
 
-function ProductTable() {
+function ProductTable({ sellerData }) {
+  console.log(sellerData);
+
   return (
     <Fragment>
       <TotalHits>

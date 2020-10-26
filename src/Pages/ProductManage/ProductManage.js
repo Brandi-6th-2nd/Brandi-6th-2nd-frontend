@@ -1,18 +1,40 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import Header from "../../Components/Header/Header";
 import SideBar from "../../Components/SideBar/SideBar";
+import MasterProductManage from "./Components/MasterProductManage";
 import SellerProductManage from "./Components/SellerProductManage";
 import Footer from "../../Components/Footer/Footer";
+import axios from "axios";
 import styled from "styled-components";
 
 function ProductManage() {
+  const [masterData, setMasterData] = useState("");
+  const [sellerData, setSellerData] = useState("");
+  // 조건부 렌더링 테스트용 코드
+  const [isMaster, setIsMaster] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get(`public/Data/ProductManage/mockData.json`)
+      .then((res) => setData(res));
+  }, []);
+
+  const setData = (res) => {
+    setMasterData(res.data.data.master_data.product_manage);
+    setSellerData(res.data.data.seller_data.product_manage);
+  };
+
   return (
     <Fragment>
       <Header />
       <Container>
         <SideBar />
         <Article>
-          <SellerProductManage />
+          {isMaster ? (
+            <MasterProductManage masterData={masterData} />
+          ) : (
+            <SellerProductManage sellerData={sellerData} />
+          )}
         </Article>
       </Container>
       <Footer />

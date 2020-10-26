@@ -4,13 +4,13 @@ import MiddleFilterBox from "./MiddleFilterBox";
 import ProductTable from "./ProductTable";
 import styled from "styled-components";
 
-function SellerProductManage() {
+function SellerProductManage({ sellerData }) {
   return (
     <Fragment>
       <Title>상품 관리</Title>
       <SellerFilterBox />
       <MiddleFilterBox />
-      <ProductTable />
+      <ProductTable sellerData={sellerData} />
     </Fragment>
   );
 }

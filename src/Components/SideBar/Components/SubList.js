@@ -1,12 +1,16 @@
 import React, { Fragment } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-function SubList({ subCategory, currentIndex, handlePage }) {
+function SubList({ subCategory, currentIndex, handlePage, activateToggler }) {
   return (
     <Fragment>
-      <SubContainer>
+      <SubContainer activateToggler={activateToggler}>
         {subCategory.map((el) => (
-          <SubCategories key={el.id} onClick={() => handlePage(currentIndex)}>
+          <SubCategories
+            key={el.id}
+            onClick={() => handlePage(currentIndex)}
+            activateToggler={activateToggler}
+          >
             {el.subName}
           </SubCategories>
         ))}
@@ -20,7 +24,8 @@ export default SubList;
 const SubContainer = styled.ul``;
 
 const SubCategories = styled.li`
-  display: block;
+  display: flex;
+  align-content: center;
   margin: 0px 0px 0px 0px;
   padding: 5px 0px;
   padding-left: 35px !important;
@@ -28,8 +33,19 @@ const SubCategories = styled.li`
   font-size: 14px;
   font-weight: 300;
   background: none;
+  height: 37px;
   color: #cecfd3;
   cursor: pointer;
+  ${({ activateToggler }) =>
+    activateToggler &&
+    css`
+      background: #35373a;
+      position: absolute;
+      top: 27px;
+      left: 30px;
+      width: 173px;
+    `}
+
   &:hover {
     background-color: #222222;
   }

@@ -4,7 +4,6 @@ const SellerMenuContent = [
     tabIcon: "fas fa-home",
     tabName: "홈",
     arrowIcon: "",
-    subCategory: [],
   },
   {
     id: 2,

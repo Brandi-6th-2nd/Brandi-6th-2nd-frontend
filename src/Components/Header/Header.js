@@ -13,13 +13,13 @@ function Header() {
                 alt="LogoImage"
                 className="Logo"
               />
-              <i class="fas fa-angle-down"></i>
+              <i className="fas fa-angle-down"></i>
             </LogoDrop>
             <Status>staging (staging)</Status>
           </HeaderLogo>
           <HeaderDropDown>
             <li className="UserDrop">Intern_master</li>
-            <i class="fas fa-angle-down"></i>
+            <i className="fas fa-angle-down"></i>
           </HeaderDropDown>
         </HeaderInner>
       </HeaderContainer>

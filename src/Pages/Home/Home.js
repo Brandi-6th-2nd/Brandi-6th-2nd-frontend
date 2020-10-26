@@ -8,23 +8,18 @@ import axios from "axios";
 import styled from "styled-components";
 
 function Home() {
-  const [backData, setBackData] = useState("");
   const [topStatusData, setTopStatusData] = useState("");
   const [middleChartData, setMiddleChartData] = useState("");
 
-  // mock data 테스트 코드 => json 파일의 내용을 backData라는 state 값에 저장
+  // mock data 테스트 코드
   useEffect(() => {
-    axios
-      .get(`public/Data/Home/mockData.json`)
-      .then((res) => setBackData(res.data.data));
+    axios.get(`public/Data/Home/mockData.json`).then((res) => setData(res));
   }, []);
 
-  // top_status_data, middle_chart_data를 각각의 state 값에 저장
-  useEffect(() => {
-    const { top_status_data, middle_chart_data } = backData;
-    setTopStatusData(top_status_data);
-    setMiddleChartData(middle_chart_data);
-  }, [backData]);
+  const setData = (res) => {
+    setTopStatusData(res.data.data.top_status_data);
+    setMiddleChartData(res.data.data.middle_chart_data);
+  };
 
   return (
     <Fragment>

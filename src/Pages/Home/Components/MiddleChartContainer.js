@@ -1,12 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import styled from "styled-components";
 
 function MiddleChartContainer({ middleChartData }) {
   // 차트 데이터 관련 코드. 차트 옵션(css) 관련 설정은 최하단에 배치해두었음.
+
+  const orderCountSumKeys =
+    middleChartData &&
+    Object.keys(middleChartData.order_count_sum).map((date) => {
+      const splited = date.split("/");
+      return `${splited[1]}/${splited[2]}`;
+    });
+
+  const orderPriceSumKeys =
+    middleChartData &&
+    Object.keys(middleChartData.order_price_sum).map((date) => {
+      const splited = date.split("/");
+      return `${splited[1]}/${splited[2]}`;
+    });
+
+  // useEffect(() => {
+  //   console.log(orderCountSumOptions.tooltips.callbacks.label);
+  // });
+
   // 주문건수 합계 데이터. Home.js에서 넘겨받은 props(middleChartData)가 선택적으로 출력되도록 설정. order_count_sum 섹션
   const orderCountSumData = {
-    labels: middleChartData && Object.keys(middleChartData.order_count_sum),
+    labels: orderCountSumKeys,
     datasets: [
       {
         data: middleChartData && Object.values(middleChartData.order_count_sum),
@@ -18,7 +37,7 @@ function MiddleChartContainer({ middleChartData }) {
   };
   // 주문금액 합계 데이터. Home.js에서 넘겨받은 props(middleChartData)가 선택적으로 출력되도록 설정. order_price_sum 섹션
   const orderPriceSumData = {
-    labels: middleChartData && Object.keys(middleChartData.order_price_sum),
+    labels: orderPriceSumKeys,
     datasets: [
       {
         data: middleChartData && Object.values(middleChartData.order_price_sum),
@@ -120,6 +139,12 @@ const orderCountSumOptions = {
       },
       label: function (tooltipItem) {
         const year = 20;
+        // const year =
+        //   middleChartData &&
+        //   Object.keys(middleChartData.order_count_sum).map((date) => {
+        //     const splited = date.split("/");
+        //     return splited[0];
+        //   });
         const dateArr = tooltipItem.xLabel.split("/");
         return `${year}년 ${dateArr[0]}월 ${dateArr[1]}일 : ${tooltipItem.yLabel} 건`;
       },
@@ -159,6 +184,7 @@ const orderPriceSumOptions = {
       },
       label: function (tooltipItem) {
         const year = 20;
+
         const dateArr = tooltipItem.xLabel.split("/");
         return `${year}년 ${dateArr[0]}월 ${
           dateArr[1]

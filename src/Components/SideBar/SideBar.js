@@ -14,7 +14,6 @@ function SideBar() {
     setIsOpen(tabName);
     // 페이지 이동 함수 추가
   };
-  console.log("clicked!!!>>>", activateToggler);
 
   return (
     <Fragment>
@@ -31,7 +30,7 @@ function SideBar() {
               }
             ></i>
           </SideBarToggler>
-          {MasterMenuContent.map((el, idx) => (
+          {SellerMenuContent.map((el, idx) => (
             <SideBarContents
               setIsOpen={(e) => setIsOpen(e)}
               isOpen={isOpen}
@@ -44,6 +43,7 @@ function SideBar() {
               arrowIcon={el.arrowIcon}
               subCategory={el.subCategory}
               handlePage={handlePage}
+              activateToggler={activateToggler}
             />
           ))}
         </SideBarMenu>
@@ -57,7 +57,7 @@ export default SideBar;
 
 const PageContentWrapper = styled.div`
   width: ${(props) => (props.width ? "40px" : "215px")};
-  height: 980px;
+  height: 100vh;
   background-color: #35363a;
   color: #35363a;
 `;

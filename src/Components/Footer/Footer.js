@@ -19,7 +19,7 @@ function Footer() {
       </InnerFooter>
       <FooterTools>
         <GoTop onClick={() => scrollToTop()}>
-          <i class="fas fa-angle-up"></i>
+          <i className="fas fa-angle-up"></i>
         </GoTop>
       </FooterTools>
     </FooterContainer>

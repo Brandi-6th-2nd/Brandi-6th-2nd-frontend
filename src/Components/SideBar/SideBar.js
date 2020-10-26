@@ -1,7 +1,5 @@
 import React, { Fragment, useState } from "react";
 import styled from "styled-components";
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
 import SideBarContents from "./Components/SideBarContents";
 import SellerMenuContent from "./Components/SellerMenuData";
 import MasterMenuContent from "./Components/MasterMenuData";
@@ -17,7 +15,6 @@ function SideBar() {
 
   return (
     <Fragment>
-      <Header />
       <PageContentWrapper width={activateToggler}>
         <SideBarMenu>
           <SideBarToggler
@@ -48,7 +45,6 @@ function SideBar() {
           ))}
         </SideBarMenu>
       </PageContentWrapper>
-      <Footer />
     </Fragment>
   );
 }

@@ -1,6 +1,6 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import SubList from "./SubList";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 function SideBarContents({
   setIsOpen,
@@ -14,38 +14,73 @@ function SideBarContents({
   currentIndex,
   subCategory,
   handlePage,
+  activateToggler,
 }) {
   const currentSubOpen = currentIndex === subIsOpen;
   const currentOpen = currentIndex === isOpen;
+  const [toggleActive, setToggleActive] = useState(0);
   const toggleSubList = (currentIndex) => {
     currentSubOpen ? setSubIsOpen(0) : setSubIsOpen(currentIndex);
   };
+  const handleMouseEnter = (currentIndex) => {
+    activateToggler && setToggleActive(currentIndex);
+  };
+
   return (
     <Fragment>
       <MenuContents
         onClick={() => {
           toggleSubList(currentIndex);
         }}
+        borderColor={currentSubOpen}
         color={currentSubOpen}
         currentOpen={currentOpen}
+        activateToggler={activateToggler}
+        onMouseEnter={() => handleMouseEnter(currentIndex)}
+        onMouseLeave={() => handleMouseEnter(0)}
+        isToggleActive={toggleActive === currentIndex}
       >
-        <SpanWrapper>
-          <i className={tabIcon}></i>
-          <span>{tabName}</span>
-        </SpanWrapper>
-        {subCategory && (
-          <i
-            className={
-              currentSubOpen ? "fas fa-angle-down" : "fas fa-angle-left"
-            }
-          />
+        {activateToggler ? (
+          <SmallCategory>
+            <SpanWrapper>
+              <i className={tabIcon} />
+              <TabName display={toggleActive === currentIndex}>
+                {tabName}
+              </TabName>
+            </SpanWrapper>
+            {subCategory && toggleActive === currentIndex && (
+              <SubList
+                subCategory={subCategory}
+                currentIndex={currentIndex}
+                handlePage={handlePage}
+                activateToggler={activateToggler}
+              />
+            )}
+          </SmallCategory>
+        ) : (
+          <Fragment>
+            <SpanWrapper>
+              <i className={tabIcon} />
+              <span>{tabName}</span>
+            </SpanWrapper>
+            {subCategory && (
+              <SubBtnIcon>
+                <i
+                  className={
+                    currentSubOpen ? "fas fa-angle-down" : "fas fa-angle-left"
+                  }
+                />
+              </SubBtnIcon>
+            )}
+          </Fragment>
         )}
       </MenuContents>
-      {currentSubOpen && subCategory && (
+      {!activateToggler && currentSubOpen && subCategory && (
         <SubList
           subCategory={subCategory}
           currentIndex={currentIndex}
           handlePage={handlePage}
+          activateToggler={activateToggler}
         />
       )}
     </Fragment>
@@ -62,13 +97,19 @@ const MenuContents = styled.li`
   border-bottom: 1px solid #414247;
   color: #eeeeee;
   cursor: pointer;
+  border-right: ${(props) => (props.borderColor ? "4px solid #d12610" : "")};
   background-color: ${(props) => (props.color ? "#222222" : "#35363a")};
   &:hover {
     background-color: #222222;
   }
   i {
     margin-right: 5px;
+    display: ${(props) => (props.display ? "none" : "")};
   }
+`;
+
+const SubBtnIcon = styled.div`
+  display: ${(props) => (props.display ? "none" : "")};
 `;
 
 const SpanWrapper = styled.div`
@@ -80,5 +121,26 @@ const SpanWrapper = styled.div`
     color: #f1f1f1;
     font-size: 14px;
     font-weight: 300;
+    display: ${(props) => (props.display ? "none" : "")};
   }
+`;
+
+const TabName = styled.div`
+  color: #f1f1f1;
+  font-size: 14px;
+  font-weight: 300;
+  background: #35373a;
+  padding-top: 13px;
+  text-align: left;
+  width: 178px;
+  height: 37px;
+  position: absolute;
+  top: -10px;
+  left: 25px;
+  padding-left: 20px;
+  display: ${(props) => (props.display ? "block" : "none")};
+`;
+
+const SmallCategory = styled.div`
+  position: relative;
 `;

@@ -49,12 +49,7 @@ function ProductTable({ sellerData }) {
             <Td>진열</Td>
             <Td>할인</Td>
             <Td>
-              <BtnGroup>
-                <Button web>
-                  <i class="fas fa-search"></i>&nbsp;Web
-                </Button>
-                <Button>판매분석</Button>
-              </BtnGroup>
+              <Button>구매하기</Button>
             </Td>
           </Tr>
         </tbody>
@@ -126,14 +121,11 @@ const Button = styled.button`
   height: 30px;
   font-size: 12px;
   padding: 5px 10px;
-  background: ${({ web }) => (web ? "#ffffff" : "#5DB85C")};
-  color: ${({ web }) => (web ? "#000000" : "#ffffff")};
-  border: ${({ web }) => (web ? "1px solid #e5e5e5" : "1px solid #4cae4c")};
+  background: #3c79d8;
+  color: #ffffff;
   border-radius: 4px;
-  margin-bottom: ${({ web }) => (web ? "4px" : "none")};
   cursor: pointer;
   &:hover {
     filter: brightness(0.9);
-    border: 0.5px solid #adb3af;
   }
 `;

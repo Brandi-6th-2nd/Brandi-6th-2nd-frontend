@@ -25,10 +25,13 @@ function LoginFooter() {
 export default LoginFooter;
 
 const Fragment = styled.div`
+  position: fixed;
+  bottom: 0;
   width: 100%;
-  height: 107.6px;
+  height: 107px;
   background-color: black;
   padding: 20px 0px;
+  z-index: 100;
 `;
 
 const CompanyInfo = styled.div`

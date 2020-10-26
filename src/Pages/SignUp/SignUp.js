@@ -1,33 +1,34 @@
-import React, { useRef } from 'react';
-import { useForm } from 'react-hook-form';
-import { useHistory } from 'react-router-dom';
-import MaskedInput from 'react-input-mask';
-import styled from 'styled-components';
-import LoginFooter from '../../Components/LoginFooter/LoginFooter';
+import React, { useRef } from "react";
+import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
+import MaskedInput from "react-input-mask";
+import styled from "styled-components";
+import LoginFooter from "../../Components/LoginFooter/LoginFooter";
 
 function SignUp() {
   const { register, handleSubmit, errors, watch, reset } = useForm({
-    mode: 'onBlur',
+    mode: "onBlur",
   });
 
   // 비밀번호 재확인을 위해 비밀번호의 값을 관찰함
   const password = useRef({});
-  password.current = watch('sellerPassword', '');
+  password.current = watch("sellerPassword", "");
 
   // router로 관리하는 페이지로 넘어가기 위해 사용하는 useHistory()를 변수로 담음
   const history = useHistory();
 
   // 신청버튼 눌렀을 시, 데이터가 전송됨
   const onSubmit = (data) => {
+    alert("회원가입이 되었습니다.");
     console.log(data);
-    history.push('/');
+    history.push("/");
   };
 
   // 취소버튼 눌렀을 시 뜨는 alert 창 처리
   const handleCancel = () => {
-    if (confirm('브랜디 가입을 취소하시겠습니까?') == true) {
+    if (confirm("브랜디 가입을 취소하시겠습니까?") == true) {
       reset();
-      history.push('/');
+      history.push("/");
     } else {
       return false;
     }
@@ -62,10 +63,10 @@ function SignUp() {
                 })}
               />
             </InputBox>
-            {errors.sellerId && errors.sellerId.type === 'required' && (
+            {errors.sellerId && errors.sellerId.type === "required" && (
               <p>필수 입력항목입니다.</p>
             )}
-            {errors.sellerId && errors.sellerId.type === 'minLength' && (
+            {errors.sellerId && errors.sellerId.type === "minLength" && (
               <p>아이디의 최소 길이는 5글자입니다.</p>
             )}
             <InputBox borderColor={errors.sellerPassword}>
@@ -77,17 +78,17 @@ function SignUp() {
                 name="sellerPassword"
                 placeholder="비밀번호"
                 ref={register({
-                  required: 'required',
+                  required: "required",
                   pattern: /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/,
                 })}
               />
             </InputBox>
             {errors.sellerPassword &&
-              errors.sellerPassword.type === 'required' && (
+              errors.sellerPassword.type === "required" && (
                 <p>필수 입력항목입니다.</p>
               )}
             {errors.sellerPassword &&
-              errors.sellerPassword.type === 'pattern' && (
+              errors.sellerPassword.type === "pattern" && (
                 <p>
                   비밀번호는 8~20글자의 영문대소문자, 숫자, 특수문자를 조합해야
                   합니다.
@@ -102,7 +103,7 @@ function SignUp() {
                 name="sellerRePassword"
                 placeholder="비밀번호 재입력"
                 ref={register({
-                  required: 'required',
+                  required: "required",
                   validate: (value) => value === password.current,
                 })}
               />
@@ -129,11 +130,11 @@ function SignUp() {
                 name="sellerTel"
                 placeholder="핸드폰번호"
                 inputRef={register({
-                  required: 'required',
+                  required: "required",
                 })}
               />
             </InputBox>
-            {errors.sellerTel && errors.sellerTel.type === 'required' && (
+            {errors.sellerTel && errors.sellerTel.type === "required" && (
               <p>올바른 정보를 입력해주세요.</p>
             )}
             <ManagerWarningSpan>
@@ -153,7 +154,7 @@ function SignUp() {
                 value="쇼핑몰"
                 defaultChecked
                 ref={register({
-                  required: 'required',
+                  required: "required",
                 })}
               />
               쇼핑몰
@@ -162,7 +163,7 @@ function SignUp() {
                 name="shopInfo"
                 value="마켓"
                 ref={register({
-                  required: 'required',
+                  required: "required",
                 })}
               />
               마켓
@@ -171,7 +172,7 @@ function SignUp() {
                 name="shopInfo"
                 value="로드샵"
                 ref={register({
-                  required: 'required',
+                  required: "required",
                 })}
               />
               로드샵
@@ -180,7 +181,7 @@ function SignUp() {
                 name="shopInfo"
                 value="디자이너브랜드"
                 ref={register({
-                  required: 'required',
+                  required: "required",
                 })}
               />
               디자이너브랜드
@@ -189,7 +190,7 @@ function SignUp() {
                 name="shopInfo"
                 value="제너럴브랜드"
                 ref={register({
-                  required: 'required',
+                  required: "required",
                 })}
               />
               제너럴브랜드
@@ -198,7 +199,7 @@ function SignUp() {
                 name="shopInfo"
                 value="내셔널브랜드"
                 ref={register({
-                  required: 'required',
+                  required: "required",
                 })}
               />
               내셔널브랜드
@@ -207,7 +208,7 @@ function SignUp() {
                 name="shopInfo"
                 value="뷰티"
                 ref={register({
-                  required: 'required',
+                  required: "required",
                 })}
               />
               뷰티
@@ -221,11 +222,11 @@ function SignUp() {
                 name="sellerName"
                 placeholder="셀러명 (상호)"
                 ref={register({
-                  required: 'required',
+                  required: "required",
                 })}
               />
             </InputBox>
-            {errors.sellerName && errors.sellerName.type === 'required' && (
+            {errors.sellerName && errors.sellerName.type === "required" && (
               <p>필수 입력항목입니다.</p>
             )}
             <InputBox borderColor={errors.sellerEnName}>
@@ -237,11 +238,11 @@ function SignUp() {
                 name="sellerEnName"
                 placeholder="영문 셀러명 (영문상호)"
                 ref={register({
-                  required: 'required',
+                  required: "required",
                 })}
               />
             </InputBox>
-            {errors.sellerEnName && errors.sellerEnName.type === 'required' && (
+            {errors.sellerEnName && errors.sellerEnName.type === "required" && (
               <p>필수 입력항목입니다.</p>
             )}
             <InputBox borderColor={errors.sellerServiceCenterTel}>
@@ -253,12 +254,12 @@ function SignUp() {
                 name="sellerServiceCenterTel"
                 placeholder="고객센터 전화번호"
                 ref={register({
-                  required: 'required',
+                  required: "required",
                 })}
               />
             </InputBox>
             {errors.sellerServiceCenterTel &&
-              errors.sellerServiceCenterTel.type === 'required' && (
+              errors.sellerServiceCenterTel.type === "required" && (
                 <p>필수 입력항목입니다.</p>
               )}
           </SellerInfoForm>
@@ -318,7 +319,7 @@ const SignUpText = styled.div`
   font-size: 24px;
 
   :after {
-    content: '';
+    content: "";
     display: block;
     margin-top: 20px;
     margin-bottom: 10px;
@@ -367,7 +368,7 @@ const InputBox = styled.div`
   width: 100%;
   height: 34px;
   border: 1px solid
-    ${({ borderColor }) => (!borderColor ? '#e5e5e5' : '#a94442')};
+    ${({ borderColor }) => (!borderColor ? "#e5e5e5" : "#a94442")};
   border-radius: 4px;
 
   i {
@@ -377,7 +378,7 @@ const InputBox = styled.div`
     left: 10px;
     width: 15px;
     height: 15px;
-    color: ${({ borderColor }) => (!borderColor ? '#ccc' : '#a94442')};
+    color: ${({ borderColor }) => (!borderColor ? "#ccc" : "#a94442")};
     font-size: 16px;
     z-index: 1;
   }
@@ -399,7 +400,7 @@ const ManagerForm = styled.div`
   height: auto;
 `;
 
-const ManagerText = styled(JoinText.withComponent('div'))``;
+const ManagerText = styled(JoinText.withComponent("div"))``;
 
 const ManagerInfoSpan = styled.span`
   margin-left: 10px;
@@ -412,9 +413,9 @@ const ManagerWarningSpan = styled.span`
   font-size: 12px;
 `;
 
-const SellerInfoForm = styled(ManagerForm.withComponent('div'))``;
+const SellerInfoForm = styled(ManagerForm.withComponent("div"))``;
 
-const SellerInfoText = styled(JoinText.withComponent('div'))``;
+const SellerInfoText = styled(JoinText.withComponent("div"))``;
 
 const SellerInfoSelect = styled.div`
   width: 100%;

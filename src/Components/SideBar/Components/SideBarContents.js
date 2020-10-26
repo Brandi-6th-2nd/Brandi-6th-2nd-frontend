@@ -139,6 +139,7 @@ const TabName = styled.div`
   left: 25px;
   padding-left: 20px;
   display: ${(props) => (props.display ? "block" : "none")};
+  z-index: 10;
 `;
 
 const SmallCategory = styled.div`

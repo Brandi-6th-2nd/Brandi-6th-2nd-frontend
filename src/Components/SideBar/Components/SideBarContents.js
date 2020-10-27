@@ -39,6 +39,7 @@ function SideBarContents({
         onMouseEnter={() => handleMouseEnter(currentIndex)}
         onMouseLeave={() => handleMouseEnter(0)}
         isToggleActive={toggleActive === currentIndex}
+        smaller={activateToggler}
       >
         {activateToggler ? (
           <SmallCategory>
@@ -93,6 +94,7 @@ const MenuContents = styled.li`
   display: flex;
   justify-content: space-between;
   padding: 10px 13px 10px 15px;
+  padding-left: ${({ smaller }) => smaller && "10px"};
   width: 100%;
   border-bottom: 1px solid #414247;
   color: #eeeeee;
@@ -109,13 +111,13 @@ const MenuContents = styled.li`
 `;
 
 const SubBtnIcon = styled.div`
-  display: ${(props) => (props.display ? "none" : "")};
+  display: ${({ display }) => (display ? "none" : "")};
 `;
 
 const SpanWrapper = styled.div`
   i {
-    margin-right: 5px;
     font-size: 16px;
+    margin-right: ${({ margin }) => (margin ? "5px" : "12px")};
   }
   span {
     color: #f1f1f1;
@@ -128,7 +130,7 @@ const SpanWrapper = styled.div`
 const TabName = styled.div`
   color: #f1f1f1;
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 400;
   background: #35373a;
   padding-top: 13px;
   text-align: left;

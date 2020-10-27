@@ -33,6 +33,7 @@ const HeaderContainer = styled.div`
   background-color: #873b53;
   height: 45px;
   width: 100%;
+  position: fixed;
 `;
 
 const HeaderInner = styled.div`

@@ -44,6 +44,7 @@ const SubCategories = styled.li`
       top: 27px;
       left: 30px;
       width: 173px;
+      z-index: 10;
     `}
 
   &:hover {

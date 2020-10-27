@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Line } from "react-chartjs-2";
 import styled from "styled-components";
 
 function MiddleChartContainer({ middleChartData }) {
-  // 차트 데이터 관련 코드. 차트 옵션(css) 관련 설정은 최하단에 배치해두었음.
-
+  // 차트 데이터 관련 코드 시작
+  // mock data에서 필요한 키 값들을 받아온 뒤, Line 차트 컴포넌트에 x축 라벨 데이터로 들어감.
+  // 출력되는 형태 예시: ["10/10", "10/11", "10/12"] -> orderCountSumData의 labels로 들어감. x축 데이터
   const orderCountSumKeys =
     middleChartData &&
     Object.keys(middleChartData.order_count_sum).map((date) => {
@@ -12,6 +13,7 @@ function MiddleChartContainer({ middleChartData }) {
       return `${splited[1]}/${splited[2]}`;
     });
 
+  // 출력되는 형태 예시: ["10/10", "10/11", "10/12"] -> orderPriceSumData의 labels로 들어감. x축 데이터
   const orderPriceSumKeys =
     middleChartData &&
     Object.keys(middleChartData.order_price_sum).map((date) => {
@@ -19,15 +21,12 @@ function MiddleChartContainer({ middleChartData }) {
       return `${splited[1]}/${splited[2]}`;
     });
 
-  // useEffect(() => {
-  //   console.log(orderCountSumOptions.tooltips.callbacks.label);
-  // });
-
   // 주문건수 합계 데이터. Home.js에서 넘겨받은 props(middleChartData)가 선택적으로 출력되도록 설정. order_count_sum 섹션
   const orderCountSumData = {
-    labels: orderCountSumKeys,
+    labels: orderCountSumKeys, // 차트의 x축 데이터
     datasets: [
       {
+        // 아래의 data는 차트의 y축 데이터로 들어감.
         data: middleChartData && Object.values(middleChartData.order_count_sum),
         fill: false,
         borderColor: "#D1260F",
@@ -35,11 +34,13 @@ function MiddleChartContainer({ middleChartData }) {
       },
     ],
   };
+
   // 주문금액 합계 데이터. Home.js에서 넘겨받은 props(middleChartData)가 선택적으로 출력되도록 설정. order_price_sum 섹션
   const orderPriceSumData = {
-    labels: orderPriceSumKeys,
+    labels: orderPriceSumKeys, // 차트의 x축 데이터
     datasets: [
       {
+        // 아래의 data는 차트의 y축 데이터로 들어감.
         data: middleChartData && Object.values(middleChartData.order_price_sum),
         fill: false,
         borderColor: "#37B7F3",
@@ -47,6 +48,95 @@ function MiddleChartContainer({ middleChartData }) {
       },
     ],
   };
+
+  const orderCountSumOptions = {
+    // 반응형 레이아웃은 유지하되 차트의 높이 조절을 가능하게 하기 위한 설정
+    responsive: true,
+    maintainAspectRatio: false,
+
+    // 마우스 hover 시 출력되는 툴팁 설정
+    tooltips: {
+      callbacks: {
+        title: () => {
+          return "결제건수";
+        },
+        label: function (tooltipItem) {
+          // yearArr 출력되는 형태 : ["20", "20", "20" ...] 연도만 가져옴.
+          const yearArr =
+            middleChartData &&
+            Object.keys(middleChartData.order_count_sum).map((date) => {
+              const splited = date.split("/");
+              return `${splited[0]}`;
+            });
+          const year = yearArr[tooltipItem.index];
+          const label = tooltipItem.xLabel.split("/");
+          return `${year}년 ${label[0]}월 ${label[1]}일 ${tooltipItem.yLabel}건`;
+        },
+      },
+      caretPadding: 15,
+      caretSize: 0,
+      cornerRadius: 2,
+      displayColors: false,
+      borderColor: "#D1260F",
+      borderWidth: 2,
+      backgroundColor: "#ffffff",
+      titleFontColor: "#000000",
+      bodyFontColor: "#000000",
+    },
+  };
+
+  const orderPriceSumOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    // 숫자를 1000 단위로 구분하기 위한 설정
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            callback(value) {
+              return Number(value).toLocaleString();
+            },
+          },
+        },
+      ],
+    },
+
+    tooltips: {
+      callbacks: {
+        title: () => {
+          return "결제금액";
+        },
+        label: function (tooltipItem) {
+          // yearArr 출력되는 형태 : ["20", "20", "20" ...] 연도만 가져옴.
+          const yearArr =
+            middleChartData &&
+            Object.keys(middleChartData.order_price_sum).map((date) => {
+              const splited = date.split("/");
+              return `${splited[0]}`;
+            });
+          const year = yearArr[tooltipItem.index];
+          const label = tooltipItem.xLabel.split("/");
+          return `${year}년 ${label[0]}월 ${
+            label[1]
+          }일 : ${tooltipItem.yLabel.toLocaleString()} 원`;
+        },
+      },
+      caretPadding: 15,
+      caretSize: 0,
+      cornerRadius: 2,
+      displayColors: false,
+      borderColor: "#37B7F3",
+      borderWidth: 2,
+      backgroundColor: "#ffffff",
+      titleFontColor: "#000000",
+      bodyFontColor: "#000000",
+    },
+  };
+
+  // 차트 상단 라벨 삭제하기 위한 코드
+  Chart.defaults.global.legend.display = false;
+
+  // 차트 데이터 관련 코드 끝
 
   return (
     <Wrapper>
@@ -120,87 +210,3 @@ const ChartContent = styled.div`
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
 `;
-
-// 차트 옵션 코드 시작
-
-// 차트 상단 라벨 삭제하기 위한 코드
-Chart.defaults.global.legend.display = false;
-
-const orderCountSumOptions = {
-  // 반응형 레이아웃은 유지하되 차트의 높이 조절을 가능하게 하기 위한 설정
-  responsive: true,
-  maintainAspectRatio: false,
-
-  // 마우스 hover 시 출력되는 툴팁 설정
-  tooltips: {
-    callbacks: {
-      title: () => {
-        return "결제건수";
-      },
-      label: function (tooltipItem) {
-        const year = 20;
-        // const year =
-        //   middleChartData &&
-        //   Object.keys(middleChartData.order_count_sum).map((date) => {
-        //     const splited = date.split("/");
-        //     return splited[0];
-        //   });
-        const dateArr = tooltipItem.xLabel.split("/");
-        return `${year}년 ${dateArr[0]}월 ${dateArr[1]}일 : ${tooltipItem.yLabel} 건`;
-      },
-    },
-    caretPadding: 15,
-    caretSize: 0,
-    cornerRadius: 2,
-    displayColors: false,
-    borderColor: "#D1260F",
-    borderWidth: 2,
-    backgroundColor: "#ffffff",
-    titleFontColor: "#000000",
-    bodyFontColor: "#000000",
-  },
-};
-
-const orderPriceSumOptions = {
-  responsive: true,
-  maintainAspectRatio: false,
-  // 숫자를 1000 단위로 구분하기 위한 설정
-  scales: {
-    yAxes: [
-      {
-        ticks: {
-          callback(value) {
-            return Number(value).toLocaleString();
-          },
-        },
-      },
-    ],
-  },
-
-  tooltips: {
-    callbacks: {
-      title: () => {
-        return "결제금액";
-      },
-      label: function (tooltipItem) {
-        const year = 20;
-
-        const dateArr = tooltipItem.xLabel.split("/");
-        return `${year}년 ${dateArr[0]}월 ${
-          dateArr[1]
-        }일 : ${tooltipItem.yLabel.toLocaleString()} 원`;
-      },
-    },
-    caretPadding: 15,
-    caretSize: 0,
-    cornerRadius: 2,
-    displayColors: false,
-    borderColor: "#37B7F3",
-    borderWidth: 2,
-    backgroundColor: "#ffffff",
-    titleFontColor: "#000000",
-    bodyFontColor: "#000000",
-  },
-};
-
-// 차트 옵션 끝

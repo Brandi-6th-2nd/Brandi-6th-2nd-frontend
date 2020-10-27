@@ -1,33 +1,34 @@
-import React, { useRef } from 'react';
-import { useForm } from 'react-hook-form';
-import { useHistory } from 'react-router-dom';
-import MaskedInput from 'react-input-mask';
-import styled from 'styled-components';
-import LoginFooter from '../../Components/LoginFooter/LoginFooter';
+import React, { useRef } from "react";
+import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
+import MaskedInput from "react-input-mask";
+import styled from "styled-components";
+import LoginFooter from "../../Components/LoginFooter/LoginFooter";
 
 function SignUp() {
   const { register, handleSubmit, errors, watch, reset } = useForm({
-    mode: 'onBlur',
+    mode: "onBlur",
   });
 
   // 비밀번호 재확인을 위해 비밀번호의 값을 관찰함
   const password = useRef({});
-  password.current = watch('sellerPassword', '');
+  password.current = watch("sellerPassword", "");
 
   // router로 관리하는 페이지로 넘어가기 위해 사용하는 useHistory()를 변수로 담음
   const history = useHistory();
 
-  // 신청버튼 눌렀을 시, 데이터가 전송됨
+  // 신청버튼 눌렀을 시, 데이터가 전송됨 (현재는 콘솔로만 찍히게 함)
   const onSubmit = (data) => {
+    alert("회원가입이 되었습니다.");
     console.log(data);
-    history.push('/');
+    history.push("/");
   };
 
   // 취소버튼 눌렀을 시 뜨는 alert 창 처리
   const handleCancel = () => {
-    if (confirm('브랜디 가입을 취소하시겠습니까?') == true) {
+    if (confirm("브랜디 가입을 취소하시겠습니까?") == true) {
       reset();
-      history.push('/');
+      history.push("/");
     } else {
       return false;
     }
@@ -48,12 +49,11 @@ function SignUp() {
         <WrapForm onSubmit={handleSubmit(onSubmit)}>
           <SignUpForm>
             <JoinText>가입 정보</JoinText>
-            <InputBox borderColor={errors.sellerId}>
+            <InputBox className={errors.sellerId && "errBorder"}>
               <i className="fas fa-user" />
               <Input
                 type="text"
                 autoComplete="off"
-                id="sellerId"
                 name="sellerId"
                 placeholder="아이디"
                 ref={register({
@@ -62,48 +62,48 @@ function SignUp() {
                 })}
               />
             </InputBox>
-            {errors.sellerId && errors.sellerId.type === 'required' && (
+            {errors.sellerId && errors.sellerId.type === "required" && (
               <p>필수 입력항목입니다.</p>
             )}
-            {errors.sellerId && errors.sellerId.type === 'minLength' && (
+            {errors.sellerId && errors.sellerId.type === "minLength" && (
               <p>아이디의 최소 길이는 5글자입니다.</p>
             )}
-            <InputBox borderColor={errors.sellerPassword}>
+            <InputBox className={errors.sellerPassword && "errBorder"}>
               <i className="fas fa-lock" />
               <Input
                 type="password"
                 autoComplete="off"
-                id="sellerPassword"
                 name="sellerPassword"
                 placeholder="비밀번호"
                 ref={register({
-                  required: 'required',
+                  required: "required",
                   pattern: /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/,
                 })}
               />
             </InputBox>
             {errors.sellerPassword &&
-              errors.sellerPassword.type === 'required' && (
+              errors.sellerPassword.type === "required" && (
                 <p>필수 입력항목입니다.</p>
               )}
             {errors.sellerPassword &&
-              errors.sellerPassword.type === 'pattern' && (
+              errors.sellerPassword.type === "pattern" && (
                 <p>
                   비밀번호는 8~20글자의 영문대소문자, 숫자, 특수문자를 조합해야
                   합니다.
                 </p>
               )}
-            <InputBox borderColor={password.current && errors.sellerRePassword}>
+            <InputBox className={errors.sellerRePassword && "errBorder"}>
               <i className="fas fa-check" />
               <Input
                 type="password"
                 autoComplete="off"
-                id="sellerRePassword"
                 name="sellerRePassword"
                 placeholder="비밀번호 재입력"
                 ref={register({
-                  required: 'required',
-                  validate: (value) => value === password.current,
+                  required: "required",
+                  validate: (value) =>
+                    value === password.current ||
+                    "비밀번호가 일치하지 않습니다.",
                 })}
               />
             </InputBox>
@@ -118,22 +118,21 @@ function SignUp() {
               담당자 정보
               <ManagerInfoSpan>(*실제 샵을 운영하시는 분)</ManagerInfoSpan>
             </ManagerText>
-            <InputBox borderColor={errors.sellerTel}>
+            <InputBox className={errors.sellerTel && "errBorder"}>
               <i className="fas fa-phone-alt" />
               <Input
                 as={MaskedInput}
                 mask="999-9999-9999"
                 type="text"
                 autoComplete="off"
-                id="sellerTel"
                 name="sellerTel"
                 placeholder="핸드폰번호"
                 inputRef={register({
-                  required: 'required',
+                  required: "required",
                 })}
               />
             </InputBox>
-            {errors.sellerTel && errors.sellerTel.type === 'required' && (
+            {errors.sellerTel && errors.sellerTel.type === "required" && (
               <p>올바른 정보를 입력해주세요.</p>
             )}
             <ManagerWarningSpan>
@@ -147,119 +146,136 @@ function SignUp() {
           <SellerInfoForm>
             <SellerInfoText>셀러 정보</SellerInfoText>
             <SellerInfoSelect>
-              <input
+              <RadioButton
                 type="radio"
+                id="쇼핑몰"
                 name="shopInfo"
                 value="쇼핑몰"
                 defaultChecked
                 ref={register({
-                  required: 'required',
+                  required: "required",
                 })}
               />
-              쇼핑몰
-              <input
+              <Label htmlFor="쇼핑몰">쇼핑몰</Label>
+              <RadioButton
                 type="radio"
+                id="마켓"
                 name="shopInfo"
                 value="마켓"
                 ref={register({
-                  required: 'required',
+                  required: "required",
                 })}
               />
-              마켓
-              <input
+              <Label htmlFor="마켓">마켓</Label>
+              <RadioButton
                 type="radio"
+                id="로드샵"
                 name="shopInfo"
                 value="로드샵"
                 ref={register({
-                  required: 'required',
+                  required: "required",
                 })}
               />
-              로드샵
-              <input
+              <Label htmlFor="로드샵">로드샵</Label>
+              <RadioButton
                 type="radio"
+                id="디자이너브랜드"
                 name="shopInfo"
                 value="디자이너브랜드"
                 ref={register({
-                  required: 'required',
+                  required: "required",
                 })}
               />
-              디자이너브랜드
-              <input
+              <Label htmlFor="디자이너브랜드">디자이너브랜드</Label>
+              <RadioButton
                 type="radio"
+                id="제너럴브랜드"
                 name="shopInfo"
                 value="제너럴브랜드"
                 ref={register({
-                  required: 'required',
+                  required: "required",
                 })}
               />
-              제너럴브랜드
-              <input
+              <Label htmlFor="제너럴브랜드">제너럴브랜드</Label>
+              <RadioButton
                 type="radio"
+                id="내셔널브랜드"
                 name="shopInfo"
                 value="내셔널브랜드"
                 ref={register({
-                  required: 'required',
+                  required: "required",
                 })}
               />
-              내셔널브랜드
-              <input
+              <Label htmlFor="내셔널브랜드">내셔널브랜드</Label>
+              <RadioButton
                 type="radio"
+                id="뷰티"
                 name="shopInfo"
                 value="뷰티"
                 ref={register({
-                  required: 'required',
+                  required: "required",
                 })}
               />
-              뷰티
+              <Label htmlFor="뷰티">뷰티</Label>
             </SellerInfoSelect>
-            <InputBox borderColor={errors.sellerName}>
+            <InputBox className={errors.sellerName && "errBorder"}>
               <i className="fas fa-font" />
               <Input
                 type="text"
                 autoComplete="off"
-                id="sellerName"
                 name="sellerName"
                 placeholder="셀러명 (상호)"
                 ref={register({
-                  required: 'required',
+                  required: "required",
+                  pattern: /^[a-zA-Z0-9가-힣]*$/,
                 })}
               />
             </InputBox>
-            {errors.sellerName && errors.sellerName.type === 'required' && (
+            {errors.sellerName && errors.sellerName.type === "required" && (
               <p>필수 입력항목입니다.</p>
             )}
-            <InputBox borderColor={errors.sellerEnName}>
+            {errors.sellerName && errors.sellerName.type === "pattern" && (
+              <p>한글,영문,숫자만 입력해주세요.</p>
+            )}
+            <InputBox className={errors.sellerEnName && "errBorder"}>
               <i className="fas fa-font" />
               <Input
                 type="text"
                 autoComplete="off"
-                id="sellerEnName"
                 name="sellerEnName"
                 placeholder="영문 셀러명 (영문상호)"
                 ref={register({
-                  required: 'required',
+                  required: "required",
+                  pattern: /^[a-z]*$/,
                 })}
               />
             </InputBox>
-            {errors.sellerEnName && errors.sellerEnName.type === 'required' && (
+            {errors.sellerEnName && errors.sellerEnName.type === "required" && (
               <p>필수 입력항목입니다.</p>
             )}
-            <InputBox borderColor={errors.sellerServiceCenterTel}>
+            {errors.sellerEnName && errors.sellerEnName.type === "pattern" && (
+              <p>셀러 영문명은 소문자만 입력가능합니다.</p>
+            )}
+            <InputBox className={errors.sellerServiceCenterTel && "errBorder"}>
               <i className="fas fa-phone-alt" />
               <Input
                 type="text"
                 autoComplete="off"
-                id="sellerServiceCenterTel"
                 name="sellerServiceCenterTel"
                 placeholder="고객센터 전화번호"
                 ref={register({
-                  required: 'required',
+                  required: "required",
+                  pattern: /^[0-9-]*$/,
                 })}
               />
             </InputBox>
             {errors.sellerServiceCenterTel &&
-              errors.sellerServiceCenterTel.type === 'required' && (
+              errors.sellerServiceCenterTel.type === "required" && (
                 <p>필수 입력항목입니다.</p>
+              )}
+            {errors.sellerServiceCenterTel &&
+              errors.sellerServiceCenterTel.type === "pattern" && (
+                <p>고객센터 전화번호는 숫자와 하이픈만 입력가능합니다.</p>
               )}
           </SellerInfoForm>
           {/* 셀러 정보 끝 */}
@@ -287,7 +303,7 @@ const WrapSignUp = styled.div`
   position: relative;
   overflow: scroll;
   width: 500px;
-  height: 800px;
+  height: 100vh;
   margin: auto;
   padding: 30px;
   padding-top: 20px;
@@ -318,7 +334,7 @@ const SignUpText = styled.div`
   font-size: 24px;
 
   :after {
-    content: '';
+    content: "";
     display: block;
     margin-top: 20px;
     margin-bottom: 10px;
@@ -366,8 +382,7 @@ const InputBox = styled.div`
   margin-top: 15px;
   width: 100%;
   height: 34px;
-  border: 1px solid
-    ${({ borderColor }) => (!borderColor ? '#e5e5e5' : '#a94442')};
+  border: 1px solid #e5e5e5;
   border-radius: 4px;
 
   i {
@@ -377,9 +392,18 @@ const InputBox = styled.div`
     left: 10px;
     width: 15px;
     height: 15px;
-    color: ${({ borderColor }) => (!borderColor ? '#ccc' : '#a94442')};
+    color: #ccc;
     font-size: 16px;
     z-index: 1;
+  }
+
+  &.errBorder {
+    color: #a94442;
+    border: 1px solid #a94442;
+
+    i {
+      color: #a94442;
+    }
   }
 `;
 
@@ -399,7 +423,7 @@ const ManagerForm = styled.div`
   height: auto;
 `;
 
-const ManagerText = styled(JoinText.withComponent('div'))``;
+const ManagerText = styled(JoinText.withComponent("div"))``;
 
 const ManagerInfoSpan = styled.span`
   margin-left: 10px;
@@ -412,16 +436,28 @@ const ManagerWarningSpan = styled.span`
   font-size: 12px;
 `;
 
-const SellerInfoForm = styled(ManagerForm.withComponent('div'))``;
+const SellerInfoForm = styled(ManagerForm.withComponent("div"))``;
 
-const SellerInfoText = styled(JoinText.withComponent('div'))``;
+const SellerInfoText = styled(JoinText.withComponent("div"))``;
 
 const SellerInfoSelect = styled.div`
+  display: flex;
+  flex-wrap: wrap;
   width: 100%;
   height: 43px;
+  font-size: 14px;
   margin-bottom: 15px;
   padding-right: 50px;
   line-height: 25px;
+`;
+
+const Label = styled.label`
+  margin-right: 10px;
+`;
+
+const RadioButton = styled.input`
+  margin-top: 6px;
+  margin-right: 5px;
 `;
 
 const WrapSubmit = styled.div`
@@ -429,7 +465,7 @@ const WrapSubmit = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 50px;
-  margin-bottom: 200px;
+  margin-bottom: 150px;
   width: 100%;
   height: 43px;
 `;

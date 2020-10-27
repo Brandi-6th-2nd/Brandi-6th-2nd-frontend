@@ -1,12 +1,12 @@
-import React from 'react';
-import styled from 'styled-components';
-import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
-import LoginFooter from '../../Components/LoginFooter/LoginFooter';
+import React from "react";
+import styled from "styled-components";
+import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+import LoginFooter from "../../Components/LoginFooter/LoginFooter";
 
 function Login() {
   const { register, handleSubmit, errors } = useForm({
-    mode: 'onBlur',
+    mode: "onBlur",
   });
 
   const onSubmit = (data) => console.log(data);
@@ -119,11 +119,11 @@ const UserName = styled.input`
   margin: 5px 0px;
   padding: 13px 16px;
   font-size: 12px;
-  border: 1px solid ${({ borderColor }) => (!borderColor ? '#e5e5e5' : 'red')};
+  border: 1px solid ${({ borderColor }) => (!borderColor ? "#e5e5e5" : "red")};
   border-radius: 7px;
 `;
 
-const UserPassword = styled(UserName.withComponent('input'))``;
+const UserPassword = styled(UserName.withComponent("input"))``;
 
 const LoginButton = styled.input`
   width: 320px;

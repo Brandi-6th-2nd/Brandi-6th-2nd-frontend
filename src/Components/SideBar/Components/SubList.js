@@ -21,21 +21,7 @@ function SubList({ subCategory, currentIndex, handlePage, activateToggler }) {
 
 export default SubList;
 
-const SubContainer = styled.ul``;
-
-const SubCategories = styled.li`
-  display: flex;
-  align-content: center;
-  margin: 0px 0px 0px 0px;
-  padding: 5px 0px;
-  padding-left: 35px !important;
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 300;
-  background: none;
-  height: 37px;
-  color: #cecfd3;
-  cursor: pointer;
+const SubContainer = styled.ul`
   ${({ activateToggler }) =>
     activateToggler &&
     css`
@@ -46,6 +32,21 @@ const SubCategories = styled.li`
       width: 173px;
       z-index: 10;
     `}
+`;
+
+const SubCategories = styled.li`
+  display: flex;
+  align-items: center;
+  margin: 0px 0px 0px 0px;
+  padding: 5px 0px;
+  padding-left: 35px !important;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 400;
+  background: none;
+  height: 37px;
+  color: #cecfd3;
+  cursor: pointer;
 
   &:hover {
     background-color: #222222;

@@ -53,6 +53,7 @@ export default SideBar;
 
 const PageContentWrapper = styled.div`
   width: ${(props) => (props.width ? "40px" : "215px")};
+  padding-top: 45px;
   height: 100vh;
   background-color: #35363a;
   color: #35363a;

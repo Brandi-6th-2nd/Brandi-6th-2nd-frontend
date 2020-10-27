@@ -10,7 +10,7 @@ import styled from "styled-components";
 function ProductManage() {
   const [masterData, setMasterData] = useState("");
   const [sellerData, setSellerData] = useState("");
-  // 조건부 렌더링 테스트용 코드
+  // 마스터, 셀러 페이지 조건부 렌더링을 위한 state 설정
   const [isMaster, setIsMaster] = useState(false);
 
   useEffect(() => {
@@ -20,8 +20,13 @@ function ProductManage() {
   }, []);
 
   const setData = (res) => {
-    setMasterData(res.data.data.master_data.product_manage);
-    setSellerData(res.data.data.seller_data.product_manage);
+    if (res.data.data.Authorization.account_type === 1) {
+      setIsMaster(true);
+      setMasterData(res.data.data.master_data.product_manage);
+    } else {
+      setIsMaster(false);
+      setSellerData(res.data.data.seller_data.product_manage);
+    }
   };
 
   return (

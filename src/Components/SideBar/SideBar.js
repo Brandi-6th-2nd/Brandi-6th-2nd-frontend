@@ -15,7 +15,7 @@ function SideBar() {
 
   return (
     <Fragment>
-      <PageContentWrapper width={activateToggler}>
+      <PageContentWrapper smaller={activateToggler}>
         <SideBarMenu>
           <SideBarToggler
             onClick={() => setActivateToggler(!activateToggler)}
@@ -52,7 +52,7 @@ function SideBar() {
 export default SideBar;
 
 const PageContentWrapper = styled.div`
-  width: ${(props) => (props.width ? "40px" : "215px")};
+  width: ${(props) => (props.smaller ? "40px" : "215px")};
   padding-top: 45px;
   height: 100vh;
   background-color: #35363a;

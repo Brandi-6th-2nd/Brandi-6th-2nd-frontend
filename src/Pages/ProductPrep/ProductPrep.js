@@ -11,7 +11,9 @@ function ProductPrep() {
       <Header />
       <OrderPageContainer>
         <SideBar />
-        <OrderManagePage />
+        <PageContainer>
+          <OrderManagePage />
+        </PageContainer>
       </OrderPageContainer>
       <Footer />
     </Fragment>
@@ -22,4 +24,11 @@ export default ProductPrep;
 
 const OrderPageContainer = styled.div`
   display: flex;
+  width: 100%;
+  flex: 1;
+`;
+
+const PageContainer = styled.div`
+  width: calc(100% - 215px);
+  flex: 1;
 `;

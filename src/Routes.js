@@ -13,6 +13,9 @@ import ProductManage from "./Pages/ProductManage/ProductManage";
 import ProductAdd from "./Pages/ProductAdd/ProductAdd";
 import ProductEdit from "./Pages/ProductEdit/ProductEdit";
 import SideBar from "./Components/SideBar/SideBar";
+import { ThemeProvider } from "styled-components";
+import Themes from "../src/Styles/Themes";
+import OrderDetails from "./Pages/OrderDetails/OrderDetails";
 
 class Routes extends React.Component {
   render() {
@@ -20,18 +23,21 @@ class Routes extends React.Component {
       <Router>
         <ScrollToTop />
         <Switch>
-          <Route exact path="/" component={Login} />
-          <Route exact path="/signUp" component={SignUp} />
-          <Route exact path="/home" component={Home} />
-          <Route exact path="/productPrep" component={ProductPrep} />
-          <Route exact path="/shipping" component={Shipping} />
-          <Route exact path="/delivered" component={Delivered} />
-          <Route exact path="/confirmPurchase" component={ConfirmPurchase} />
-          <Route exact path="/productManage" component={ProductManage} />
-          <Route exact path="/productAdd" component={ProductAdd} />
-          <Route exact path="/productEdit" component={ProductEdit} />
-          <Route exact path="/accountManage" component={AccountManage} />
-          <Route exact path="/sideBar" component={SideBar} />
+          <ThemeProvider theme={Themes}>
+            <Route exact path="/" component={Login} />
+            <Route exact path="/signUp" component={SignUp} />
+            <Route exact path="/home" component={Home} />
+            <Route exact path="/productPrep" component={ProductPrep} />
+            <Route exact path="/shipping" component={Shipping} />
+            <Route exact path="/delivered" component={Delivered} />
+            <Route exact path="/confirmPurchase" component={ConfirmPurchase} />
+            <Route exact path="/productManage" component={ProductManage} />
+            <Route exact path="/productAdd" component={ProductAdd} />
+            <Route exact path="/productEdit" component={ProductEdit} />
+            <Route exact path="/accountManage" component={AccountManage} />
+            <Route exact path="/sideBar" component={SideBar} />
+            <Route exact path="/orderDetails" component={OrderDetails} />
+          </ThemeProvider>
         </Switch>
       </Router>
     );

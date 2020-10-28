@@ -101,13 +101,9 @@ function SignUp() {
                 placeholder="비밀번호 재입력"
                 ref={register({
                   required: "required",
-<<<<<<< HEAD
-                  validate: (value) => value === password.current,
-=======
                   validate: (value) =>
                     value === password.current ||
                     "비밀번호가 일치하지 않습니다.",
->>>>>>> master
                 })}
               />
             </InputBox>
@@ -231,10 +227,7 @@ function SignUp() {
                 placeholder="셀러명 (상호)"
                 ref={register({
                   required: "required",
-<<<<<<< HEAD
-=======
                   pattern: /^[a-zA-Z0-9가-힣]*$/,
->>>>>>> master
                 })}
               />
             </InputBox>
@@ -253,10 +246,7 @@ function SignUp() {
                 placeholder="영문 셀러명 (영문상호)"
                 ref={register({
                   required: "required",
-<<<<<<< HEAD
-=======
                   pattern: /^[a-z]*$/,
->>>>>>> master
                 })}
               />
             </InputBox>
@@ -392,12 +382,7 @@ const InputBox = styled.div`
   margin-top: 15px;
   width: 100%;
   height: 34px;
-<<<<<<< HEAD
-  border: 1px solid
-    ${({ borderColor }) => (!borderColor ? "#e5e5e5" : "#a94442")};
-=======
   border: 1px solid #e5e5e5;
->>>>>>> master
   border-radius: 4px;
 
   i {
@@ -407,11 +392,7 @@ const InputBox = styled.div`
     left: 10px;
     width: 15px;
     height: 15px;
-<<<<<<< HEAD
-    color: ${({ borderColor }) => (!borderColor ? "#ccc" : "#a94442")};
-=======
     color: #ccc;
->>>>>>> master
     font-size: 16px;
     z-index: 1;
   }

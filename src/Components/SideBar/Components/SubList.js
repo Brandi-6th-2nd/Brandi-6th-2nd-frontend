@@ -42,7 +42,7 @@ const SubCategories = styled.li`
   padding-left: 35px !important;
   text-decoration: none;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 300;
   background: none;
   height: 37px;
   color: #cecfd3;

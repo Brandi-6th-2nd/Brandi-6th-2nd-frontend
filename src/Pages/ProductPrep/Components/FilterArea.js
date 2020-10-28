@@ -4,9 +4,14 @@ import styled, { css } from "styled-components";
 
 function FilterArea() {
   const [isBtnClicked, setIsBtnClicked] = useState("3일");
+  const [isProperty, setIsProperty] = useState("전체");
 
   const handleBtnClicked = (e) => {
     setIsBtnClicked(e.target.value);
+  };
+
+  const handlePropertyBtn = (e) => {
+    setIsProperty(e.target.value);
   };
   return (
     <Fragment>
@@ -74,6 +79,59 @@ function FilterArea() {
           </ButtonContainer>
           <DatePick />
         </DateFilter>
+        <SellerProperty>
+          <TitleLabel>셀러속성:</TitleLabel>
+          <ButtonContainer>
+            <PropertyBtns
+              type="button"
+              value="전체"
+              onClick={handlePropertyBtn}
+              Clicked={isProperty === "전체"}
+            />
+            <PropertyBtns
+              type="button"
+              value="쇼핑몰"
+              onClick={handlePropertyBtn}
+              Clicked={isProperty === "쇼핑몰"}
+            />
+            <PropertyBtns
+              type="button"
+              value="마켓"
+              onClick={handlePropertyBtn}
+              Clicked={isProperty === "마켓"}
+            />
+            <PropertyBtns
+              type="button"
+              value="로드샵"
+              onClick={handlePropertyBtn}
+              Clicked={isProperty === "로드샵"}
+            />
+            <PropertyBtns
+              type="button"
+              value="디자이너브랜드"
+              onClick={handlePropertyBtn}
+              Clicked={isProperty === "디자이너브랜드"}
+            />
+            <PropertyBtns
+              type="button"
+              value="제너럴브랜드"
+              onClick={handlePropertyBtn}
+              Clicked={isProperty === "제너럴브랜드"}
+            />
+            <PropertyBtns
+              type="button"
+              value="내셔널브랜드"
+              onClick={handlePropertyBtn}
+              Clicked={isProperty === "내셔널브랜드"}
+            />
+            <PropertyBtns
+              type="button"
+              value="뷰티"
+              onClick={handlePropertyBtn}
+              Clicked={isProperty === "뷰티"}
+            />
+          </ButtonContainer>
+        </SellerProperty>
         <Buttons>
           <SearchBtn>검색</SearchBtn>
           <ResetBtn>초기화</ResetBtn>
@@ -106,6 +164,7 @@ const SelecterWrapper = styled.select`
   border: 1px solid #e5e5e5;
   border-radius: 4px;
   margin-right: 5px;
+  width: 120px;
 `;
 
 const SearchInput = styled.input`
@@ -127,12 +186,13 @@ const DateFilter = styled.div`
 const TitleLabel = styled.label`
   font-weight: 400;
   font-size: 14px;
-  margin: 0px 50px 5px 0;
+  width: 125px;
+  margin: 0px 0 5px 0;
   padding: 7px 0px 0px 0px;
 `;
 
 const ButtonContainer = styled.div`
-  padding: 0px 15px 0px 15px;
+  padding: 0px 30px 0px 0px;
 `;
 
 const DateButton = styled.input`
@@ -196,3 +256,7 @@ const ResetBtn = styled.button`
     border-color: #adadad;
   }
 `;
+
+const SellerProperty = styled(DateFilter)``;
+
+const PropertyBtns = styled(DateButton)``;

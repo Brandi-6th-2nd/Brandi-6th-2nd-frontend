@@ -9,16 +9,27 @@ import axios from "axios";
 import styled from "styled-components";
 
 function ProductAdd() {
+  // DefaultInfo.js 에 props로 전달되는 state 값들
+  const [sellOption, setSellOption] = useState("1");
+  const [displayOption, setDisplayOpiton] = useState("1");
   const [categoryData, setCategoryData] = useState("");
 
+  // 상품 등록 페이지에 필요한 데이터들을 서버에 요청하여 setData 함수 실행
   useEffect(() => {
     axios
       .get(`public/Data/ProductAdd/mockData.json`)
       .then((res) => setData(res));
   }, []);
 
+  // categoryData라는 state에 서버에서 받아온 category 데이터를 저장하는 함수
   const setData = (res) => {
     setCategoryData(res.data.data.product_add.category);
+  };
+
+  // 선택된, 혹은 작성된 데이터들을 서버에 전송하기 위한 함수
+  const sendData = () => {
+    console.log(sellOption);
+    console.log(displayOption);
   };
 
   return (
@@ -38,9 +49,16 @@ function ProductAdd() {
             <i className="fas fa-chevron-right icon"></i>
             &nbsp; 상품 등록
           </PageBar>
-          <DefaultInfo categoryData={categoryData} />
+          <DefaultInfo
+            sellOption={sellOption}
+            setSellOption={setSellOption}
+            displayOption={displayOption}
+            setDisplayOpiton={setDisplayOpiton}
+            categoryData={categoryData}
+          />
           <OptionInfo />
           <SellInfo />
+          <Btn onClick={sendData}>Temporary Submit Btn</Btn>
         </Article>
       </Container>
       <Footer />
@@ -58,7 +76,6 @@ const Container = styled.div`
 
 const Article = styled.article`
   width: 100%;
-  height: 100vh;
   background: #fafafa;
   border-bottom-left-radius: 5px;
   padding: 25px 5px 10px;
@@ -68,7 +85,7 @@ const Title = styled.h1`
   font-size: 26px;
   font-weight: 100;
   color: #666666;
-  margin-bottom: 15px;
+  padding: 45px 15px 0 15px;
 
   small {
     font-size: 14px;
@@ -89,4 +106,9 @@ const PageBar = styled.div`
   .icon {
     color: #999999;
   }
+`;
+
+const Btn = styled.button`
+  ${({ theme }) => theme.button(``, `14px`, `#e5e5e5`)}
+  margin-top: 15px;
 `;

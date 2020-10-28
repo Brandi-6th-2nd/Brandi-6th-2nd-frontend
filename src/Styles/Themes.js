@@ -21,7 +21,7 @@ const Themes = {
   td: () => {
     return css`
       font-size: 13px;
-      vertical-align: middle;
+      vertical-align: top;
       border: 1px solid #dddddd;
       padding: 8px;
     `;
@@ -55,6 +55,22 @@ const Themes = {
       &:focus {
         border: 0.5px solid #adb3af;
         transition: border 0.2s ease-in-out;
+      }
+    `;
+  },
+  button: (width = null, font = null, border = null) => {
+    return css`
+      width: ${width};
+      font-size: ${font};
+      padding: 6px 12px;
+      background: #ffffff;
+      color: #000000;
+      border: 1px solid #e5e5e5;
+      border-radius: 4px;
+      cursor: pointer;
+      &:hover {
+        filter: brightness(0.9);
+        border: 0.5px solid ${border};
       }
     `;
   },

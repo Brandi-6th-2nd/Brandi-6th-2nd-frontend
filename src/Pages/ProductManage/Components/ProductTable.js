@@ -110,12 +110,6 @@ const Img = styled.img`
   height: 70px;
 `;
 
-const BtnGroup = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-`;
-
 const Button = styled.button`
   max-width: 64px;
   height: 30px;

@@ -1,8 +1,14 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import TotalOrderBar from "../Components/TotalOrderBar";
 import styled from "styled-components";
 
 function TableContainer() {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:3000/public/Data/ProductPrep/TableData.json")
+      .then((res) => res.json())
+      .then((res) => setData(res.TableData));
+  }, []);
   return (
     <Fragment>
       <TableContainers>
@@ -24,10 +30,10 @@ function TableContainer() {
               <option>최신주문일순</option>
               <option>주문일의 역순</option>
             </OrderFilter>
-            <LimitFilter>
+            <LimitFilter defaultValue={"DEFAULT"}>
               <option value="10">10개씩 보기</option>
               <option value="20">20개씩 보기</option>
-              <option value="50" selected>
+              <option value="50" value="DEFAULT">
                 50개씩 보기
               </option>
               <option value="100">100개씩 보기</option>
@@ -39,24 +45,67 @@ function TableContainer() {
         <TableWrapper>
           <table>
             <TableHeader>
-              <HeaderTh>
-                <input type="checkbox"></input>
-              </HeaderTh>
-              <HeaderTh>결제일자</HeaderTh>
-              <HeaderTh>주문번호</HeaderTh>
-              <HeaderTh>주문상세번호</HeaderTh>
-              <HeaderTh>상품명</HeaderTh>
-              <HeaderTh>옵션정보</HeaderTh>
-              <HeaderTh>수량</HeaderTh>
-              <HeaderTh>주문자명</HeaderTh>
-              <HeaderTh>핸드폰번호</HeaderTh>
-              <HeaderTh>주문상태</HeaderTh>
+              <tr>
+                <HeaderTh>
+                  <input type="checkbox"></input>
+                </HeaderTh>
+                <HeaderTh>결제일자</HeaderTh>
+                <HeaderTh>주문번호</HeaderTh>
+                <HeaderTh>주문상세번호</HeaderTh>
+                <HeaderTh>셀러명</HeaderTh>
+                <HeaderTh>상품명</HeaderTh>
+                <HeaderTh>옵션정보</HeaderTh>
+                <HeaderTh>수량</HeaderTh>
+                <HeaderTh>주문자명</HeaderTh>
+                <HeaderTh>핸드폰번호</HeaderTh>
+                <HeaderTh>결제금액</HeaderTh>
+                <HeaderTh>주문상태</HeaderTh>
+              </tr>
             </TableHeader>
             <TableBody>
-              <th>조회된 데이터가 없습니다.</th>
+              {data.map((el, idx) => (
+                <tr key={idx}>
+                  <td>
+                    <input type="checkbox"></input>
+                  </td>
+                  <td>{el.paid_on}</td>
+                  <td>{el.order_number}</td>
+                  <td>{el.order_detail_number}</td>
+                  <td>{el.seller_name}</td>
+                  <td>{el.product_name}</td>
+                  <td>{el.option_info}</td>
+                  <td>{el.quantity}</td>
+                  <td>{el.orderer_name}</td>
+                  <td>{el.phone_number}</td>
+                  <td>{el.payment_amount}</td>
+                  <td>{el.order_status}</td>
+                </tr>
+              ))}
             </TableBody>
             <TableFooter>
-              <th></th>
+              <tr>
+                <PaginationBtn>
+                  <li>
+                    <a href="">1</a>
+                  </li>
+                  <li>
+                    <a href="">2</a>
+                  </li>
+                  <li>
+                    <a href="">3</a>
+                  </li>
+                  <li>
+                    <a href="">
+                      <i className="fas fa-angle-right"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="">
+                      <i className="fas fa-angle-double-right"></i>
+                    </a>
+                  </li>
+                </PaginationBtn>
+              </tr>
             </TableFooter>
           </table>
         </TableWrapper>
@@ -96,7 +145,6 @@ const PageInfos = styled.ul`
 const ListOrdersFilter = styled.div`
   height: 30px;
   line-height: 28px;
-  /* padding: 6px 10px; */
 `;
 
 const OrderFilter = styled.select`
@@ -117,45 +165,89 @@ const LimitFilter = styled(OrderFilter)`
 const TableWrapper = styled.div`
   white-space: nowrap;
   width: 100%;
+  border: 1px solid #ddd;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-collapse: collapse;
   table {
     width: 100%;
+    border-collapse: collapse;
   }
 `;
 
-const TableHeader = styled.tr`
-  display: flex;
-  width: 100%;
+const TableHeader = styled.thead`
+  border-collapse: collapse;
 `;
 
 const HeaderTh = styled.th`
   border: 1px solid #ddd;
-  width: 100%;
+  border-collapse: collapse;
+  /* width: 100%; */
   font-size: 14px;
   font-weight: 600;
   background-color: #eeeeee;
   padding: 8px;
   text-align: start;
+
+  input {
+    width: 19px;
+  }
 `;
 
-const TableBody = styled.tr`
+const TableBody = styled.tbody`
+  width: 100%;
   background-color: #f9f9f9;
+  border-collapse: collapse;
   &:hover {
     background-color: #fff;
   }
 
-  th {
+  td {
     border: 1px solid #ddd;
+    border-collapse: collapse;
     font-size: 13px;
     padding: 8px;
     line-height: 1.42857143;
+    /* width: 100%; */
+    :first-child {
+      width: 19px;
+    }
   }
 `;
 
-const TableFooter = styled.tr`
-  background-color: white;
-  th {
+const TableFooter = styled.tfoot`
+  display: flex;
+  tr {
+  }
+`;
+
+const PaginationBtn = styled.td`
+  font-size: 13px;
+  padding: 8px;
+  display: flex;
+  width: 1px;
+
+  li {
+    list-style: none;
+    font-size: 14px;
+    text-align: center;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #428bca;
+    background-color: #fff;
     border: 1px solid #ddd;
-    font-size: 13px;
-    padding: 8px;
+    margin: 10px 0px 10px -1px;
+    :nth-last-child(1) {
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+    }
+    :nth-child(1) {
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px;
+    }
+    input {
+      padding: 8px;
+    }
   }
 `;

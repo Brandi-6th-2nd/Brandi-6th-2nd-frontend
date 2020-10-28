@@ -15,6 +15,7 @@ import ProductEdit from "./Pages/ProductEdit/ProductEdit";
 import SideBar from "./Components/SideBar/SideBar";
 import { ThemeProvider } from "styled-components";
 import Themes from "../src/Styles/Themes";
+import OrderDetails from "./Pages/OrderDetails/OrderDetails";
 
 class Routes extends React.Component {
   render() {
@@ -35,6 +36,7 @@ class Routes extends React.Component {
             <Route exact path="/productEdit" component={ProductEdit} />
             <Route exact path="/accountManage" component={AccountManage} />
             <Route exact path="/sideBar" component={SideBar} />
+            <Route exact path="/orderDetails" component={OrderDetails} />
           </ThemeProvider>
         </Switch>
       </Router>

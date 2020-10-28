@@ -33,7 +33,7 @@ function SideBarContents({
           toggleSubList(currentIndex);
         }}
         borderColor={currentSubOpen}
-        color={currentSubOpen}
+        changeColor={currentSubOpen}
         currentOpen={currentOpen}
         activateToggler={activateToggler}
         onMouseEnter={() => handleMouseEnter(currentIndex)}
@@ -45,7 +45,7 @@ function SideBarContents({
           <SmallCategory>
             <SpanWrapper>
               <i className={tabIcon} />
-              <TabName display={toggleActive === currentIndex}>
+              <TabName smallTab={toggleActive === currentIndex}>
                 {tabName}
               </TabName>
             </SpanWrapper>
@@ -100,7 +100,7 @@ const MenuContents = styled.li`
   color: #eeeeee;
   cursor: pointer;
   border-right: ${(props) => (props.borderColor ? "4px solid #d12610" : "")};
-  background-color: ${(props) => (props.color ? "#222222" : "#35363a")};
+  background-color: ${(props) => (props.changeColor ? "#222222" : "#35363a")};
   &:hover {
     background-color: #222222;
   }
@@ -140,7 +140,7 @@ const TabName = styled.div`
   top: -10px;
   left: 25px;
   padding-left: 20px;
-  display: ${(props) => (props.display ? "block" : "none")};
+  display: ${(props) => (props.smallTab ? "block" : "none")};
   z-index: 10;
 `;
 

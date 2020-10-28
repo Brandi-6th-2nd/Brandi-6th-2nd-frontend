@@ -49,12 +49,13 @@ const FooterTools = styled.div`
 `;
 
 const GoTop = styled.span`
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-decoration: none;
   cursor: pointer;
   margin: -4px 0px 0px 0px;
   font-size: 16px;
-  padding: 2px 6px 0px 6px;
   height: 25px;
   width: 25px;
   border-radius: 50%;

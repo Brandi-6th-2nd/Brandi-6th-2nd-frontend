@@ -13,6 +13,8 @@ function ProductAdd() {
   const [sellOption, setSellOption] = useState("1");
   const [displayOption, setDisplayOpiton] = useState("1");
   const [categoryData, setCategoryData] = useState("");
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentSubIndex, setCurrentSubIndex] = useState(0);
 
   // 상품 등록 페이지에 필요한 데이터들을 서버에 요청하여 setData 함수 실행
   useEffect(() => {
@@ -30,6 +32,8 @@ function ProductAdd() {
   const sendData = () => {
     console.log(sellOption);
     console.log(displayOption);
+    console.log(currentIndex);
+    console.log(currentSubIndex);
   };
 
   return (
@@ -55,6 +59,10 @@ function ProductAdd() {
             displayOption={displayOption}
             setDisplayOpiton={setDisplayOpiton}
             categoryData={categoryData}
+            currentIndex={currentIndex}
+            setCurrentIndex={setCurrentIndex}
+            currentSubIndex={currentSubIndex}
+            setCurrentSubIndex={setCurrentSubIndex}
           />
           <OptionInfo />
           <SellInfo />

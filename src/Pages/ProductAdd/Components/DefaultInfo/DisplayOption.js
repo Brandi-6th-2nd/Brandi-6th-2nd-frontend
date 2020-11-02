@@ -1,10 +1,15 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 import styled from "styled-components";
 
-function DisplayOption({ displayOption, setDisplayOption }) {
-  // ProductAdd.js에 있는 displayOption의 state값을 현재 선택된 진열 여부 옵션의 값으로 변경해주기 위한 함수
+import { GlobalContext } from "../../../../contexts/globalContext";
+
+export default function DisplayOption() {
+  const { state, dispatch } = useContext(GlobalContext);
+  const { displayOption } = state.productAdd;
+
+  // productAddContext.js 에 있는 상태값 중 displayOption의 값을 현재 선택된 값으로 변경해주기 위한 함수
   const handleDisplayOption = (e) => {
-    setDisplayOption(e.target.value);
+    dispatch({ type: "setDisplayOption", value: e.target.value });
   };
 
   return (
@@ -43,8 +48,6 @@ function DisplayOption({ displayOption, setDisplayOption }) {
     </Fragment>
   );
 }
-
-export default DisplayOption;
 
 const Td = styled.td`
   ${({ theme }) => theme.td()}

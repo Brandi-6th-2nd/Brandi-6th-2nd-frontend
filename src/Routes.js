@@ -1,6 +1,6 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ScrollToTop from "./Components/ScrollToTop";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Login from "./Pages/Login/Login";
 import SignUp from "./Pages/SignUp/SignUp";
 import Home from "./Pages/Home/Home";
@@ -13,9 +13,9 @@ import ProductManage from "./Pages/ProductManage/ProductManage";
 import ProductAdd from "./Pages/ProductAdd/ProductAdd";
 import ProductEdit from "./Pages/ProductEdit/ProductEdit";
 import SideBar from "./Components/SideBar/SideBar";
+import OrderDetails from "./Pages/OrderDetails/OrderDetails";
 import { ThemeProvider } from "styled-components";
 import Themes from "../src/Styles/Themes";
-import OrderDetails from "./Pages/OrderDetails/OrderDetails";
 
 class Routes extends React.Component {
   render() {

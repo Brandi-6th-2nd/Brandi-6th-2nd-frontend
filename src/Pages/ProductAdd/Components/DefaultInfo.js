@@ -1,4 +1,6 @@
 import React, { Fragment } from "react";
+import styled from "styled-components";
+
 import SellOption from "./DefaultInfo/SellOption";
 import DisplayOption from "./DefaultInfo/DisplayOption";
 import Category from "./DefaultInfo/Category";
@@ -7,19 +9,8 @@ import ProductName from "./DefaultInfo/ProductName";
 import ProductDesc from "./DefaultInfo/ProductDesc";
 import ImageRegister from "./DefaultInfo/ImageRegister";
 import ProductDetailInfo from "./DefaultInfo/ProductDetailInfo";
-import styled from "styled-components";
 
-function DefaultInfo({
-  sellOption,
-  setSellOption,
-  displayOption,
-  setDisplayOpiton,
-  categoryData,
-  currentIndex,
-  setCurrentIndex,
-  currentSubIndex,
-  setCurrentSubIndex,
-}) {
+export default function DefaultInfo() {
   return (
     <Fragment>
       <Table>
@@ -32,22 +23,13 @@ function DefaultInfo({
         </Thead>
         <Tbody>
           <tr>
-            <SellOption sellOption={sellOption} setSellOption={setSellOption} />
+            <SellOption />
           </tr>
           <tr>
-            <DisplayOption
-              displayOption={displayOption}
-              setDisplayOption={setDisplayOpiton}
-            />
+            <DisplayOption />
           </tr>
           <tr>
-            <Category
-              categoryData={categoryData}
-              currentIndex={currentIndex}
-              setCurrentIndex={setCurrentIndex}
-              currentSubIndex={currentSubIndex}
-              setCurrentSubIndex={setCurrentSubIndex}
-            />
+            <Category />
           </tr>
           <tr>
             <ProductInfo />
@@ -69,8 +51,6 @@ function DefaultInfo({
     </Fragment>
   );
 }
-
-export default DefaultInfo;
 
 const Table = styled.table`
   ${({ theme }) => theme.table()}

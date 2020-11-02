@@ -1,30 +1,55 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useContext } from "react";
 import styled from "styled-components";
+import axios from "axios";
 
-function Category({
-  categoryData,
-  currentIndex,
-  setCurrentIndex,
-  currentSubIndex,
-  setCurrentSubIndex,
-}) {
-  // ProductAdd.js에서 받아온 1차, 2차 카테고리 데이터들을 key, value별로 변수에 담아 저장함.
-  const firstCategory = categoryData && Object.keys(categoryData);
-  // firstCategory 출력 예시 : ["아우터", "상의", "바지" ...]
-  console.log(firstCategory);
-  const secondCategory = categoryData && Object.values(categoryData);
-  // secondCategory 출력 예시 : [["자켓", "가디건", ...], ...], ["티셔츠", "셔츠/블라우스", ...], ...]
-  console.log(secondCategory);
+import { GlobalContext } from "../../../../contexts/globalContext";
 
-  const handleCurrentIndex = (e) => {
-    console.log(e.target.value);
-    setCurrentIndex(e.target.value);
-    setCurrentSubIndex(0);
+export default function Category({}) {
+  const { state, dispatch } = useContext(GlobalContext);
+  const {
+    categoryData,
+    currentFirstCategory,
+    currentSecondCategory,
+  } = state.productAdd;
+
+  // 상품 등록 페이지에 필요한 데이터들을 서버에 요청하여 setData 함수 실행
+  useEffect(() => {
+    axios
+      .get(`public/Data/ProductAdd/mockData.json`)
+      .then((res) => setData(res));
+  }, []);
+
+  // 서버에서 데이터를 받아온 뒤, productAddContext.js에서 설정한 상태값 categortData (first, second)에 저장
+  const setData = (res) => {
+    const categoryData = res.data.productAdd.categories;
+
+    const firstCategory = categoryData.map((el) => {
+      const firstCategoryObj = { id: el.id, name: el.name };
+      return firstCategoryObj;
+    });
+
+    const secondCategory = categoryData.map((el) => {
+      return el.childs;
+    });
+
+    dispatch({
+      type: "setFirstCategoryData",
+      value: firstCategory,
+    });
+
+    dispatch({
+      type: "setSecondCategoryData",
+      value: secondCategory,
+    });
   };
 
-  const handleCurrentSubIndex = (e) => {
-    console.log(e.target.value);
-    setCurrentSubIndex(e.target.value);
+  const handleCurrentFirstCategory = (e) => {
+    dispatch({ type: "setCurrentFirstCategory", value: e.target.value });
+    dispatch({ type: "setCurrentSecondCategory", value: 0 });
+  };
+
+  const handleCurrentSecondCategory = (e) => {
+    dispatch({ type: "setCurrentSecondCategory", value: e.target.value });
   };
 
   return (
@@ -43,38 +68,42 @@ function Category({
           <Tbody>
             <tr>
               <InsideTd>
-                {/* 1차 카테고리가 선택되면 onChange 이벤트를 통해 handleCurrentIndex 함수가 실행됨.
-                      이 함수는 ProductAdd.js의 currentIndex라는 state의 값을 현재 선택된 option의 value로 설정함.
-                      그리고 ProductAdd.js의 currentSubIndex라는 state의 값을 0으로 설정함. */}
-                <Select onChange={handleCurrentIndex}>
-                  {firstCategory &&
-                    firstCategory.map((category, index) => {
+                {/* 1차 카테고리 설정 */}
+                <Select onChange={handleCurrentFirstCategory}>
+                  <option value="0">1차 카테고리를 선택해주세요.</option>
+                  {categoryData.first &&
+                    categoryData.first.map((category) => {
                       return (
-                        <option value={index} key={index}>
-                          {category}
+                        <option value={category.id} key={category.id}>
+                          {category.name}
                         </option>
                       );
                     })}
                 </Select>
               </InsideTd>
               <InsideTd>
-                {/* 1차 카테고리를 선택했을 때 실행되었던 handleCurrentIndex 함수에서 currentSubIndex라는 
-                      state의 값을 0으로 설정하였으며, 그 값을 초기 value로 받아옴.
-                      2차 카테고리 선택에 변화가 생길 때마다 onChange 이벤트를 통해 handleCurrentSubIndex 함수가 실행됨.
-                      1차 카테고리 선택시와 마찬가지로 이 함수는 ProductAdd.js의 currentSubIndex라는 state의 값을 
-                      현재 선택된 option의 value로 설정함. */}
+                {/* 2차 카테고리 설정 */}
                 <Select
-                  value={currentSubIndex}
-                  onChange={handleCurrentSubIndex}
+                  value={currentSecondCategory}
+                  onChange={handleCurrentSecondCategory}
                 >
-                  {secondCategory &&
-                    secondCategory[currentIndex].map((category, index) => {
-                      return (
-                        <option value={index} key={index}>
-                          {category}
-                        </option>
-                      );
-                    })}
+                  <option value="0">
+                    {Number(currentFirstCategory) === 0
+                      ? "1차 카테고리를 먼저 선택해주세요."
+                      : "2차 카테고리를 선택해주세요"}
+                  </option>
+                  {/* 2차 카테고리 목록은 currentFirstCategory의 value(id 값)를 받아와서 map함수를 적용함. */}
+                  {categoryData.second && currentFirstCategory >= 1
+                    ? categoryData.second[
+                        currentFirstCategory && currentFirstCategory - 1
+                      ].map((category) => {
+                        return (
+                          <option value={category.id} key={category.id}>
+                            {category.name}
+                          </option>
+                        );
+                      })
+                    : ""}
                 </Select>
               </InsideTd>
             </tr>
@@ -84,8 +113,6 @@ function Category({
     </Fragment>
   );
 }
-
-export default Category;
 
 const Table = styled.table`
   ${({ theme }) => theme.table()}

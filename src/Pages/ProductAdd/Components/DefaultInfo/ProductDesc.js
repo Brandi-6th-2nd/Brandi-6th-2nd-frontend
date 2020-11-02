@@ -1,18 +1,25 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 import styled from "styled-components";
 
-function ProductDesc() {
+import { GlobalContext } from "../../../../contexts/globalContext";
+
+export default function ProductDesc() {
+  const { state, dispatch } = useContext(GlobalContext);
+  const { productDesc } = state.productAdd;
+
+  const handleProductDesc = (e) => {
+    dispatch({ type: "setProductDesc", value: e.target.value });
+  };
+
   return (
     <Fragment>
       <Td>한줄 상품 설명</Td>
       <Td>
-        <Input type="text" />
+        <Input type="text" value={productDesc} onChange={handleProductDesc} />
       </Td>
     </Fragment>
   );
 }
-
-export default ProductDesc;
 
 const Td = styled.td`
   ${({ theme }) => theme.td()}

@@ -1,10 +1,15 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 import styled from "styled-components";
 
-function SellOption({ sellOption, setSellOption }) {
-  // ProductAdd.js에 있는 state값 중 sellOption을 현재 선택된 판매 여부 옵션의 값으로 변경해주기 위한 함수
+import { GlobalContext } from "../../../../contexts/globalContext";
+
+export default function SellOption() {
+  const { state, dispatch } = useContext(GlobalContext);
+  const { sellOption } = state.productAdd;
+
+  // productAddContext.js 에 있는 상태값 중 sellOption의 값을 현재 선택된 값으로 변경해주기 위한 함수
   const handleSellOption = (e) => {
-    setSellOption(e.target.value);
+    dispatch({ type: "setSellOption", value: e.target.value });
   };
 
   return (
@@ -46,8 +51,6 @@ function SellOption({ sellOption, setSellOption }) {
     </Fragment>
   );
 }
-
-export default SellOption;
 
 const Td = styled.td`
   ${({ theme }) => theme.td()}

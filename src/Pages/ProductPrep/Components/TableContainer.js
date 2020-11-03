@@ -1,14 +1,120 @@
 import React, { Fragment, useEffect, useState } from "react";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import Pagination from "../Components/Pagination";
 import TotalOrderBar from "../Components/TotalOrderBar";
+import MappingTr from "../Components/MappingTr";
 import styled from "styled-components";
 
-function TableContainer() {
+function TableContainer({
+  isAllChecked,
+  setIsAllChecked,
+  isChecked,
+  setIsChecked,
+  filteredData,
+  setFilteredData,
+}) {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  // 현재 페이지 값
+  const [currentPage, setCurrentPage] = useState(1);
+  // 현재 페이지 안에 들어가는 데이터 양
+  const [postsPerPage, setPostPerPage] = useState(50);
+
+  //현재 페이지의 마지막 인덱스
+  const indexOfLastPost = currentPage * postsPerPage;
+  // 현재 페이지의 첫번쨰 인덱스, 즉 3번째 페이지 일 경우 100번째 인덱스
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  // cureentPage가 3일 경우 인데스 100에서 150까지의 데이터를 잘라온다.
+  const currentPosts = data.slice(indexOfFirstPost, indexOfLastPost);
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    handlePageLimit(pageNumber);
+  };
+
+  // console.log(posts);
+  // useEffect(() => {
+  //   fetch("http://localhost:3000/public/Data/ProductPrep/TableData.json")
+  //     .then((res) => res.json())
+  //     .then((res) => setData(res.TableData));
+  // }, []);
+
   useEffect(() => {
-    fetch("http://localhost:3000/public/Data/ProductPrep/TableData.json")
+    fetch(`https://jsonplaceholder.typicode.com/comments`)
       .then((res) => res.json())
-      .then((res) => setData(res.TableData));
+      .then((res) => setData(res));
   }, []);
+
+  const sortByDate = (e) => {
+    if (e.target.value === "reverse") {
+      const sorted = [...data].sort((a, b) => {
+        return b.postId - a.postId;
+      });
+      setData(sorted);
+      setCurrentPage(1);
+    } else if (e.target.value === "recent") {
+      const sorted = [...data].sort((a, b) => {
+        return a.postId - b.postId;
+      });
+      setData(sorted);
+      setCurrentPage(1);
+    }
+  };
+
+  // 잘라온 current
+  const checkAllHandler = (checked) => {
+    if (checked) {
+      const array = [];
+      currentPosts.forEach((el) => array.push(el.id));
+      setIsChecked(array);
+    } else {
+      setIsChecked([]);
+    }
+  };
+
+  const handleChecked = (checked, id) => {
+    if (checked) {
+      setIsChecked([...isChecked, id]);
+    } else {
+      setIsChecked(isChecked.filter((el) => el !== id));
+    }
+    setFilteredData({ ...filteredData, isChecked: isChecked });
+    // setIsChecked((prev) => {
+    //   if (prev.includes(id)) {
+    //     return prev.filter((x) => x !== id);
+    //   } else {
+    //     return [...prev, id];
+    //   }
+    // });
+  };
+
+  useEffect(() => {
+    console.log(filteredData && filteredData);
+  }, [filteredData]);
+
+  const handlePageLimit = (e) => {
+    // 리밋 필터를 누를 때마다 페이지를 1로 되돌려주면서 체크박스를 초기화 시킨다.
+    setFilteredData({
+      ...filteredData,
+      limit: postsPerPage,
+      offset: indexOfFirstPost,
+    });
+    setPostPerPage(Number(e.target.value));
+    setCurrentPage(1);
+    setIsChecked([]);
+  };
+
+  if (loading) {
+    return (
+      <h2>
+        <img
+          src="https://media1.tenor.com/images/9596d3118ddd5c600806a44da90c4863/tenor.gif?itemid=16014629"
+          alt="Cuted Cat"
+        />
+      </h2>
+    );
+  }
+
   return (
     <Fragment>
       <TableContainers>
@@ -26,28 +132,30 @@ function TableContainer() {
             </li>
           </PageInfos>
           <ListOrdersFilter>
-            <OrderFilter>
-              <option>최신주문일순</option>
-              <option>주문일의 역순</option>
+            <OrderFilter onChange={sortByDate}>
+              <option value="recent">최신주문일순</option>
+              <option value="reverse">주문일의 역순</option>
             </OrderFilter>
-            <LimitFilter defaultValue={"DEFAULT"}>
+            <LimitFilter defaultValue="50" onChange={handlePageLimit}>
               <option value="10">10개씩 보기</option>
               <option value="20">20개씩 보기</option>
-              <option value="50" value="DEFAULT">
-                50개씩 보기
-              </option>
+              <option value="50">50개씩 보기</option>
               <option value="100">100개씩 보기</option>
               <option value="150">150개씩 보기</option>
             </LimitFilter>
           </ListOrdersFilter>
         </FilterBar>
-        <TotalOrderBar />
+        <TotalOrderBar data={data} setData={setData} />
         <TableWrapper>
-          <table>
+          <table id="table-to-xls">
             <TableHeader>
               <tr>
                 <HeaderTh>
-                  <input type="checkbox"></input>
+                  <input
+                    type={"checkbox"}
+                    onChange={(e) => checkAllHandler(e.target.checked)}
+                    checked={isChecked.length === postsPerPage ? true : false}
+                  ></input>
                 </HeaderTh>
                 <HeaderTh>결제일자</HeaderTh>
                 <HeaderTh>주문번호</HeaderTh>
@@ -63,51 +171,33 @@ function TableContainer() {
               </tr>
             </TableHeader>
             <TableBody>
-              {data.map((el, idx) => (
-                <tr key={idx}>
-                  <td>
-                    <input type="checkbox"></input>
-                  </td>
-                  <td>{el.paid_on}</td>
-                  <td>{el.order_number}</td>
-                  <td>{el.order_detail_number}</td>
-                  <td>{el.seller_name}</td>
-                  <td>{el.product_name}</td>
-                  <td>{el.option_info}</td>
-                  <td>{el.quantity}</td>
-                  <td>{el.orderer_name}</td>
-                  <td>{el.phone_number}</td>
-                  <td>{el.payment_amount}</td>
-                  <td>{el.order_status}</td>
-                </tr>
+              {currentPosts.map((el, idx) => (
+                <MappingTr
+                  el={el}
+                  key={idx}
+                  data={data}
+                  isChecked={isChecked}
+                  setIsChecked={setIsChecked}
+                  isAllChecked={isAllChecked}
+                  setIsAllChecked={setIsAllChecked}
+                  handleChecked={handleChecked}
+                />
               ))}
             </TableBody>
-            <TableFooter>
-              <tr>
-                <PaginationBtn>
-                  <li>
-                    <a href="">1</a>
-                  </li>
-                  <li>
-                    <a href="">2</a>
-                  </li>
-                  <li>
-                    <a href="">3</a>
-                  </li>
-                  <li>
-                    <a href="">
-                      <i className="fas fa-angle-right"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="">
-                      <i className="fas fa-angle-double-right"></i>
-                    </a>
-                  </li>
-                </PaginationBtn>
-              </tr>
-            </TableFooter>
+            <TableFooter></TableFooter>
           </table>
+          <PaginWrapper>
+            <Pagination
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              postsPerPage={postsPerPage}
+              totalPosts={data.length}
+              paginate={paginate}
+              loading={loading}
+              data={data}
+              handlePageLimit={handlePageLimit}
+            />
+          </PaginWrapper>
         </TableWrapper>
         <TotalOrderBar />
       </TableContainers>
@@ -221,33 +311,38 @@ const TableFooter = styled.tfoot`
   }
 `;
 
-const PaginationBtn = styled.td`
-  font-size: 13px;
-  padding: 8px;
-  display: flex;
-  width: 1px;
-
-  li {
-    list-style: none;
-    font-size: 14px;
-    text-align: center;
-    padding: 6px 12px;
-    margin-left: -1px;
-    line-height: 1.42857143;
-    color: #428bca;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    margin: 10px 0px 10px -1px;
-    :nth-last-child(1) {
-      border-top-right-radius: 4px;
-      border-bottom-right-radius: 4px;
-    }
-    :nth-child(1) {
-      border-top-left-radius: 4px;
-      border-bottom-left-radius: 4px;
-    }
-    input {
-      padding: 8px;
-    }
-  }
+const PaginWrapper = styled.div`
+  width: 100%;
+  margin: 15px;
 `;
+
+// const PaginationBtn = styled.td`
+//   font-size: 13px;
+//   padding: 8px;
+//   display: flex;
+//   width: 1px;
+
+//   li {
+//     list-style: none;
+//     font-size: 14px;
+//     text-align: center;
+//     padding: 6px 12px;
+//     margin-left: -1px;
+//     line-height: 1.42857143;
+//     color: #428bca;
+//     background-color: #fff;
+//     border: 1px solid #ddd;
+//     margin: 10px 0px 10px -1px;
+//     :nth-last-child(1) {
+//       border-top-right-radius: 4px;
+//       border-bottom-right-radius: 4px;
+//     }
+//     :nth-child(1) {
+//       border-top-left-radius: 4px;
+//       border-bottom-left-radius: 4px;
+//     }
+//     input {
+//       padding: 8px;
+//     }
+//   }
+// `;

@@ -1,9 +1,12 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import FilterArea from "../Components/FilterArea";
 import TableContainer from "../Components/TableContainer";
 import styled from "styled-components";
 
 function OrderManagePage() {
+  const [isAllChecked, setIsAllChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState([]);
+  const [filteredData, setFilteredData] = useState({});
   return (
     <Fragment>
       <ContentsWrapper>
@@ -19,8 +22,18 @@ function OrderManagePage() {
             회원에게 있습니다. (전자상거래법 제 15조 1항에 근거) )
           </TitleInfo>
         </PageTitle>
-        <FilterArea />
-        <TableContainer />
+        <FilterArea
+          filteredData={filteredData}
+          setFilteredData={setFilteredData}
+        />
+        <TableContainer
+          filteredData={filteredData}
+          setFilteredData={setFilteredData}
+          isAllChecked={isAllChecked}
+          setIsAllChecked={setIsAllChecked}
+          isChecked={isChecked}
+          setIsChecked={setIsChecked}
+        />
       </ContentsWrapper>
     </Fragment>
   );

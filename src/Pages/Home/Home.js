@@ -50,5 +50,5 @@ const Article = styled.article`
   width: 100%;
   background: #fafafa;
   border-bottom-left-radius: 5px;
-  padding: 25px 20px 20px 20px;
+  padding: 70px 20px 20px 20px;
 `;

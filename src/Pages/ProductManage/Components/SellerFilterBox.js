@@ -16,7 +16,7 @@ function SellerFilterBox() {
     <Wrapper>
       <ItemWrapper>
         <SubTitle>조회 기간</SubTitle>
-        <DatePickerWrap start>
+        <DatePickerWrap startCalender>
           <DatePicker
             selected={startDate}
             onChange={(date) => setStartDate(date)}
@@ -133,7 +133,8 @@ const DatePickerWrap = styled.div`
   height: 34px;
 
   input {
-    border-radius: ${({ start }) => (start ? "4px 0 0 4px" : "0 4px 4px 0")};
+    border-radius: ${({ startCalender }) =>
+      startCalender ? "4px 0 0 4px" : "0 4px 4px 0"};
   }
 `;
 

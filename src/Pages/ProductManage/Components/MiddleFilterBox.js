@@ -6,11 +6,11 @@ function MiddleFilterBox() {
     <Fragment>
       <PageBar>
         <PageStatus>
-          <i class="fas fa-bars"></i>
+          <i className="fas fa-bars"></i>
           &nbsp; 상품관리 / 상품 관리 &nbsp;
-          <i class="fas fa-chevron-right"></i>
+          <i className="fas fa-chevron-right"></i>
           &nbsp;상품관리 관리 &nbsp;
-          <i class="fas fa-chevron-right"></i>
+          <i className="fas fa-chevron-right"></i>
           &nbsp; 리스트
         </PageStatus>
         <Select>
@@ -21,10 +21,10 @@ function MiddleFilterBox() {
       </PageBar>
       <OptionBar>
         <Button>
-          <i class="far fa-file-excel"></i>&nbsp;선택상품 엑셀 다운로드
+          <i className="far fa-file-excel"></i>&nbsp;선택상품 엑셀 다운로드
         </Button>
         <Button>
-          <i class="far fa-file-excel"></i>&nbsp;전체상품 엑셀 다운로드
+          <i className="far fa-file-excel"></i>&nbsp;전체상품 엑셀 다운로드
         </Button>
         <Select option>
           <option value="">판매여부</option>
@@ -37,7 +37,7 @@ function MiddleFilterBox() {
           <option value="미진열">미진열</option>
         </Select>
         <Button apply>
-          <i class="fas fa-check"></i>&nbsp;적용
+          <i className="fas fa-check"></i>&nbsp;적용
         </Button>
       </OptionBar>
     </Fragment>

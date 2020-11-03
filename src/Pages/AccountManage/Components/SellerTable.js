@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import DatePicker from "react-datepicker";
+import { useHistory } from "react-router-dom";
 
 function SellerTable({ sellerList, filteredList, setFilteredList }) {
   const [startDate, setStartDate] = useState("");
@@ -37,6 +38,8 @@ function SellerTable({ sellerList, filteredList, setFilteredList }) {
       [`${name}`]: value,
     });
   };
+
+  const history = useHistory();
 
   const handleSearch = () => {
     setFilteredList(
@@ -249,7 +252,9 @@ function SellerTable({ sellerList, filteredList, setFilteredList }) {
                   <input type="checkbox" />
                 </Td>
                 <Td>{el.id}</Td>
-                <Td>{el.account}</Td>
+                <Td onClick={() => history.push(`/SellerInfoManage/${el.id}`)}>
+                  <a>{el.account}</a>
+                </Td>
                 <Td>{el.eng_name}</Td>
                 <Td>{el.kor_name}</Td>
                 <Td>{el.manager_name}</Td>
@@ -312,6 +317,16 @@ const Td = styled.td`
   text-align: left;
   border-top: 1px solid #ddd;
   border-left: 1px solid #ddd;
+
+  a {
+    text-decoration: none;
+    color: #0d638f;
+
+    :hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
 `;
 
 const Input = styled.input`

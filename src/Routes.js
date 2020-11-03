@@ -38,7 +38,6 @@ class Routes extends React.Component {
             <Route exact path="/accountManage" component={AccountManage} />
             <Route exact path="/sideBar" component={SideBar} />
             <Route exact path="/orderDetails" component={OrderDetails} />
-            {/* 잠시 추가한 route */}
             <Route
               exact
               path="/SellerInfoManage"

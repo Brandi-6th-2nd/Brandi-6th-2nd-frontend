@@ -16,7 +16,7 @@ function ShippingInformation({ register, errors }) {
               </Td>
               <Td className="infoData">
                 <TextArea
-                  name="info_dlvy_dc"
+                  name="delivery_info"
                   placeholder="ex)
                   도서산간 지역은 배송비가 추가비용이 발생할 수 있습니다.
                   결제 완료 후 1~3일 후 출고됩니다."
@@ -24,8 +24,8 @@ function ShippingInformation({ register, errors }) {
                     required: true,
                   })}
                 />
-                {errors.info_dlvy_dc &&
-                  errors.info_dlvy_dc.type === "required" && (
+                {errors.delivery_info &&
+                  errors.delivery_info.type === "required" && (
                     <p>필수 입력항목입니다.</p>
                   )}
                 <WarningMsg>
@@ -40,7 +40,7 @@ function ShippingInformation({ register, errors }) {
               </Td>
               <Td className="infoData">
                 <TextArea
-                  name="info_exchng_dc"
+                  name="exchange_info"
                   placeholder="ex)
                   브랜디는 소비자보호법 및 전자상거래법을 기반한 환불보장제를 운영 중에 있습니다.
                   정당하지 않은 사유로 인한 환불 거부 등은 제재 사유가 될 수 있는 점 참고 부탁드립니다."
@@ -48,8 +48,8 @@ function ShippingInformation({ register, errors }) {
                     required: true,
                   })}
                 />
-                {errors.info_exchng_dc &&
-                  errors.info_exchng_dc.type === "required" && (
+                {errors.exchange_info &&
+                  errors.exchange_info.type === "required" && (
                     <p>필수 입력항목입니다.</p>
                   )}
                 <WarningMsg>

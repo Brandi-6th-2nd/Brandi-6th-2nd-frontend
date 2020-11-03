@@ -40,7 +40,7 @@ function DetailInformation({ register, errors }) {
         <Table>
           <tbody>
             <Tr>
-              <Td>셀러페이지 배경이미지</Td>
+              <Td shortWidth="true">셀러페이지 배경이미지</Td>
               <Td className="infoData">
                 <Thumbnail>
                   <ThumbnailImg></ThumbnailImg>
@@ -63,7 +63,7 @@ function DetailInformation({ register, errors }) {
               </Td>
             </Tr>
             <Tr>
-              <Td>
+              <Td shortWidth="true">
                 셀러 한줄 소개 <ImportantStar>*</ImportantStar>
               </Td>
               <Td className="infoData">
@@ -72,28 +72,28 @@ function DetailInformation({ register, errors }) {
                   <Input
                     type="text"
                     autoComplete="off"
-                    name="seller_sdc"
+                    name="intro"
                     placeholder="셀러 한줄 소개"
                     ref={register({
                       required: true,
                     })}
                   />
                 </InputBox>
-                {errors.seller_sdc && errors.seller_sdc.type === "required" && (
+                {errors.intro && errors.intro.type === "required" && (
                   <p>필수 입력항목입니다.</p>
                 )}
               </Td>
             </Tr>
             <Tr>
-              <Td>셀러 상세 소개</Td>
+              <Td shortWidth="true">셀러 상세 소개</Td>
               <Td className="infoData">
                 <TextArea
-                  name="seller_info_dc"
+                  name="detail_intro"
                   placeholder="셀러 상세 소개"
                   ref={register({ minLength: 10 })}
                 />
-                {errors.seller_info_dc &&
-                  errors.seller_info_dc.type === "minLength" && (
+                {errors.detail_intro &&
+                  errors.detail_intro.type === "minLength" && (
                     <p>셀러 상세 소개 글은 최소10자 이상 입니다.</p>
                   )}
                 <WarningMsg>
@@ -103,7 +103,7 @@ function DetailInformation({ register, errors }) {
               </Td>
             </Tr>
             <Tr>
-              <Td>
+              <Td shortWidth="true">
                 담당자 정보 <ImportantStar>*</ImportantStar>
               </Td>
               <Td className="infoData">
@@ -112,15 +112,15 @@ function DetailInformation({ register, errors }) {
                   <Input
                     type="text"
                     autoComplete="off"
-                    name="chargerName"
+                    name="manager_name"
                     placeholder="담당자명"
                     ref={register({
                       required: true,
                     })}
                   />
                 </InputBox>
-                {errors.chargerName &&
-                  errors.chargerName.type === "required" && (
+                {errors.manager_name &&
+                  errors.manager_name.type === "required" && (
                     <p>필수 입력항목입니다.</p>
                   )}
                 <InputBox>
@@ -130,15 +130,15 @@ function DetailInformation({ register, errors }) {
                     mask="999-9999-9999"
                     type="text"
                     autoComplete="off"
-                    name="chargerTelno"
+                    name="manager_phone"
                     defaultValue="010-0000-0000"
                     inputRef={register({
                       required: "required",
                     })}
                   />
                 </InputBox>
-                {errors.chargerTelno &&
-                  errors.chargerTelno.type === "required" && (
+                {errors.manager_phone &&
+                  errors.manager_phone.type === "required" && (
                     <p>필수 입력항목입니다.</p>
                   )}
                 <InputBox>
@@ -146,21 +146,21 @@ function DetailInformation({ register, errors }) {
                   <Input
                     type="text"
                     autoComplete="off"
-                    name="chargerEmail"
+                    name="manager_email"
                     placeholder="담당자 이메일"
                     ref={register({
                       required: true,
                     })}
                   />
                 </InputBox>
-                {errors.chargerEmail &&
-                  errors.chargerEmail.type === "required" && (
+                {errors.manager_email &&
+                  errors.manager_email.type === "required" && (
                     <p>필수 입력항목입니다.</p>
                   )}
               </Td>
             </Tr>
             <Tr>
-              <Td>
+              <Td shortWidth="true">
                 고객센터 <ImportantStar>*</ImportantStar>
               </Td>
               <Td className="infoData">
@@ -184,7 +184,7 @@ function DetailInformation({ register, errors }) {
               </Td>
             </Tr>
             <Tr>
-              <Td>
+              <Td shortWidth="true">
                 택배주소 <ImportantStar>*</ImportantStar>
               </Td>
               <Td className="infoData">
@@ -193,7 +193,7 @@ function DetailInformation({ register, errors }) {
                   <Input
                     type="text"
                     autoComplete="off"
-                    name="zip_code"
+                    name="post_number"
                     placeholder="우편번호"
                     readOnly
                     defaultValue={isZoneCode}
@@ -215,7 +215,7 @@ function DetailInformation({ register, errors }) {
                   <Input
                     type="text"
                     autoComplete="off"
-                    name="seller_address"
+                    name="post_address"
                     defaultValue={isAddress}
                     placeholder="주소 (택배 수령지)"
                     readOnly
@@ -229,30 +229,13 @@ function DetailInformation({ register, errors }) {
                   <Input
                     type="text"
                     autoComplete="off"
-                    name="seller_detail_address"
+                    name="post_detail_address"
                     placeholder="상세주소 (택배 수령지)"
                     ref={register({
                       required: true,
                     })}
                   />
                 </InputBox>
-              </Td>
-            </Tr>
-            <Tr>
-              <Td>셀러상태 변경기록</Td>
-              <Td className="infoData">
-                <Table>
-                  <tbody>
-                    <Tr>
-                      <Td className="infoData">셀러상태 변경 적용일시</Td>
-                      <Td className="infoData">셀러상태</Td>
-                    </Tr>
-                    <Tr>
-                      <Td className="infoData">2020-10-27 13:24:11</Td>
-                      <Td className="infoData">입점대기</Td>
-                    </Tr>
-                  </tbody>
-                </Table>
               </Td>
             </Tr>
           </tbody>
@@ -307,19 +290,15 @@ const Table = styled.table`
 const Tr = styled.tr``;
 
 const Td = styled.td`
+  width: ${({ shortWidth }) => (shortWidth ? "20%" : "140px")};
   padding: 8px;
   vertical-align: middle;
   border-top: 1px solid #ddd;
   border-left: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
 
-  :first-child {
-    width: 20%;
-  }
-
   .zipCode {
     display: inline-block;
-    width: 140px;
   }
 `;
 

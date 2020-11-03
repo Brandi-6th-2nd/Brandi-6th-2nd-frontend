@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Header from "../../Components/Header/Header";
 import SideBar from "../../Components/SideBar/SideBar";
@@ -15,6 +15,8 @@ function SellerInfoManage() {
     mode: "onBlur",
   });
 
+  const [sellerDetail, setSellerDetail] = useState("");
+
   const onSubmit = (data) => {
     console.log(data);
   };
@@ -22,6 +24,16 @@ function SellerInfoManage() {
   const handleCancel = () => {
     console.log("취소되었습니다");
   };
+
+  useEffect(() => {
+    fetch(`/public/Data/AccountManage/sellerDetail.json`)
+      .then((response) => response.json())
+      .then((response) => setSellerDetail(response.data));
+  }, []);
+
+  useEffect(() => {
+    console.log(sellerDetail);
+  }, [sellerDetail]);
 
   return (
     <Fragment>
@@ -31,7 +43,7 @@ function SellerInfoManage() {
         <Content>
           <AccountManageTitle />
           <SellerInfoForm onSubmit={handleSubmit(onSubmit)}>
-            <BasicInformation />
+            <BasicInformation register={register} sellerDetail={sellerDetail} />
             <DetailInformation register={register} errors={errors} />
             <ShippingInformation register={register} errors={errors} />
             <SellerInfoButtons handleCancel={handleCancel} />
@@ -64,7 +76,6 @@ const Content = styled.div`
 
 const SellerInfoForm = styled.form`
   margin-top: 30px;
-  padding: 0px 15px;
   width: 100%;
   height: auto;
 `;

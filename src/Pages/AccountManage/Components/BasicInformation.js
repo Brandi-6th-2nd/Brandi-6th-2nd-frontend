@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-function BasicInformation() {
+function BasicInformation({ sellerDetail, register }) {
   return (
     <Fragment>
       <Title>
@@ -28,20 +28,79 @@ function BasicInformation() {
             </Tr>
             <Tr>
               <Td>셀러 상태</Td>
-              <Td className="infoData">입점</Td>
+              <Td className="infoData">{sellerDetail.status_name}</Td>
+            </Tr>
+            <Tr>
+              <Td>
+                셀러 속성 <ImportantStar>*</ImportantStar>
+              </Td>
+              <Td className="infoData">
+                <RadioButton
+                  type="radio"
+                  id={sellerDetail.category_name}
+                  name="category_name"
+                  value={sellerDetail.category_name}
+                  defaultChecked
+                  ref={register({
+                    required: "required",
+                  })}
+                />
+                <Label htmlFor="{sellerDetail.category_name}">
+                  {sellerDetail.category_name}
+                </Label>
+              </Td>
+            </Tr>
+            <Tr>
+              <Td className="infoData" colSpan="2">
+                <WarningMsg warningMsgMargin="false">
+                  <i className="fas fa-exclamation-circle" />
+                  셀러명(한글, 영문) 변경시 셀러명과 동일하게 등록된 브랜드
+                  정보는 자동으로 변경되지 않습니다. 관리자께서는 이점
+                  유의해주시기 바라며, 브랜드 정보 수정은 [이전 버전 관리 >
+                  브랜드관리] 에서 가능합니다.
+                </WarningMsg>
+              </Td>
             </Tr>
             <Tr>
               <Td>셀러 한글명</Td>
-              <Td className="infoData">heeshop</Td>
+              <Td className="infoData">
+                <InputBox>
+                  <i className="fas fa-user" />
+                  <Input
+                    type="text"
+                    autoComplete="off"
+                    name="kor_name"
+                    defaultValue={sellerDetail.kor_name}
+                    placeholder="셀러 한글명"
+                    ref={register({
+                      required: true,
+                    })}
+                  />
+                </InputBox>
+              </Td>
             </Tr>
             <Tr>
               <Td>셀러 영문명</Td>
-              <Td className="infoData">heeshop</Td>
+              <Td className="infoData">
+                <InputBox>
+                  <i className="fas fa-user" />
+                  <Input
+                    type="text"
+                    autoComplete="off"
+                    name="eng_name"
+                    defaultValue={sellerDetail.eng_name}
+                    placeholder="셀러 영문명"
+                    ref={register({
+                      required: true,
+                    })}
+                  />
+                </InputBox>
+              </Td>
             </Tr>
             <Tr>
               <Td>셀러 계정</Td>
               <Td className="infoData">
-                juheetest
+                {sellerDetail.account}
                 <ChangePasswordBtn>비밀번호 변경하기</ChangePasswordBtn>
               </Td>
             </Tr>
@@ -140,7 +199,7 @@ const ChangeThumbnailBtn = styled.div`
 `;
 
 const WarningMsg = styled.div`
-  margin-top: 10px;
+  margin-top: ${({ warningMsgMargin }) => (warningMsgMargin ? "0px" : "10px")};
   color: #1e90ff;
   font-size: 13px;
 
@@ -168,4 +227,44 @@ const ChangePasswordBtn = styled.div`
   :hover {
     background-color: #d43f3a;
   }
+`;
+
+const Label = styled.label`
+  margin-right: 10px;
+`;
+
+const RadioButton = styled.input`
+  margin-top: 6px;
+  margin-right: 5px;
+`;
+
+const InputBox = styled.div`
+  position: relative;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 266px;
+  height: 34px;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+
+  i {
+    display: block;
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    width: 15px;
+    height: 15px;
+    color: #ccc;
+    font-size: 16px;
+    z-index: 1;
+  }
+`;
+
+const Input = styled.input`
+  position: absolute;
+  top: 5px;
+  left: 35px;
+  width: 80%;
+  height: 25px;
+  font-size: 14px;
 `;

@@ -1,41 +1,53 @@
 import React from "react";
 import styled from "styled-components";
 
-function SellerAcountView() {
+function SellerAccountView({
+  sellerListCount,
+  pageNum,
+  recordCountValue,
+  handlePrePage,
+  handleNextPage,
+  handlePageNum,
+  handleRecordCount,
+}) {
   return (
     <Fragment>
       <Page>
-        <Span>Page</Span>
-        <LeftButton>
+        <Span>페이지</Span>
+        <LeftButton onClick={handlePrePage}>
           <i className="fas fa-angle-left" />
         </LeftButton>
-        <CurrentPage type="text" name="currentPage" defaultValue="1" />
-        <RightButton>
+        <CurrentPage
+          type="text"
+          name="currentPage"
+          onChange={handlePageNum}
+          value={pageNum}
+        />
+        <RightButton onClick={handleNextPage}>
           <i className="fas fa-angle-right" />
         </RightButton>
-        <Span>of 822</Span>
+        <Span> / {sellerListCount / recordCountValue}</Span>
       </Page>
       <ViewRecords>
-        <Span>View</Span>
-        <Select name="recordCount" id="recordCount">
+        <Select value={recordCountValue} onChange={handleRecordCount}>
           <option value="10">10</option>
           <option value="20">20</option>
+          <option value="30">30</option>
+          <option value="40">40</option>
           <option value="50">50</option>
-          <option value="100">100</option>
-          <option value="150">150</option>
         </Select>
-        <Span>records</Span>
+        <Span>개 씩</Span>
       </ViewRecords>
       <Total>
-        <Span>Found total</Span>
-        <Span>8,219</Span>
-        <Span>records</Span>
+        <Span>총</Span>
+        <Span>{sellerListCount}</Span>
+        <Span>개</Span>
       </Total>
     </Fragment>
   );
 }
 
-export default SellerAcountView;
+export default SellerAccountView;
 
 const Fragment = styled.div`
   display: flex;
@@ -113,3 +125,5 @@ const Total = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
+const SelectOption = styled.option``;

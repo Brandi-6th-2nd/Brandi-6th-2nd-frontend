@@ -16,6 +16,7 @@ import SideBar from "./Components/SideBar/SideBar";
 import { ThemeProvider } from "styled-components";
 import Themes from "../src/Styles/Themes";
 import OrderDetails from "./Pages/OrderDetails/OrderDetails";
+import SellerInfoManage from "./Pages/AccountManage/SellerInfoManage";
 
 class Routes extends React.Component {
   render() {
@@ -37,6 +38,12 @@ class Routes extends React.Component {
             <Route exact path="/accountManage" component={AccountManage} />
             <Route exact path="/sideBar" component={SideBar} />
             <Route exact path="/orderDetails" component={OrderDetails} />
+            {/* 잠시 추가한 route */}
+            <Route
+              exact
+              path="/SellerInfoManage"
+              component={SellerInfoManage}
+            />
           </ThemeProvider>
         </Switch>
       </Router>

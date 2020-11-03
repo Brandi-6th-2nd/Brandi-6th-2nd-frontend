@@ -1,20 +1,79 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import DatePicker from "react-datepicker";
 
-function SellerTable() {
-  const [sellerList, setSellerList] = useState([]);
+function SellerTable({ sellerList, filteredList, setFilteredList }) {
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [inputs, setInputs] = useState({
+    seller_no: "",
+    seller_id: "",
+    seller_en_name: "",
+    seller_ko_name: "",
+    seller_charger: "",
+    seller_status: "",
+    seller_telno: "",
+    seller_email: "",
+    seller_property: "",
+  });
+
+  const {
+    seller_no,
+    seller_id,
+    seller_en_name,
+    seller_ko_name,
+    seller_charger,
+    seller_status,
+    seller_telno,
+    seller_email,
+    seller_property,
+  } = inputs;
+
+  const handleInput = (e) => {
+    const { name, value } = e.target;
+
+    setInputs({
+      ...inputs,
+      [`${name}`]: value,
+    });
+  };
+
+  const handleSearch = () => {
+    setFilteredList(
+      sellerList.filter((el) =>
+        el.id ? el.id === seller_no : el.id === el.id
+      ) &&
+        sellerList.filter((el) =>
+          el.account ? el.account === seller_id : el.account === el.account
+        )
+    );
+  };
+
+  const handleReset = () => {
+    seller_no_input.reset();
+    seller_id_input.reset();
+    seller_en_name_input.reset();
+    seller_ko_name_input.reset();
+    seller_charger_input.reset();
+    seller_telno_input.reset();
+    seller_email_input.reset();
+    setFilteredList(sellerList);
+
+    setInputs({
+      [`${name}`]: "",
+    });
+  };
 
   useEffect(() => {
-    fetch(`public/Data/AccountManage/SellerList.json`)
-      .then((response) => response.json())
-      .then((response) => setSellerList(response.SellerList));
-  }, []);
+    console.log(filteredList);
+  }, [filteredList]);
 
   return (
     <Fragment>
-      <Table>
+      <Table id="table-to-xls">
         <tbody>
           <Tr>
+            {/* 테이블 제목 부분 */}
             <Th>
               <input type="checkbox" />
             </Th>
@@ -22,47 +81,76 @@ function SellerTable() {
             <Th>셀러아이디</Th>
             <Th>영문이름</Th>
             <Th>한글이름</Th>
-            <Th>셀러구분</Th>
-            <Th>회원번호</Th>
             <Th>담당자이름</Th>
             <Th>셀러상태</Th>
             <Th>담당자연락처</Th>
             <Th>담당자이메일</Th>
             <Th>셀러속성</Th>
-            <Th>상품개수</Th>
-            <Th>URL</Th>
             <Th>등록일시</Th>
             <Th>Actions</Th>
           </Tr>
+          {/* 필터 부분 */}
           <Tr>
+            {/* 체크박스를 위한 빈 칸*/}
             <Td></Td>
+            {/* 번호 필터 부분 */}
             <Td>
-              <Input type="text" autoComplete="off" name="seller_no" />
+              <form id="seller_no_input">
+                <Input
+                  type="text"
+                  autoComplete="off"
+                  name="seller_no"
+                  onChange={handleInput}
+                />
+              </form>
             </Td>
+            {/* 셀러아이디 필터 부분 */}
             <Td>
-              <Input type="text" autoComplete="off" name="seller_id" />
+              <form id="seller_id_input">
+                <Input
+                  type="text"
+                  autoComplete="off"
+                  name="seller_id"
+                  onChange={handleInput}
+                />
+              </form>
             </Td>
+            {/* 영문이름 필터 부분 */}
             <Td>
-              <Input type="text" autoComplete="off" name="seller_en_name" />
+              <form id="seller_en_name_input">
+                <Input
+                  type="text"
+                  autoComplete="off"
+                  name="seller_en_name"
+                  onChange={handleInput}
+                />
+              </form>
             </Td>
+            {/* 한글이름 필터 부분 */}
             <Td>
-              <Input type="text" autoComplete="off" name="seller_ko_name" />
+              <form id="seller_ko_name_input">
+                <Input
+                  type="text"
+                  autoComplete="off"
+                  name="seller_ko_name"
+                  onChange={handleInput}
+                />
+              </form>
             </Td>
+            {/* 담당자이름 필터 부분 */}
             <Td>
-              <Select name="셀러구분">
-                <option value="셀러구분">셀러구분</option>
-                <option value="일반셀러">일반셀러</option>
-                <option value="헬피셀러">헬피셀러</option>
-              </Select>
+              <form id="seller_charger_input">
+                <Input
+                  type="text"
+                  autoComplete="off"
+                  name="seller_charger"
+                  onChange={handleInput}
+                />
+              </form>
             </Td>
+            {/* 셀러상태 필터 부분 */}
             <Td>
-              <Input type="text" autoComplete="off" name="member_no" />
-            </Td>
-            <Td>
-              <Input type="text" autoComplete="off" name="seller_charger" />
-            </Td>
-            <Td>
-              <Select name="셀러상태">
+              <Select name="seller_status" onChange={handleInput}>
                 <option value="Select">Select</option>
                 <option value="입점대기">입점대기</option>
                 <option value="입점">입점</option>
@@ -71,14 +159,31 @@ function SellerTable() {
                 <option value="휴점">휴점</option>
               </Select>
             </Td>
+            {/* 담당자 연락처 필터 부분 */}
             <Td>
-              <Input type="text" autoComplete="off" name="seller_telno" />
+              <form id="seller_telno_input">
+                <Input
+                  type="text"
+                  autoComplete="off"
+                  name="seller_telno"
+                  onChange={handleInput}
+                />
+              </form>
             </Td>
+            {/* 담당자 이메일 필터 부분 */}
             <Td>
-              <Input type="text" autoComplete="off" name="seller_email" />
+              <form id="seller_email_input">
+                <Input
+                  type="text"
+                  autoComplete="off"
+                  name="seller_email"
+                  onChange={handleInput}
+                />
+              </form>
             </Td>
+            {/* 셀러속성 필터 부분*/}
             <Td>
-              <Select name="셀러속성">
+              <Select name="seller_property" onChange={handleInput}>
                 <option value="Select">Select</option>
                 <option value="쇼핑몰">쇼핑몰</option>
                 <option value="마켓">마켓</option>
@@ -89,36 +194,77 @@ function SellerTable() {
                 <option value="뷰티">뷰티</option>
               </Select>
             </Td>
-            <Td></Td>
-            <Td></Td>
-            <Td></Td>
+            {/* 등록일시 캘린더 등록할 부분 */}
             <Td>
-              {/* <SearchButton>Search</SearchButton>
-              <ResetButton>Reset</ResetButton> */}
+              <StartDate>
+                <Calendar htmlFor="sellerTableStartDate">
+                  <i className="far fa-calendar-alt" />
+                </Calendar>
+                <DatePicker
+                  id="sellerTableStartDate"
+                  className="startDatePicker"
+                  selected={startDate}
+                  onChange={(date) => setStartDate(date)}
+                  dateFormat="yyyy-MM-dd"
+                  placeholderText="From"
+                  popperModifiers={{ preventOverflow: { enabled: true } }}
+                />
+              </StartDate>
+              <EndDate>
+                <Calendar htmlFor="sellerTableEndDate">
+                  <i className="far fa-calendar-alt" />
+                </Calendar>
+                <DatePicker
+                  id="sellerTableEndDate"
+                  className="endDatePicker"
+                  selected={endDate}
+                  onChange={(date) => setEndDate(date)}
+                  dateFormat="yyyy-MM-dd"
+                  placeholderText="To"
+                  popperModifiers={{ preventOverflow: { enabled: true } }}
+                />
+              </EndDate>
+            </Td>
+            {/* 액션 버튼 등록할 부분 */}
+            <Td>
+              <ButtonDiv>
+                <SearchButton onClick={handleSearch}>
+                  <i className="fas fa-search" />
+                  Search
+                </SearchButton>
+              </ButtonDiv>
+              <ButtonDiv>
+                <ResetButton onClick={handleReset}>
+                  <i className="fas fa-times" />
+                  Reset
+                </ResetButton>
+              </ButtonDiv>
             </Td>
           </Tr>
-          {sellerList.map((el) => (
-            <Tr key={el.id}>
-              <Td>
-                <input type="checkbox" />
-              </Td>
-              <Td>{el.번호}</Td>
-              <Td>{el.셀러아이디}</Td>
-              <Td>{el.영문이름}</Td>
-              <Td>{el.한글이름}</Td>
-              <Td>{el.셀러구분}</Td>
-              <Td>{el.회원번호}</Td>
-              <Td>{el.담당자이름}</Td>
-              <Td>{el.셀러상태}</Td>
-              <Td>{el.담당자연락처}</Td>
-              <Td>{el.담당자이메일}</Td>
-              <Td>{el.셀러속성}</Td>
-              <Td>{el.상품개수}</Td>
-              <Td>{el.URL}</Td>
-              <Td>{el.등록일시}</Td>
-              <Td>{el.Actions}</Td>
-            </Tr>
-          ))}
+          {/* 셀러 데이터 출력하는 부분 */}
+          {filteredList &&
+            filteredList.map((el) => (
+              <Tr key={el.id}>
+                <Td>
+                  <input type="checkbox" />
+                </Td>
+                <Td>{el.id}</Td>
+                <Td>{el.account}</Td>
+                <Td>{el.eng_name}</Td>
+                <Td>{el.kor_name}</Td>
+                <Td>{el.manager_name}</Td>
+                <Td>{el.status_name}</Td>
+                <Td>{el.manager_phone_number}</Td>
+                <Td>{el.manager_email}</Td>
+                <Td>{el.seller_category}</Td>
+                <Td>{el.register_date}</Td>
+                <Td>
+                  <button>{el.action[0]}</button>
+                  <button>{el.action[1]}</button>
+                  <button>{el.action[2]}</button>
+                </Td>
+              </Tr>
+            ))}
         </tbody>
       </Table>
     </Fragment>
@@ -162,7 +308,7 @@ const Th = styled.th`
 const Td = styled.td`
   padding: 8px;
   width: auto;
-  font-size: 13px;
+  font-size: 14px;
   text-align: left;
   border-top: 1px solid #ddd;
   border-left: 1px solid #ddd;
@@ -185,20 +331,84 @@ const Select = styled.select`
   border-radius: 4px;
 `;
 
+const StartDate = styled.div`
+  position: relative;
+  padding: 5px 10px;
+  width: 123px;
+  height: 30px;
+  background-color: #eeeeee;
+  border: 1px solid #e5e5e5;
+
+  .startDatePicker {
+    width: 80px;
+  }
+
+  .endDatePicker {
+    width: 80px;
+  }
+`;
+
+const EndDate = styled(StartDate.withComponent("div"))`
+  margin-top: 5px;
+`;
+
+const Calendar = styled.label`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 28px;
+  padding: 6px 8px;
+  background-color: white;
+  border-left: 1px solid #e5e5e5;
+
+  :hover {
+    cursor: pointer;
+    background-color: #eeeeee;
+  }
+`;
+
+const ButtonDiv = styled.div`
+  width: 100%;
+  margin-bottom: 5px;
+`;
+
 const SearchButton = styled.button`
-  width: 56.6px;
+  width: auto;
   height: 30px;
   padding: 2px 10px;
   font-size: 13px;
   border: 1px solid #ddd;
   border-radius: 4px;
+  color: #fff;
+  background-color: #f0ad4e;
+  border-color: #eea236;
+
+  i {
+    margin-right: 3px;
+  }
+
+  :hover {
+    background-color: #eea236;
+  }
 `;
 
 const ResetButton = styled.button`
-  width: 56.6px;
+  width: auto;
   height: 30px;
   padding: 2px 10px;
   font-size: 13px;
   border: 1px solid #ddd;
   border-radius: 4px;
+  color: #fff;
+  background-color: #c9302c;
+  border-color: #ac2925;
+
+  i {
+    margin-right: 3px;
+  }
+
+  :hover {
+    background-color: #ac2925;
+  }
 `;

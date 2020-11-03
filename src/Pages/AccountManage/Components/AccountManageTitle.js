@@ -5,17 +5,17 @@ function AccountManageTitle() {
   return (
     <Fragment>
       <Title>
-        셀러 계정 관리
-        <SubTitle>셀러 회원 목록 / 관리</SubTitle>
+        셀러정보 관리
+        <SubTitle>셀러 정보 조회 / 수정</SubTitle>
       </Title>
       <PageBar>
         <BreadCrumbs>
           <i className="fas fa-home" />
           <Span>회원 관리</Span>
           <i className="fas fa-angle-right" />
-          <Span>셀러 계정 관리</Span>
+          <Span>셀러정보 관리</Span>
           <i className="fas fa-angle-right" />
-          <Span>셀러 회원 리스트</Span>
+          <Span>셀러 정보 조회 / 수정</Span>
         </BreadCrumbs>
       </PageBar>
     </Fragment>

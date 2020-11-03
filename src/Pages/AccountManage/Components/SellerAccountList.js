@@ -1,9 +1,22 @@
 import React from "react";
 import styled from "styled-components";
-import SellerAcountView from "./SellerAcountView";
+import SellerAccountView from "./SellerAccountView";
 import SellerTable from "./SellerTable";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 
-function SellerAccountList() {
+function SellerAccountList({
+  sellerList,
+  setSellerList,
+  sellerListCount,
+  pageNum,
+  recordCountValue,
+  handlePrePage,
+  handleNextPage,
+  handlePageNum,
+  handleRecordCount,
+  filteredList,
+  setFilteredList,
+}) {
   return (
     <Fragment>
       <Content>
@@ -12,15 +25,43 @@ function SellerAccountList() {
             <i className="fas fa-list" />
             <Span>셀러 회원 리스트</Span>
           </TitleText>
-          <ExcelButton>
-            <i className="fas fa-reply fa-flip-horizontal" />
-            엑셀 다운로드
-          </ExcelButton>
+          <ExcelButton
+            as={ReactHTMLTableToExcel}
+            id="test-table-xls-button"
+            className="fas fa-share download-table-xls-button"
+            table="table-to-xls"
+            filename="tablexls"
+            sheet="tablexls"
+            buttonText=" 엑셀다운로드"
+          ></ExcelButton>
         </Title>
         <WrapSellerList>
-          <SellerAcountView />
-          <SellerTable />
-          <SellerAcountView />
+          <SellerAccountView
+            sellerList={sellerList}
+            sellerListCount={sellerListCount}
+            pageNum={pageNum}
+            recordCountValue={recordCountValue}
+            handlePrePage={handlePrePage}
+            handleNextPage={handleNextPage}
+            handlePageNum={handlePageNum}
+            handleRecordCount={handleRecordCount}
+          />
+          <SellerTable
+            sellerList={sellerList}
+            setSellerList={setSellerList}
+            filteredList={filteredList}
+            setFilteredList={setFilteredList}
+          />
+          <SellerAccountView
+            sellerList={sellerList}
+            sellerListCount={sellerListCount}
+            pageNum={pageNum}
+            recordCountValue={recordCountValue}
+            handlePrePage={handlePrePage}
+            handleNextPage={handleNextPage}
+            handlePageNum={handlePageNum}
+            handleRecordCount={handleRecordCount}
+          />
         </WrapSellerList>
       </Content>
     </Fragment>
@@ -62,17 +103,27 @@ const Span = styled.span`
   font-size: 16px;
 `;
 
-const ExcelButton = styled.button`
+const ExcelButton = styled.div`
   padding: 4px 10px;
+  height: 30px;
   color: #fff;
   font-size: 15px;
   background-color: #5cb85c;
   border-color: #4cae4c;
   border-radius: 4px;
+  cursor: pointer;
 
   i {
     color: #fff;
     margin-right: 5px;
+  }
+
+  .download-table-csv-button {
+    color: white;
+  }
+
+  :hover {
+    background-color: #4cae4c;
   }
 `;
 

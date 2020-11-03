@@ -1,19 +1,27 @@
 import React, { Fragment } from "react";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import styled from "styled-components";
 
-function TotalOrderBar() {
+function TotalOrderBar({ data, setData }) {
   return (
     <Fragment>
       <BarWrapper>
         <TotalOrderWrapper>
           <TotalOrderSpan>
-            전체 조회건 수: <b>0</b> 건
+            전체 조회건 수: <b>{data && data.length}</b> 건
           </TotalOrderSpan>
           <ShippingProcessBtn>배송처리</ShippingProcessBtn>
         </TotalOrderWrapper>
         <ExcelDownloadBtns>
           <AllDownload>
-            <i className="far fa-file-excel"></i>전체주문 엑셀다운로드
+            <ReactHTMLTableToExcel
+              id="test-table-xls-button"
+              className="far fa-file-excel"
+              table="table-to-xls"
+              filename="tablexls"
+              sheet="tablexls"
+              buttonText="전체주문 엑셀다운로드"
+            />
           </AllDownload>
           <SelectDownload>
             <i className="far fa-file-excel"></i>선택주문 엑셀다운로드
@@ -54,9 +62,11 @@ const ShippingProcessBtn = styled.button`
   }
 `;
 
-const ExcelDownloadBtns = styled.div``;
+const ExcelDownloadBtns = styled.div`
+  display: flex;
+`;
 
-const AllDownload = styled.button`
+const AllDownload = styled.div`
   color: #fff;
   background-color: #5cb85c;
   border-color: #4cae4c;

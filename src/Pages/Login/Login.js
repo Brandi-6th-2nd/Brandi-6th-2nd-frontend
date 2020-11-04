@@ -2,14 +2,38 @@ import React from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import LoginFooter from "../../Components/LoginFooter/LoginFooter";
+import { api } from "../../config";
 
 function Login() {
   const { register, handleSubmit, errors } = useForm({
     mode: "onBlur",
   });
 
-  const onSubmit = (data) => console.log(data);
+  const history = useHistory();
+
+  const onSubmit = (data) => {
+    fetch(`${api}/sign_in`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify({
+        account: data.username,
+        password: data.userpassword,
+      }),
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.token) {
+          localStorage.setItem("token", result.token);
+          history.push("/home");
+        } else {
+          alert("아이디 및 비밀번호를 확인해주세요");
+        }
+      });
+  };
 
   return (
     <Fragment>

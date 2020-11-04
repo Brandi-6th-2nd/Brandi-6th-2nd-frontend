@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import MaskedInput from "react-input-mask";
 import styled from "styled-components";
 import LoginFooter from "../../Components/LoginFooter/LoginFooter";
+import { api } from "../../config";
 
 function SignUp() {
   const { register, handleSubmit, errors, watch, reset } = useForm({
@@ -19,9 +20,30 @@ function SignUp() {
 
   // 신청버튼 눌렀을 시, 데이터가 전송됨 (현재는 콘솔로만 찍히게 함)
   const onSubmit = (data) => {
-    alert("회원가입이 되었습니다.");
-    console.log(data);
-    history.push("/");
+    fetch(`${api}/sign_up`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify({
+        account: data.sellerId,
+        password: data.sellerPassword,
+        kor_name: data.sellerName,
+        eng_name: data.sellerEnName,
+        center_phone: data.sellerServiceCenterTel,
+        seller_category: data.shopInfo,
+        phone_number: data.sellerTel,
+      }),
+    })
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.status === 400) {
+          alert("다시 한 번 확인해주세요!");
+        } else if (res.status === 200) {
+          alert("회원가입이 되었습니다.");
+          history.push("/");
+        }
+      });
   };
 
   // 취소버튼 눌렀을 시 뜨는 alert 창 처리

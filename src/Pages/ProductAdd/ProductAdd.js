@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect } from "react";
+import React, { Fragment, useContext } from "react";
 import styled from "styled-components";
 import axios from "axios";
 
@@ -16,38 +16,46 @@ export default function ProductAdd() {
   // 서버로 보내는 항목인지 아닌지 애매한 것들은 주석처리 해두었음
   const {
     sellOption,
-    // displayOption,
+    displayOption,
     currentFirstCategory,
     currentSecondCategory,
-    // productInfoType,
+    productInfoType,
     manufacturer,
     manufactureDate,
     countryOption,
     productName,
     productDesc,
     productImage,
-    // productDetailInfo,
+    productDetailInfo,
     productDetailInfoImage,
   } = state.productAdd;
 
-  const data = {
+  // 이미지 데이터를 제외한 데이터 (이미지는 아래 formData에서 다른 키 값으로 전달함)
+  const defaultInfoData = {
     sellOption: sellOption,
-    // displayOption: displayOption,
+    displayOption: displayOption,
     currentFirstCategory: currentFirstCategory,
     currentSecondCategory: currentSecondCategory,
-    // productInfoType: productInfoType,
+    productInfoType: productInfoType,
     manufacturer: manufacturer,
     manufactureDate: manufactureDate,
     countryOption: countryOption,
     productName: productName,
     productDesc: productDesc,
-    productImage: productImage,
-    // productDetailInfo: productDetailInfo,
-    productDetailInfoImage: productDetailInfoImage,
+    productDetailInfo: productDetailInfo,
   };
 
   // 선택된, 혹은 작성된 데이터들을 서버에 전송하기 위한 함수
-  const sendData = () => {
+  const sendData = async () => {
+    const formData = new FormData();
+    formData.append("defaultInfoData", defaultInfoData);
+    formData.append("productImageFirst", productImage.first);
+    formData.append("productImageSecond", productImage.second);
+    formData.append("productImageThird", productImage.third);
+    formData.append("productImageFourth", productImage.fourth);
+    formData.append("productImageFifth", productImage.fifth);
+    formData.append("productDetailInfoImage", productDetailInfoImage);
+
     // validation
     if (currentFirstCategory === 0 || currentSecondCategory === 0) {
       alert(`카테고리를 선택해주세요`);
@@ -56,8 +64,20 @@ export default function ProductAdd() {
     } else if (!productImage.first) {
       alert(`대표 이미지 등록은 필수입니다.`);
     } else {
-      // axios.post(`${apiAdress}`, data);
-      console.log(data);
+      // 서버 통신 시 사용할 코드
+      // await axios.post(`${apiAdress}`, formData, {
+      //   headers: {
+      //     Authorization: localStorage.getItem("token"),
+      //   },
+      // });
+
+      // formData 삽입값 확인용 코드
+      // for (var value of formData.values()) {
+      //   console.log(value);
+      // }
+
+      // 이미지 데이터를 제외한 모든 기본 정보 데이터 확인
+      console.log(defaultInfoData);
     }
   };
 
@@ -81,7 +101,10 @@ export default function ProductAdd() {
           <DefaultInfo />
           <OptionInfo />
           <SellInfo />
-          <Btn onClick={sendData}>Temporary Submit Btn</Btn>
+          <BtnGroup>
+            <Btn onClick={sendData}>등록</Btn>
+            <Btn cancle>취소</Btn>
+          </BtnGroup>
         </Article>
       </Container>
       <Footer />
@@ -96,6 +119,9 @@ const Container = styled.div`
 `;
 
 const Article = styled.article`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
   width: 100%;
   background: #fafafa;
   border-bottom-left-radius: 5px;
@@ -129,7 +155,14 @@ const PageBar = styled.div`
   }
 `;
 
+const BtnGroup = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 const Btn = styled.button`
-  ${({ theme }) => theme.button(``, `14px`, `#e5e5e5`)}
-  margin-top: 15px;
+  ${({ theme }) => theme.button(``, `14px`, ``)}
+  margin: 15px 2px 0;
+  background: ${({ cancle }) => (cancle ? "#D95350" : "#5DB85C")};
+  color: #ffffff;
 `;

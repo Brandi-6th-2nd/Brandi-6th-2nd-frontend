@@ -9,9 +9,14 @@ export default function ProductInfo() {
   // 전역 state 값인 manufactureDate의 값으로 new Date()를 적용한 뒤 아래 handleManufactureDate 함수에서
   // manufactureDate의 값을 string으로 변경하게 되면 Invaild time value라는 에러가 발생해서
   // 의도적으로 전역 상태값(서버로 전달하는 값)과 DatePicker에서 쓰이는 상태값을 분리한 것임.
-  const [localManuFactureDate, setLocalManuFactureDate] = useState(new Date());
+  const [localManufactureDate, setLocalManufactureDate] = useState(new Date());
   const { state, dispatch } = useContext(GlobalContext);
-  const { productInfoType, manufacturer, countryOption } = state.productAdd;
+  const {
+    productInfoType,
+    manufacturer,
+    countryOption,
+    manufactureDate,
+  } = state.productAdd;
 
   const handleProductInfoType = (e) => {
     dispatch({ type: "setProductInfoType", value: e.target.value });
@@ -24,17 +29,18 @@ export default function ProductInfo() {
   const handleManufactureDate = (date) => {
     // 하단의 DatePicker에서는 현재 파일의 상단에 선언된 localManuFactureDate 상태값을 받아 작동함.
     // 이 함수에서는 현재 선택된 date 값을 localManuFactureDate 상태값으로 설정함.
-    setLocalManuFactureDate(date);
+    setLocalManufactureDate(date);
     // 날짜 정보를 화면에 보이는 것과 같은 양식(YYYY-MM-DD)으로 바꾸기 위한 코드
     const year = date.getFullYear();
     let month = date.getMonth() + 1;
-    month = month >= 10 ? month : "0" + month;
+    month = month >= 10 ? month : `0${month}`;
     let day = date.getDate();
-    day = day >= 10 ? day : "0" + day;
+    day = day >= 10 ? day : `0${day}`;
     const convertedDate = `${year}-${month}-${day}`;
 
     // 전역 상태값을 convertedDate로 변경함.
     dispatch({ type: "setManufactureDate", value: convertedDate });
+    console.log(manufactureDate);
   };
 
   const handleCountryOption = (e) => {
@@ -84,7 +90,7 @@ export default function ProductInfo() {
             <Title>제조일자 :</Title>
             <CalenderWrapper>
               <DatePicker
-                selected={localManuFactureDate}
+                selected={localManufactureDate}
                 onChange={(date) => handleManufactureDate(date)}
                 dateFormat="yyyy-MM-dd"
                 id="calendar"

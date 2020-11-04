@@ -15,11 +15,11 @@ export const productAddInitialState = {
   productName: "",
   productDesc: "",
   productImage: {
-    first: { order: 1, is_main: 1, value: null },
-    second: { order: 2, is_main: 0, value: null },
-    third: { order: 3, is_main: 0, value: null },
-    fourth: { order: 4, is_main: 0, value: null },
-    fifth: { order: 5, is_main: 0, value: null },
+    first: null,
+    second: null,
+    third: null,
+    fourth: null,
+    fifth: null,
   },
   productDetailInfo: "simple",
   productDetailInfoImage: null,
@@ -98,10 +98,7 @@ export const productAddReducer = (state, action) => {
         ...state,
         productImage: {
           ...state.productImage,
-          first: {
-            ...state.productImage.first,
-            value: action.value,
-          },
+          first: action.value,
         },
       };
     case "setProductImageSecond":
@@ -109,10 +106,7 @@ export const productAddReducer = (state, action) => {
         ...state,
         productImage: {
           ...state.productImage,
-          second: {
-            ...state.productImage.second,
-            value: action.value,
-          },
+          second: action.value,
         },
       };
     case "setProductImageThird":
@@ -120,10 +114,7 @@ export const productAddReducer = (state, action) => {
         ...state,
         productImage: {
           ...state.productImage,
-          third: {
-            ...state.productImage.third,
-            value: action.value,
-          },
+          third: action.value,
         },
       };
     case "setProductImageFourth":
@@ -131,10 +122,7 @@ export const productAddReducer = (state, action) => {
         ...state,
         productImage: {
           ...state.productImage,
-          fourth: {
-            ...state.productImage.fourth,
-            value: action.value,
-          },
+          fourth: action.value,
         },
       };
     case "setProductImageFifth":
@@ -142,10 +130,7 @@ export const productAddReducer = (state, action) => {
         ...state,
         productImage: {
           ...state.productImage,
-          fifth: {
-            ...state.productImage.fifth,
-            value: action.value,
-          },
+          fifth: action.value,
         },
       };
     case "setProductDetailInfo":

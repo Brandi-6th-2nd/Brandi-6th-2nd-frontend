@@ -34,6 +34,7 @@ const HeaderContainer = styled.div`
   height: 45px;
   width: 100%;
   position: fixed;
+  z-index: 999;
 `;
 
 const HeaderInner = styled.div`

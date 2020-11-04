@@ -26,6 +26,7 @@ const OrderPageContainer = styled.div`
   display: flex;
   width: 100%;
   flex: 1;
+  background-color: #34373a;
 `;
 
 const PageContainer = styled.div`

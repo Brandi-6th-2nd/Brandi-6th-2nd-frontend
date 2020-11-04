@@ -1,35 +1,64 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useContext, useEffect } from "react";
+import styled from "styled-components";
+import axios from "axios";
+
 import Header from "../../Components/Header/Header";
 import SideBar from "../../Components/SideBar/SideBar";
 import DefaultInfo from "./Components/DefaultInfo";
 import OptionInfo from "./Components/OptionInfo";
 import SellInfo from "./Components/SellInfo";
 import Footer from "../../Components/Footer/Footer";
-import axios from "axios";
-import styled from "styled-components";
 
-function ProductAdd() {
-  // DefaultInfo.js 에 props로 전달되는 state 값들
-  const [sellOption, setSellOption] = useState("1");
-  const [displayOption, setDisplayOpiton] = useState("1");
-  const [categoryData, setCategoryData] = useState("");
+import { GlobalContext } from "../../contexts/globalContext";
 
-  // 상품 등록 페이지에 필요한 데이터들을 서버에 요청하여 setData 함수 실행
-  useEffect(() => {
-    axios
-      .get(`public/Data/ProductAdd/mockData.json`)
-      .then((res) => setData(res));
-  }, []);
+export default function ProductAdd() {
+  const { state } = useContext(GlobalContext);
+  // 서버로 보내는 항목인지 아닌지 애매한 것들은 주석처리 해두었음
+  const {
+    sellOption,
+    // displayOption,
+    currentFirstCategory,
+    currentSecondCategory,
+    // productInfoType,
+    manufacturer,
+    manufactureDate,
+    countryOption,
+    productName,
+    productDesc,
+    productImage,
+    // productDetailInfo,
+    productDetailInfoImage,
+  } = state.productAdd;
 
-  // categoryData라는 state에 서버에서 받아온 category 데이터를 저장하는 함수
-  const setData = (res) => {
-    setCategoryData(res.data.data.product_add.category);
+  const data = {
+    sellOption: sellOption,
+    // displayOption: displayOption,
+    currentFirstCategory: currentFirstCategory,
+    currentSecondCategory: currentSecondCategory,
+    // productInfoType: productInfoType,
+    manufacturer: manufacturer,
+    manufactureDate: manufactureDate,
+    countryOption: countryOption,
+    productName: productName,
+    productDesc: productDesc,
+    productImage: productImage,
+    // productDetailInfo: productDetailInfo,
+    productDetailInfoImage: productDetailInfoImage,
   };
 
   // 선택된, 혹은 작성된 데이터들을 서버에 전송하기 위한 함수
   const sendData = () => {
-    console.log(sellOption);
-    console.log(displayOption);
+    // validation
+    if (currentFirstCategory === 0 || currentSecondCategory === 0) {
+      alert(`카테고리를 선택해주세요`);
+    } else if (productName.includes(`'`) || productName.includes(`"`)) {
+      alert(`상품명에 쌍따옴표(") 또는 홑따옴표(')를 포함 할 수 없습니다.`);
+    } else if (!productImage.first) {
+      alert(`대표 이미지 등록은 필수입니다.`);
+    } else {
+      // axios.post(`${apiAdress}`, data);
+      console.log(data);
+    }
   };
 
   return (
@@ -49,13 +78,7 @@ function ProductAdd() {
             <i className="fas fa-chevron-right icon"></i>
             &nbsp; 상품 등록
           </PageBar>
-          <DefaultInfo
-            sellOption={sellOption}
-            setSellOption={setSellOption}
-            displayOption={displayOption}
-            setDisplayOpiton={setDisplayOpiton}
-            categoryData={categoryData}
-          />
+          <DefaultInfo />
           <OptionInfo />
           <SellInfo />
           <Btn onClick={sendData}>Temporary Submit Btn</Btn>
@@ -65,8 +88,6 @@ function ProductAdd() {
     </Fragment>
   );
 }
-
-export default ProductAdd;
 
 const Container = styled.div`
   display: flex;

@@ -3,25 +3,36 @@ import styled from "styled-components";
 import DatePicker from "react-datepicker";
 import "./DatePicker.css";
 
-function DatePick() {
-  const [date, setDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
-  const handleChange = (date) => setDate(date);
+function DatePick({
+  date,
+  setDate,
+  endDate,
+  setEndDate,
+  filteredData,
+  setFilteredData,
+  convertDate,
+}) {
   return (
     <Fragment>
       <PickerWrapper>
         <NewDatePicker
           selected={date}
-          onChange={(date) => setDate(date)}
+          onChange={(date) => {
+            setDate(date);
+            setFilteredData({ ...filteredData, startDate: convertDate(date) });
+          }}
           dateFormat="yyyy-MM-dd"
-          placeholder="클릭해주세요....."
+          placeholderText="클릭해주세요....."
         />
         <span>~</span>
         <NewDatePicker
           selected={endDate}
-          onChange={(date) => setEndDate(date)}
+          onChange={(date) => {
+            setEndDate(date);
+            setFilteredData({ ...filteredData, endDate: convertDate(date) });
+          }}
           dateFormat="yyyy-MM-dd"
-          placeholder="클릭해주세요....."
+          placeholderText="클릭해주세요....."
         />
       </PickerWrapper>
     </Fragment>

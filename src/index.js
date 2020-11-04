@@ -1,16 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Routes from "./Routes";
+import { GlobalProvider } from "./contexts/globalContext";
 import { GlobalStyles } from "./Styles/GlobalStyles";
-import { Provider } from "react-redux";
-import { createStore } from "redux";
-import rootReducer from "./Store/Reducers";
-const store = createStore(rootReducer);
 ReactDOM.render(
-  <Provider store={store}>
+  <GlobalProvider>
     <Routes />
     <GlobalStyles />
-  </Provider>,
+  </GlobalProvider>,
   document.getElementById("root")
 );
 

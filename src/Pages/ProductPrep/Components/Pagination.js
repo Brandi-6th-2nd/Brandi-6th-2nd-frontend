@@ -8,6 +8,9 @@ const Pagination = ({
   currentPage,
   setCurrentPage,
   handlePageLimit,
+  indexOfFirstPost,
+  setFilteredData,
+  filteredData,
 }) => {
   const pageNumbers = [];
   const pages = Math.ceil(totalPosts / postsPerPage);
@@ -45,14 +48,12 @@ const Pagination = ({
   const goToPrevPage = (e) => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
-      handlePageLimit(currentPage);
     }
   };
 
   const goToNextPage = (e) => {
     if (currentPage < pages) {
       setCurrentPage(currentPage + 1);
-      handlePageLimit(currentPage);
     }
   };
 
@@ -61,7 +62,10 @@ const Pagination = ({
       <PaginUl className="pagination">
         <li
           className={currentPage === 1 ? "page-item disabled" : "page-item"}
-          onClick={goToPrevPage}
+          onClick={() => {
+            goToPrevPage();
+            setFilteredData({ ...filteredData, offset: indexOfFirstPost });
+          }}
           value=""
         >
           <a className="page-link">이전</a>
@@ -80,7 +84,10 @@ const Pagination = ({
         ))}
         <li
           className={currentPage === pages ? "page-item disabled" : "page-item"}
-          onClick={goToNextPage}
+          onClick={() => {
+            goToNextPage();
+            setFilteredData({ ...filteredData, offset: indexOfFirstPost });
+          }}
           value=""
         >
           <a className="page-link"> 다음 </a>

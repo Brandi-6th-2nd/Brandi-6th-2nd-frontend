@@ -1,12 +1,13 @@
 import React, { Fragment, useState, useEffect } from "react";
 import DatePick from "../Components/DatePick";
+import axios from "axios";
 import DatePicker from "react-datepicker";
 import "./DatePicker.css";
 import styled, { css } from "styled-components";
 
 function FilterArea({ filteredData, setFilteredData }) {
   const [isBtnClicked, setIsBtnClicked] = useState("3일");
-  const [isProperty, setIsProperty] = useState(["전체"]);
+  const [isProperty, setIsProperty] = useState(["1"]);
   const [date, setDate] = useState(
     new Date(
       new Date().getFullYear(),
@@ -18,8 +19,10 @@ function FilterArea({ filteredData, setFilteredData }) {
   const [isSelect, setIsSelect] = useState("");
   const [isTyped, setIsTyped] = useState("");
 
+  const [renderValue, setRenderValue] = useState(false);
+
   const handleBtnClicked = (e) => {
-    setFilteredData({ ...filteredData, clickedDate: e.target.value });
+    // setFilteredData({ ...filteredData, clickedDate: e.target.value });
     const today = new Date();
     const weeksAgo = new Date(
       today.getFullYear(),
@@ -43,8 +46,8 @@ function FilterArea({ filteredData, setFilteredData }) {
     );
     setIsBtnClicked(e.target.value);
     if (e.target.value === "전체") {
-      setDate();
-      setEndDate();
+      setDate(null);
+      setEndDate(new Date());
     }
     if (e.target.value === "오늘") {
       setDate(today);
@@ -66,11 +69,7 @@ function FilterArea({ filteredData, setFilteredData }) {
       setDate(threeMonth);
       setEndDate(today);
     }
-    setFilteredData({
-      ...filteredData,
-      startDate: convertDate(date),
-      endDate: convertDate(endDate),
-    });
+    setRenderValue(!renderValue);
   };
 
   const convertDate = (date) => {
@@ -83,27 +82,36 @@ function FilterArea({ filteredData, setFilteredData }) {
       day >= 10 ? day : "0" + day
     }`;
   };
-
   const handlePropertyBtn = (e) => {
-    const { value } = e.target;
-
-    if (value === "전체") {
-      setIsProperty(["전체"]);
-    } else if (isProperty.length === 6) {
-      setIsProperty(["전체"]);
-    } else if (isProperty.find((e) => e === value)) {
-      setIsProperty(isProperty.filter((e) => e !== value));
+    const { name } = e.target;
+    // setRenderValue(!renderValue);
+    if (name === "1" || isProperty.length === 6) {
+      setIsProperty(["1"]);
+    } else if (isProperty.find((e) => e === name)) {
+      setIsProperty(isProperty.filter((e) => e !== name));
+      isProperty.length === 1 && setIsProperty(["1"]);
+      // setIsProperty(["1"]);
     } else if (isProperty.length > 0) {
-      setIsProperty([...isProperty.filter((e) => e !== "전체"), value]);
-    } else {
-      setIsProperty(["전체"]);
+      setIsProperty([...isProperty.filter((e) => e !== "1"), name]);
     }
-    console.log(isProperty);
-  };
+    setRenderValue(!renderValue);
 
-  const handleSearch = (e) => {
+    //  else {
+    //   setIsProperty(["1"]);
+    // }
+  };
+  console.log(">>>>>>>>>>>>>>", isProperty);
+
+  const handleSearch = async (e) => {
     if (isSelect != "" && isTyped.length > 0) {
-      alert("데이터를 불러오고 있습니다.");
+      setFilteredData({
+        ...filteredData,
+        filter_date_from: convertDate(date),
+        filter_date_to: convertDate(endDate),
+        seller_attribute_id: isProperty.sort().join(),
+        searching: isTyped,
+        searching_category: isSelect,
+      });
     } else if (isSelect === "" && isBtnClicked === "전체") {
       alert(
         "날짜 조건이 없을 경우에는 필수 필터 조건이 존재합니다.(주문번호 or 주문상세번호 or 주문자명 or 핸드폰번호)"
@@ -111,14 +119,33 @@ function FilterArea({ filteredData, setFilteredData }) {
     } else if (isSelect !== "") {
       alert("검색어를 입력해주세요.");
     } else {
-      alert("데이터를 불러오고 있습니다.");
+      setFilteredData({
+        ...filteredData,
+        filter_date_from: convertDate(date),
+        filter_date_to: convertDate(endDate),
+        seller_attribute_id: isProperty.sort().join(),
+        searching: isTyped,
+        searching_category: isSelect,
+      });
     }
+    const result = await axios.get(
+      `http://10.58.3.246:5000/orders/lists/4`,
+      {
+        params: filteredData,
+      },
+      {
+        headers: {
+          Authorization: localStorage.getItem("access_token"),
+        },
+      }
+    );
+    setFilteredData(result);
   };
 
-  const handleResetBtn = (e) => {
+  const handleResetBtn = async (e) => {
     const { value } = e.target;
     if (value === "reset") {
-      setIsProperty(["전체"]);
+      setIsProperty(["1"]);
       setIsBtnClicked("3일");
       setDate(
         new Date(
@@ -128,37 +155,70 @@ function FilterArea({ filteredData, setFilteredData }) {
         )
       );
       setEndDate(new Date());
+      setIsTyped("");
+      setIsSelect("");
     }
+    setRenderValue(!renderValue);
+    const result = await axios.get(
+      `http://10.58.3.246:5000/orders/lists/4`,
+      {
+        params: {
+          filter_date_from: convertDate(
+            new Date(new Date().getTime() - 3 * 24 * 60 * 60 * 1000)
+          ),
+          filter_date_to: convertDate(new Date()),
+          seller_attribute_id: "1",
+        },
+      },
+      {
+        headers: {
+          Authorization: localStorage.getItem("access_token"),
+        },
+      }
+    );
+    setFilteredData(result);
   };
+  console.log("wwww>>>>", filteredData);
 
   const handleSelecter = (e) => {
     setIsSelect(e.target.value);
-    setFilteredData({ ...filteredData, isSelect: isSelect });
+    setRenderValue(!renderValue);
   };
 
   const handleInput = (e) => {
     setIsTyped(e.target.value);
-    setFilteredData({ ...filteredData, searchInput: isTyped });
+    setRenderValue(!renderValue);
   };
-  console.log("왜밀려!!", filteredData && filteredData);
+
+  useEffect(() => {
+    // setFilteredData({ ...filteredData });
+    setFilteredData({
+      ...filteredData,
+      filter_date_from: convertDate(date),
+      filter_date_to: convertDate(endDate),
+      seller_attribute_id: isProperty.sort().join(),
+      searching: isTyped,
+      searching_category: isSelect,
+    });
+  }, [renderValue]);
 
   return (
     <Fragment>
       <FilterContainer>
         <SearchFilter>
-          <SelecterWrapper onChange={handleSelecter}>
+          <SelecterWrapper value={isSelect} onChange={handleSelecter}>
             <optgroup>
-              <option value="">Select...</option>
-              <option value="orderNum">주문번호</option>
-              <option value="detailNum">주문상세번호</option>
+              <option value="" label="Select..."></option>
+              <option value="1" label="주문번호"></option>
+              <option value="2" label="주문상세번호"></option>
             </optgroup>
             <optgroup label="-------------">
-              <option value="orderer">주문자명</option>
-              <option value="phoneNum">핸드폰 번호</option>
+              <option value="3" label="주문자명"></option>
+              <option value="4" label="핸드폰 번호"></option>
             </optgroup>
             <optgroup label="-------------">
-              <option value="seller">셀러명</option>
-              <option value="productName">상품명</option>
+              <option value="5" label="셀러명"></option>
+              <option value="6" label="상품명"></option>
             </optgroup>
           </SelecterWrapper>
           <SearchInput
@@ -175,35 +235,41 @@ function FilterArea({ filteredData, setFilteredData }) {
               type="button"
               value="전체"
               onClick={handleBtnClicked}
+              name="1"
               Clicked={isBtnClicked === "전체"}
             />
             <DateButton
               type="button"
               value="오늘"
+              name="2"
               onClick={handleBtnClicked}
               Clicked={isBtnClicked === "오늘"}
             />
             <DateButton
               type="button"
               value="3일"
+              name="3"
               onClick={handleBtnClicked}
               Clicked={isBtnClicked === "3일"}
             />
             <DateButton
               type="button"
               value="1주일"
+              name="4"
               onClick={handleBtnClicked}
               Clicked={isBtnClicked === "1주일"}
             />
             <DateButton
               type="button"
               value="1개월"
+              name="5"
               onClick={handleBtnClicked}
               Clicked={isBtnClicked === "1개월"}
             />
             <DateButton
               type="button"
               value="3개월"
+              name="6"
               onClick={handleBtnClicked}
               Clicked={isBtnClicked === "3개월"}
             />
@@ -224,50 +290,58 @@ function FilterArea({ filteredData, setFilteredData }) {
             <PropertyBtns
               type="button"
               value="전체"
+              name="1"
               onClick={handlePropertyBtn}
-              Clicked={isProperty.find((e) => e === "전체")}
+              Clicked={isProperty.find((e) => e === "1")}
             />
             <PropertyBtns
               type="button"
               value="쇼핑몰"
+              name="2"
               onClick={handlePropertyBtn}
-              Clicked={isProperty.find((e) => e === "쇼핑몰")}
+              Clicked={isProperty.find((e) => e === "2")}
             />
             <PropertyBtns
               type="button"
               value="마켓"
+              name="3"
               onClick={handlePropertyBtn}
-              Clicked={isProperty.find((e) => e === "마켓")}
+              Clicked={isProperty.find((e) => e === "3")}
             />
             <PropertyBtns
               type="button"
               value="로드샵"
+              name="4"
               onClick={handlePropertyBtn}
-              Clicked={isProperty.find((e) => e === "로드샵")}
+              Clicked={isProperty.find((e) => e === "4")}
             />
             <PropertyBtns
               type="button"
               value="디자이너브랜드"
+              name="5"
               onClick={handlePropertyBtn}
-              Clicked={isProperty.find((e) => e === "디자이너브랜드")}
+              Clicked={isProperty.find((e) => e === "5")}
             />
             <PropertyBtns
               type="button"
               value="제너럴브랜드"
+              name="6"
               onClick={handlePropertyBtn}
-              Clicked={isProperty.find((e) => e === "제너럴브랜드")}
+              Clicked={isProperty.find((e) => e === "6")}
             />
             <PropertyBtns
               type="button"
               value="내셔널브랜드"
+              name="7"
               onClick={handlePropertyBtn}
-              Clicked={isProperty.find((e) => e === "내셔널브랜드")}
+              Clicked={isProperty.find((e) => e === "7")}
             />
             <PropertyBtns
               type="button"
               value="뷰티"
+              name="8"
               onClick={handlePropertyBtn}
-              Clicked={isProperty.find((e) => e === "뷰티")}
+              Clicked={isProperty.find((e) => e === "8")}
             />
           </ButtonContainer>
         </SellerProperty>

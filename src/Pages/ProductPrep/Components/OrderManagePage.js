@@ -6,7 +6,11 @@ import styled from "styled-components";
 function OrderManagePage() {
   const [isAllChecked, setIsAllChecked] = useState(false);
   const [isChecked, setIsChecked] = useState([]);
-  const [filteredData, setFilteredData] = useState({});
+  const [filteredData, setFilteredData] = useState({
+    limit: "50",
+    offset: "0",
+    filter_ordering: 1,
+  });
   return (
     <Fragment>
       <ContentsWrapper>

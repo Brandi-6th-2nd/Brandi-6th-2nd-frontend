@@ -27,7 +27,7 @@ function SideBar() {
               }
             ></i>
           </SideBarToggler>
-          {SellerMenuContent.map((el, idx) => (
+          {MasterMenuContent.map((el, idx) => (
             <SideBarContents
               setIsOpen={(e) => setIsOpen(e)}
               isOpen={isOpen}
@@ -36,6 +36,7 @@ function SideBar() {
               key={idx}
               currentIndex={el.id}
               tabIcon={el.tabIcon}
+              homeUrl={el.homeUrl}
               tabName={el.tabName}
               arrowIcon={el.arrowIcon}
               subCategory={el.subCategory}

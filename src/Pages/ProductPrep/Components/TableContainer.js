@@ -13,8 +13,9 @@ function TableContainer({
   setIsChecked,
   filteredData,
   setFilteredData,
+  data,
+  setData,
 }) {
-  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   // 현재 페이지 값
   const [currentPage, setCurrentPage] = useState(1);
@@ -36,11 +37,11 @@ function TableContainer({
   const [changeValue, setChangeValue] = useState(false);
 
   // console.log(posts);
-  useEffect(() => {
-    fetch("http://localhost:3000/public/Data/ProductPrep/TableData.json")
-      .then((res) => res.json())
-      .then((res) => setData(res.order_lists));
-  }, []);
+  // useEffect(() => {
+  //   fetch("http://192.168.7.23:5000/orders/lists/4")
+  //     .then((res) => res.json())
+  //     .then((res) => setData(res.data.order_lists));
+  // }, []);
 
   // useEffect(() => {
   //   fetch(`https://jsonplaceholder.typicode.com/comments`)
@@ -85,28 +86,28 @@ function TableContainer({
     //   }
     // });
   };
-  async function fetchData() {
-    const result = await axios.get(
-      `http://10.58.3.246:5000/orders/lists/4`,
-      {
-        params: {
-          limit: postsPerPage,
-          offset: indexOfFirstPost,
-          filter_ordering: filteredData.filter_ordering,
-        },
-      },
-      {
-        headers: {
-          Authorization: localStorage.getItem("access_token"),
-        },
-      }
-    );
-    setFilteredData(result);
-  }
+  // async function fetchData() {
+  //   const result = await axios.get(
+  //     `http://192.168.7.23:5000/orders/lists/4`,
+  //     {
+  //       params: {
+  //         limit: postsPerPage,
+  //         offset: indexOfFirstPost,
+  //         filter_ordering: filteredData.filter_ordering,
+  //       },
+  //     },
+  //     {
+  //       headers: {
+  //         Authorization: localStorage.getItem("access_token"),
+  //       },
+  //     }
+  //   );
+  //   setFilteredData(result);
+  // }
 
-  useEffect(() => {
-    fetchData();
-  }, [changeValue]);
+  // useEffect(() => {
+  //   fetchData();
+  // }, [changeValue]);
 
   const handlePageLimit = async (e) => {
     // 리밋 필터를 누를 때마다 페이지를 1로 되돌려주면서 체크박스를 초기화 시킨다.

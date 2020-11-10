@@ -264,9 +264,15 @@ function SellerTable({ sellerList, filteredList, setFilteredList }) {
                 <Td>{el.seller_category}</Td>
                 <Td>{el.created_at}</Td>
                 <Td>
-                  {/* <button>{el.action[0]}</button>
-                  <button>{el.action[1]}</button>
-                  <button>{el.action[2]}</button> */}
+                  {el.action &&
+                    el.action.map((action, i) => {
+                      console.log(ACTIONS[el.action[i]]);
+                      return (
+                        <ActionButton key={i} bgColor={ACTIONS[el.action[i]]}>
+                          {el.action[i]}
+                        </ActionButton>
+                      );
+                    })}
                 </Td>
               </Tr>
             ))}
@@ -427,3 +433,24 @@ const ResetButton = styled.button`
     background-color: #ac2925;
   }
 `;
+
+const ActionButton = styled.button`
+  width: auto;
+  height: auto;
+  margin-right: 5px;
+  padding: 2px 10px;
+  font-size: 12px;
+  color: white;
+  background-color: ${({ bgColor }) => (bgColor ? bgColor : "")};
+  border-radius: 4px;
+`;
+
+const ACTIONS = {
+  "입점 승인": "#5bc0de",
+  "입점 거절": "#d9534f",
+  "휴점 신청": "#f0ad4e",
+  "퇴점 신청 처리": "#d9534f",
+  "휴점 해제": "#5cb85c",
+  "퇴점 철회 처리": "#5cb85c",
+  "퇴점 확정 처리": "#d9534f",
+};

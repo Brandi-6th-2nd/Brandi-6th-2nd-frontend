@@ -7,6 +7,7 @@ import MasterMenuContent from "./Components/MasterMenuData";
 function SideBar() {
   const [isOpen, setIsOpen] = useState(0);
   const [subIsOpen, setSubIsOpen] = useState(0);
+
   const [activateToggler, setActivateToggler] = useState(false);
   const handlePage = (tabName) => {
     setIsOpen(tabName);

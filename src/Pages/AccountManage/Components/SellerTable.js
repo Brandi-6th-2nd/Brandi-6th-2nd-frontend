@@ -262,11 +262,11 @@ function SellerTable({ sellerList, filteredList, setFilteredList }) {
                 <Td>{el.manager_phone_number}</Td>
                 <Td>{el.manager_email}</Td>
                 <Td>{el.seller_category}</Td>
-                <Td>{el.register_date}</Td>
+                <Td>{el.created_at}</Td>
                 <Td>
-                  <button>{el.action[0]}</button>
+                  {/* <button>{el.action[0]}</button>
                   <button>{el.action[1]}</button>
-                  <button>{el.action[2]}</button>
+                  <button>{el.action[2]}</button> */}
                 </Td>
               </Tr>
             ))}
@@ -320,10 +320,10 @@ const Td = styled.td`
 
   a {
     text-decoration: none;
-    color: #0d638f;
+    color: #0d638f !important;
 
     :hover {
-      text-decoration: underline;
+      text-decoration: underline !important;
       cursor: pointer;
     }
   }

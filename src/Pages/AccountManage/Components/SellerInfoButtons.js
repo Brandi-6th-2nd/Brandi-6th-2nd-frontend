@@ -1,10 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 
-function SellerInfoButtons({ handleCancel }) {
+function SellerInfoButtons({ handleCancel, isDisabled }) {
+  console.log("isDisabled", isDisabled);
   return (
     <Fragment>
-      <ModifyButton type="submit" value="수정"></ModifyButton>
+      <ModifyButton
+        type="submit"
+        value="수정"
+        disabled={isDisabled ? "disabled" : ""}
+      ></ModifyButton>
       <CancelButton onClick={handleCancel}>취소</CancelButton>
     </Fragment>
   );

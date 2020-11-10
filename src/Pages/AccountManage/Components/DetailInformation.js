@@ -3,11 +3,17 @@ import MaskedInput from "react-input-mask";
 import PostModal from "./PostModal";
 import styled from "styled-components";
 
-function DetailInformation({ register, errors }) {
-  const [isAddress, setIsAddress] = useState("");
-  const [isZoneCode, setIsZoneCode] = useState("");
+function DetailInformation({
+  register,
+  errors,
+  setBackground,
+  sellerDetail,
+  isZoneCode,
+  setIsZoneCode,
+  isAddress,
+  setIsAddress,
+}) {
   const [openModal, setOpenModal] = useState(false);
-
   const handleComplete = (data) => {
     let fullAddress = data.address;
     let extraAddress = "";
@@ -31,6 +37,23 @@ function DetailInformation({ register, errors }) {
     setOpenModal(false);
   };
 
+  const [imgBase64, setImgBase64] = useState(""); // 파일 base64
+
+  const handleChangeFile = (event) => {
+    let reader = new FileReader();
+
+    reader.onloadend = () => {
+      const base64 = reader.result;
+      if (base64) {
+        setImgBase64(base64.toString()); // 파일 base64 상태 업데이트
+      }
+    };
+    if (event.target.files[0]) {
+      reader.readAsDataURL(event.target.files[0]); // 파일을 읽어 버퍼에 저장.
+      setBackground(event.target.files[0]); // 파일 상태 업데이트
+    }
+  };
+
   return (
     <Fragment>
       <Title>
@@ -42,10 +65,21 @@ function DetailInformation({ register, errors }) {
             <Tr>
               <Td shortWidth="true">셀러페이지 배경이미지</Td>
               <Td className="infoData">
-                <Thumbnail>
-                  <ThumbnailImg></ThumbnailImg>
-                </Thumbnail>
-                <ChangeThumbnailBtn>이미지 선택</ChangeThumbnailBtn>
+                <Background>
+                  {sellerDetail.background_image && (
+                    <BackgroundImg src={sellerDetail.background_image} />
+                  )}
+                  {imgBase64 && <BackgroundImg src={imgBase64} />}
+                </Background>
+                <ChangeBackgroundBtn>
+                  <label htmlFor="backgroundImg">업로드</label>
+                  <input
+                    type="file"
+                    id="backgroundImg"
+                    name="backgroundImg"
+                    onChange={handleChangeFile}
+                  />
+                </ChangeBackgroundBtn>
                 <WarningMsg>
                   <i className="fas fa-exclamation-circle" />
                   브랜디 앱과 웹 사이트의 셀러 페이지에 보여질 배경이미지입니다.
@@ -74,6 +108,7 @@ function DetailInformation({ register, errors }) {
                     autoComplete="off"
                     name="intro"
                     placeholder="셀러 한줄 소개"
+                    defaultValue={sellerDetail && sellerDetail.intro}
                     ref={register({
                       required: true,
                     })}
@@ -85,11 +120,14 @@ function DetailInformation({ register, errors }) {
               </Td>
             </Tr>
             <Tr>
-              <Td shortWidth="true">셀러 상세 소개</Td>
+              <Td shortWidth="true">
+                셀러 상세 소개 <ImportantStar>*</ImportantStar>
+              </Td>
               <Td className="infoData">
                 <TextArea
                   name="detail_intro"
                   placeholder="셀러 상세 소개"
+                  defaultValue={sellerDetail && sellerDetail.detail_intro}
                   ref={register({ minLength: 10 })}
                 />
                 {errors.detail_intro &&
@@ -114,6 +152,7 @@ function DetailInformation({ register, errors }) {
                     autoComplete="off"
                     name="manager_name"
                     placeholder="담당자명"
+                    defaultValue={sellerDetail && sellerDetail.manager_name}
                     ref={register({
                       required: true,
                     })}
@@ -131,7 +170,7 @@ function DetailInformation({ register, errors }) {
                     type="text"
                     autoComplete="off"
                     name="manager_phone"
-                    defaultValue="010-0000-0000"
+                    value={sellerDetail && sellerDetail.manager_phone}
                     inputRef={register({
                       required: "required",
                     })}
@@ -147,6 +186,7 @@ function DetailInformation({ register, errors }) {
                     type="text"
                     autoComplete="off"
                     name="manager_email"
+                    defaultValue={sellerDetail && sellerDetail.manager_email}
                     placeholder="담당자 이메일"
                     ref={register({
                       required: true,
@@ -196,10 +236,11 @@ function DetailInformation({ register, errors }) {
                     name="post_number"
                     placeholder="우편번호"
                     readOnly
-                    defaultValue={isZoneCode}
+                    value={isZoneCode || ""}
                     ref={register({
                       required: true,
                     })}
+                    onChange={() => setIsZoneCode(isZoneCode)}
                   />
                 </InputBox>
                 <PostButton onClick={() => setOpenModal(true)}>
@@ -216,12 +257,13 @@ function DetailInformation({ register, errors }) {
                     type="text"
                     autoComplete="off"
                     name="post_address"
-                    defaultValue={isAddress}
+                    value={isAddress || ""}
                     placeholder="주소 (택배 수령지)"
                     readOnly
                     ref={register({
                       required: true,
                     })}
+                    onChange={() => setIsAddress(isAddress)}
                   />
                 </InputBox>
                 <InputBox>
@@ -231,6 +273,9 @@ function DetailInformation({ register, errors }) {
                     autoComplete="off"
                     name="post_detail_address"
                     placeholder="상세주소 (택배 수령지)"
+                    defaultValue={
+                      sellerDetail && sellerDetail.post_detail_address
+                    }
                     ref={register({
                       required: true,
                     })}
@@ -308,7 +353,7 @@ const ImportantStar = styled.label`
   color: red;
 `;
 
-const Thumbnail = styled.div`
+const Background = styled.div`
   margin-bottom: 5px;
   padding: 4px;
   width: 130px;
@@ -318,22 +363,22 @@ const Thumbnail = styled.div`
   border-radius: 4px;
 `;
 
-const ThumbnailImg = styled.img`
-  margin: 0 15px;
-`;
+// const ThumbnailImg = styled.img`
+//   margin: 0 15px;
+// `;
 
-const ChangeThumbnailBtn = styled.div`
-  padding: 6px 12px;
-  width: 96.35px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+// const ChangeThumbnailBtn = styled.div`
+//   padding: 6px 12px;
+//   width: 96.35px;
+//   border: 1px solid #ddd;
+//   border-radius: 4px;
 
-  :hover {
-    background-color: #ddd;
-    border: 1px solid #333;
-    cursor: pointer;
-  }
-`;
+//   :hover {
+//     background-color: #ddd;
+//     border: 1px solid #333;
+//     cursor: pointer;
+//   }
+// `;
 
 const WarningMsg = styled.div`
   margin-top: 10px;
@@ -382,7 +427,7 @@ const InputBox = styled.div`
 
 const Input = styled.input`
   position: absolute;
-  top: 5px;
+  top: 3px;
   left: 35px;
   width: 80%;
   height: 25px;
@@ -415,4 +460,37 @@ const PostButton = styled.div`
   border-radius: 4px;
 
   cursor: pointer;
+`;
+
+const BackgroundImg = styled.img`
+  width: 100%;
+  height: 100%;
+`;
+
+const ChangeBackgroundBtn = styled.div`
+  label {
+    display: inline-block;
+    padding: 0.5em 0.75em;
+    color: #999;
+    font-size: inherit;
+    line-height: normal;
+    vertical-align: middle;
+    background-color: #fdfdfd;
+    cursor: pointer;
+    border: 1px solid #ebebeb;
+    border-bottom-color: #e2e2e2;
+    border-radius: 0.25em;
+  }
+
+  /* 파일 필드 숨기기 */
+  input[type="file"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
 `;

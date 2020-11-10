@@ -14,7 +14,10 @@ function SellerAccountView({
     <Fragment>
       <Page>
         <Span>페이지</Span>
-        <LeftButton onClick={handlePrePage}>
+        <LeftButton
+          onClick={handlePrePage}
+          disabled={pageNum == 1 ? "disabled" : ""}
+        >
           <i className="fas fa-angle-left" />
         </LeftButton>
         <CurrentPage
@@ -23,10 +26,17 @@ function SellerAccountView({
           onChange={handlePageNum}
           value={pageNum}
         />
-        <RightButton onClick={handleNextPage}>
+        <RightButton
+          onClick={handleNextPage}
+          disabled={
+            pageNum == Math.ceil(sellerListCount / recordCountValue)
+              ? "disabled"
+              : ""
+          }
+        >
           <i className="fas fa-angle-right" />
         </RightButton>
-        <Span> / {sellerListCount / recordCountValue}</Span>
+        <Span> / {Math.ceil(sellerListCount / recordCountValue)}</Span>
       </Page>
       <ViewRecords>
         <Select value={recordCountValue} onChange={handleRecordCount}>

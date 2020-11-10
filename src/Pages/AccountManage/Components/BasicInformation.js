@@ -1,7 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
-function BasicInformation({ sellerDetail, register }) {
+function BasicInformation({ sellerDetail, register, setProfile }) {
+  const [imgBase64, setImgBase64] = useState(""); // 파일 base64
+
+  const handleChangeFile = (event) => {
+    let reader = new FileReader();
+
+    reader.onloadend = () => {
+      const base64 = reader.result;
+      if (base64) {
+        setImgBase64(base64.toString()); // 파일 base64 상태 업데이트
+      }
+    };
+    if (event.target.files[0]) {
+      reader.readAsDataURL(event.target.files[0]); // 파일을 읽어 버퍼에 저장
+      setProfile(event.target.files[0]); // 파일 상태 업데이트
+    }
+  };
+
   return (
     <Fragment>
       <Title>
@@ -16,9 +33,20 @@ function BasicInformation({ sellerDetail, register }) {
               </Td>
               <Td className="infoData">
                 <Thumbnail>
-                  <ThumbnailImg></ThumbnailImg>
+                  {sellerDetail.seller_image && (
+                    <ThumbnailImg src={sellerDetail.seller_image} />
+                  )}
+                  {imgBase64 && <ThumbnailImg src={imgBase64} />}
                 </Thumbnail>
-                <ChangeThumbnailBtn>이미지 선택</ChangeThumbnailBtn>
+                <ChangeThumbnailBtn>
+                  <label htmlFor="thumbnail">업로드</label>
+                  <input
+                    type="file"
+                    id="thumbnail"
+                    name="thumbnail"
+                    onChange={handleChangeFile}
+                  />
+                </ChangeThumbnailBtn>
                 <WarningMsg>
                   <i className="fas fa-exclamation-circle" />
                   셀러 프로필 확장자는 <Bold>jpg, jpeg, png</Bold> 만 가능하며,
@@ -28,7 +56,9 @@ function BasicInformation({ sellerDetail, register }) {
             </Tr>
             <Tr>
               <Td>셀러 상태</Td>
-              <Td className="infoData">{sellerDetail.status_name}</Td>
+              <Td className="infoData">
+                {sellerDetail && sellerDetail.status_name}
+              </Td>
             </Tr>
             <Tr>
               <Td>
@@ -39,14 +69,14 @@ function BasicInformation({ sellerDetail, register }) {
                   type="radio"
                   id={sellerDetail.category_name}
                   name="category_name"
-                  value={sellerDetail.category_name}
+                  value={sellerDetail && sellerDetail.category_name}
                   defaultChecked
                   ref={register({
                     required: "required",
                   })}
                 />
                 <Label htmlFor="{sellerDetail.category_name}">
-                  {sellerDetail.category_name}
+                  {sellerDetail && sellerDetail.category_name}
                 </Label>
               </Td>
             </Tr>
@@ -56,7 +86,7 @@ function BasicInformation({ sellerDetail, register }) {
                   <i className="fas fa-exclamation-circle" />
                   셀러명(한글, 영문) 변경시 셀러명과 동일하게 등록된 브랜드
                   정보는 자동으로 변경되지 않습니다. 관리자께서는 이점
-                  유의해주시기 바라며, 브랜드 정보 수정은 [이전 버전 관리 >
+                  유의해주시기 바라며, 브랜드 정보 수정은 [이전 버전 관리 &#62;
                   브랜드관리] 에서 가능합니다.
                 </WarningMsg>
               </Td>
@@ -70,7 +100,7 @@ function BasicInformation({ sellerDetail, register }) {
                     type="text"
                     autoComplete="off"
                     name="kor_name"
-                    defaultValue={sellerDetail.kor_name}
+                    defaultValue={sellerDetail && sellerDetail.kor_name}
                     placeholder="셀러 한글명"
                     ref={register({
                       required: true,
@@ -88,7 +118,7 @@ function BasicInformation({ sellerDetail, register }) {
                     type="text"
                     autoComplete="off"
                     name="eng_name"
-                    defaultValue={sellerDetail.eng_name}
+                    defaultValue={sellerDetail && sellerDetail.eng_name}
                     placeholder="셀러 영문명"
                     ref={register({
                       required: true,
@@ -100,8 +130,7 @@ function BasicInformation({ sellerDetail, register }) {
             <Tr>
               <Td>셀러 계정</Td>
               <Td className="infoData">
-                {sellerDetail.account}
-                <ChangePasswordBtn>비밀번호 변경하기</ChangePasswordBtn>
+                {sellerDetail && sellerDetail.account}
               </Td>
             </Tr>
           </tbody>
@@ -173,7 +202,6 @@ const ImportantStar = styled.label`
 
 const Thumbnail = styled.div`
   margin-bottom: 5px;
-  padding: 4px;
   width: 130px;
   height: 100px;
   background-color: #fff;
@@ -182,19 +210,35 @@ const Thumbnail = styled.div`
 `;
 
 const ThumbnailImg = styled.img`
-  margin: 0 15px;
+  width: 100%;
+  height: 100%;
 `;
 
 const ChangeThumbnailBtn = styled.div`
-  padding: 6px 12px;
-  width: 96.35px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-
-  :hover {
-    background-color: #ddd;
-    border: 1px solid #333;
+  label {
+    display: inline-block;
+    padding: 0.5em 0.75em;
+    color: #999;
+    font-size: inherit;
+    line-height: normal;
+    vertical-align: middle;
+    background-color: #fdfdfd;
     cursor: pointer;
+    border: 1px solid #ebebeb;
+    border-bottom-color: #e2e2e2;
+    border-radius: 0.25em;
+  }
+
+  /* 파일 필드 숨기기 */
+  input[type="file"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
   }
 `;
 
@@ -212,29 +256,11 @@ const Bold = styled.span`
   font-weight: bolder;
 `;
 
-const ChangePasswordBtn = styled.div`
-  display: inline-block;
-  margin-left: 5px;
-  padding: 1px 5px;
-  width: 110px;
-  color: #fff;
-  font-size: 12px;
-  line-height: 1.5;
-  background-color: #d9534f;
-  border-color: #d43f3a;
-  border-radius: 5px;
-
-  :hover {
-    background-color: #d43f3a;
-  }
-`;
-
 const Label = styled.label`
   margin-right: 10px;
 `;
 
 const RadioButton = styled.input`
-  margin-top: 6px;
   margin-right: 5px;
 `;
 
@@ -262,7 +288,7 @@ const InputBox = styled.div`
 
 const Input = styled.input`
   position: absolute;
-  top: 5px;
+  top: 3px;
   left: 35px;
   width: 80%;
   height: 25px;

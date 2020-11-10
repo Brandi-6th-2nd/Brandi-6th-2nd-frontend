@@ -5,6 +5,7 @@ import Footer from "../../Components/Footer/Footer";
 import AccountManageTitle from "./Components/AccountManageTitle";
 import SellerAccountList from "./Components/SellerAccountList";
 import styled from "styled-components";
+import { API } from "../../config";
 
 function AccountManage() {
   const [sellerList, setSellerList] = useState([]);
@@ -13,18 +14,19 @@ function AccountManage() {
   const [recordCountValue, setRecordCountValue] = useState(10);
   const [filteredList, setFilteredList] = useState([]);
 
+  const [limit, setLimit] = useState(10);
+  const [offset, setOffset] = useState(0);
+
   useEffect(() => {
-    fetch(`public/Data/AccountManage/SellerList.json`)
+    fetch(`${API}/master/sellerList?limit=${limit}&offset=${offset}`)
       .then((response) => response.json())
-      .then((response) => setSellerList(response.SellerList));
-  }, []);
+      .then((response) => {
+        setSellerListCount(response.count), setSellerList(response.data);
+      });
+  }, [limit, offset]);
 
   useEffect(() => {
     setFilteredList(sellerList);
-  }, [sellerList]);
-
-  useEffect(() => {
-    setSellerListCount(sellerList.length);
   }, [sellerList]);
 
   const handlePrePage = () => {
@@ -41,11 +43,19 @@ function AccountManage() {
 
   const handlePageNum = () => {
     setPageNum(pageNum);
+    setOffset(pageNum);
   };
 
   const handleRecordCount = (e) => {
     setRecordCountValue(e.target.value);
+    setLimit(e.target.value);
+    setPageNum(1);
   };
+
+  useEffect(() => {
+    setOffset(pageNum * limit - limit);
+    setLimit(recordCountValue);
+  }, [pageNum, recordCountValue]);
 
   return (
     <Fragment>

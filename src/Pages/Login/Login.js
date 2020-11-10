@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import LoginFooter from "../../Components/LoginFooter/LoginFooter";
-import { api } from "../../config";
+import { API } from "../../config";
 import { GlobalContext } from "../../contexts/globalContext";
 
 function Login() {
@@ -18,7 +18,7 @@ function Login() {
   const history = useHistory();
 
   const onSubmit = (data) => {
-    fetch(`${api}/sign_in`, {
+    fetch(`${API}/sign_in`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

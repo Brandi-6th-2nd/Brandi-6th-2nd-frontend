@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-function ShippingInformation({ register, errors }) {
+function ShippingInformation({ register, errors, sellerDetail }) {
   return (
     <Fragment>
       <Title>
@@ -23,6 +23,7 @@ function ShippingInformation({ register, errors }) {
                   ref={register({
                     required: true,
                   })}
+                  defaultValue={sellerDetail.delivery_info}
                 />
                 {errors.delivery_info &&
                   errors.delivery_info.type === "required" && (
@@ -47,6 +48,7 @@ function ShippingInformation({ register, errors }) {
                   ref={register({
                     required: true,
                   })}
+                  defaultValue={sellerDetail.exchange_info}
                 />
                 {errors.exchange_info &&
                   errors.exchange_info.type === "required" && (

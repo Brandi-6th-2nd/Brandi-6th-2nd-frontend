@@ -15,7 +15,6 @@ import ProductEdit from "./Pages/ProductEdit/ProductEdit";
 import OrderDetails from "./Pages/OrderDetails/OrderDetails";
 import SellerInfoManage from "./Pages/AccountManage/SellerInfoManage";
 import SideBar from "./Components/SideBar/SideBar";
-import OrderDetails from "./Pages/OrderDetails/OrderDetails";
 import { ThemeProvider } from "styled-components";
 import Themes from "../src/Styles/Themes";
 
@@ -41,7 +40,7 @@ class Routes extends React.Component {
             <Route exact path="/orderDetails" component={OrderDetails} />
             <Route
               exact
-              path="/SellerInfoManage"
+              path="/SellerInfoManage/:id"
               component={SellerInfoManage}
             />
           </ThemeProvider>

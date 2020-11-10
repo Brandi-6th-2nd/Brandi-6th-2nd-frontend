@@ -9,6 +9,9 @@ import ShippingInformation from "./Components/ShippingInformation";
 import SellerInfoButtons from "./Components/SellerInfoButtons";
 import Footer from "../../Components/Footer/Footer";
 import styled from "styled-components";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import { API } from "../../config";
 
 function SellerInfoManage() {
   const { register, handleSubmit, errors } = useForm({
@@ -16,24 +19,50 @@ function SellerInfoManage() {
   });
 
   const [sellerDetail, setSellerDetail] = useState("");
+  const [profile, setProfile] = useState("");
+  const [background, setBackground] = useState("");
+  const [isAddress, setIsAddress] = useState("");
+  const [isZoneCode, setIsZoneCode] = useState("");
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const [isDisabled, setIsDisabled] = useState(false);
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    fetch(`${API}/master/sellerInfo/${id}`)
+      .then((response) => response.json())
+      .then((res) => {
+        console.log("셀러인포", res.data);
+        setSellerDetail(res.data);
+        setIsDisabled(false);
+      });
+  }, []);
+
+  useEffect(() => {
+    setIsAddress(sellerDetail.post_address);
+    setIsZoneCode(sellerDetail.post_number);
+  }, [sellerDetail]);
+
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+    formData.append("profile", profile);
+    formData.append("background", background);
+    Object.keys(data).forEach((key) => formData.append(key, data[key]));
+
+    await axios
+      .post(`${API}/master/sellerInfo/${id}`, formData)
+      .then((res) => {
+        alert("수정을 성공하셨습니다~!");
+        setIsDisabled(true); //순서조정
+      })
+      .catch((err) => {
+        alert("실패하였습니다.");
+      });
   };
 
   const handleCancel = () => {
     console.log("취소되었습니다");
   };
-
-  useEffect(() => {
-    fetch(`/public/Data/AccountManage/sellerDetail.json`)
-      .then((response) => response.json())
-      .then((response) => setSellerDetail(response.data));
-  }, []);
-
-  useEffect(() => {
-    console.log(sellerDetail);
-  }, [sellerDetail]);
 
   return (
     <Fragment>
@@ -43,10 +72,30 @@ function SellerInfoManage() {
         <Content>
           <AccountManageTitle />
           <SellerInfoForm onSubmit={handleSubmit(onSubmit)}>
-            <BasicInformation register={register} sellerDetail={sellerDetail} />
-            <DetailInformation register={register} errors={errors} />
-            <ShippingInformation register={register} errors={errors} />
-            <SellerInfoButtons handleCancel={handleCancel} />
+            <BasicInformation
+              register={register}
+              sellerDetail={sellerDetail}
+              setProfile={setProfile}
+            />
+            <DetailInformation
+              register={register}
+              errors={errors}
+              sellerDetail={sellerDetail}
+              setBackground={setBackground}
+              isZoneCode={isZoneCode}
+              setIsZoneCode={setIsZoneCode}
+              isAddress={isAddress}
+              setIsAddress={setIsAddress}
+            />
+            <ShippingInformation
+              register={register}
+              errors={errors}
+              sellerDetail={sellerDetail}
+            />
+            <SellerInfoButtons
+              handleCancel={handleCancel}
+              isDisabled={isDisabled}
+            />
           </SellerInfoForm>
         </Content>
       </Container>

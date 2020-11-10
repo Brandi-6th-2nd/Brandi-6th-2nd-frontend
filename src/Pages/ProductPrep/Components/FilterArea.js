@@ -5,7 +5,7 @@ import DatePicker from "react-datepicker";
 import "./DatePicker.css";
 import styled, { css } from "styled-components";
 
-function FilterArea({ filteredData, setFilteredData }) {
+function FilterArea({ filteredData, setFilteredData, data, setData }) {
   const [isBtnClicked, setIsBtnClicked] = useState("3일");
   const [isProperty, setIsProperty] = useState(["1"]);
   const [date, setDate] = useState(
@@ -103,43 +103,41 @@ function FilterArea({ filteredData, setFilteredData }) {
   console.log(">>>>>>>>>>>>>>", isProperty);
 
   const handleSearch = async (e) => {
-    if (isSelect != "" && isTyped.length > 0) {
-      setFilteredData({
-        ...filteredData,
-        filter_date_from: convertDate(date),
-        filter_date_to: convertDate(endDate),
-        seller_attribute_id: isProperty.sort().join(),
-        searching: isTyped,
-        searching_category: isSelect,
-      });
-    } else if (isSelect === "" && isBtnClicked === "전체") {
-      alert(
-        "날짜 조건이 없을 경우에는 필수 필터 조건이 존재합니다.(주문번호 or 주문상세번호 or 주문자명 or 핸드폰번호)"
-      );
-    } else if (isSelect !== "") {
-      alert("검색어를 입력해주세요.");
-    } else {
-      setFilteredData({
-        ...filteredData,
-        filter_date_from: convertDate(date),
-        filter_date_to: convertDate(endDate),
-        seller_attribute_id: isProperty.sort().join(),
-        searching: isTyped,
-        searching_category: isSelect,
-      });
-    }
-    const result = await axios.get(
-      `http://10.58.3.246:5000/orders/lists/4`,
-      {
-        params: filteredData,
+    // if (isSelect != "" && isTyped.length > 0) {
+    //   setFilteredData({
+    //     ...filteredData,
+    //     filter_date_from: convertDate(date),
+    //     filter_date_to: convertDate(endDate),
+    //     seller_attribute_id: isProperty.sort().join(),
+    //     searching: isTyped,
+    //     searching_category: isSelect,
+    //   });
+    // } else if (isSelect === "" && isBtnClicked === "전체") {
+    //   alert(
+    //     "날짜 조건이 없을 경우에는 필수 필터 조건이 존재합니다.(주문번호 or 주문상세번호 or 주문자명 or 핸드폰번호)"
+    //   );
+    // } else if (isSelect !== "") {
+    //   alert("검색어를 입력해주세요.");
+    // } else {
+    //   setFilteredData({
+    //     ...filteredData,
+    //     filter_date_from: convertDate(date),
+    //     filter_date_to: convertDate(endDate),
+    //     seller_attribute_id: isProperty.sort().join(),
+    //     searching: isTyped,
+    //     searching_category: isSelect,
+    //   });
+    // }
+    setRenderValue(!renderValue);
+    const result = await axios.request({
+      method: "GET",
+      url: `http://192.168.7.23:5000/orders/lists/4`,
+      headers: {
+        Authorization: localStorage.getItem("access_token"),
       },
-      {
-        headers: {
-          Authorization: localStorage.getItem("access_token"),
-        },
-      }
-    );
-    setFilteredData(result);
+      params: filteredData,
+    });
+    setData(result.data.order_lists);
   };
 
   const handleResetBtn = async (e) => {
@@ -159,24 +157,21 @@ function FilterArea({ filteredData, setFilteredData }) {
       setIsSelect("");
     }
     setRenderValue(!renderValue);
-    const result = await axios.get(
-      `http://10.58.3.246:5000/orders/lists/4`,
-      {
-        params: {
-          filter_date_from: convertDate(
-            new Date(new Date().getTime() - 3 * 24 * 60 * 60 * 1000)
-          ),
-          filter_date_to: convertDate(new Date()),
-          seller_attribute_id: "1",
-        },
+    const result = await axios.request({
+      method: "GET",
+      url: `http://192.168.7.23:5000/orders/lists/4`,
+      headers: {
+        Authorization: localStorage.getItem("access_token"),
       },
-      {
-        headers: {
-          Authorization: localStorage.getItem("access_token"),
-        },
-      }
-    );
-    setFilteredData(result);
+      // params: {
+      //   filter_date_from: convertDate(
+      //     new Date(new Date().getTime() - 3 * 24 * 60 * 60 * 1000)
+      //   ),
+      //   filter_date_to: convertDate(new Date()),
+      //   seller_attribute_id: "6",
+      // },
+    });
+    setData(result.data.order_lists);
   };
   console.log("wwww>>>>", filteredData);
 
@@ -191,7 +186,6 @@ function FilterArea({ filteredData, setFilteredData }) {
   };
 
   useEffect(() => {
-    // setFilteredData({ ...filteredData });
     setFilteredData({
       ...filteredData,
       filter_date_from: convertDate(date),
@@ -200,6 +194,19 @@ function FilterArea({ filteredData, setFilteredData }) {
       searching: isTyped,
       searching_category: isSelect,
     });
+    // setFilteredData({ ...filteredData });
+    // async function fetchData() {
+    //   const result = await axios.request({
+    //     method: "GET",
+    //     url: `http://192.168.7.23:5000/orders/lists/4`,
+    //     headers: {
+    //       Authorization: localStorage.getItem("access_token"),
+    //     },
+    //     params: filteredData,
+    //   });
+    //   setData(result.data.order_lists);
+    // }
+    // fetchData();
   }, [renderValue]);
 
   return (

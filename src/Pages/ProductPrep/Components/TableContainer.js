@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import axios from "axios";
 import Pagination from "../Components/Pagination";
 import TotalOrderBar from "../Components/TotalOrderBar";
 import MappingTr from "../Components/MappingTr";
@@ -12,8 +13,9 @@ function TableContainer({
   setIsChecked,
   filteredData,
   setFilteredData,
+  data,
+  setData,
 }) {
-  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   // 현재 페이지 값
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,47 +31,44 @@ function TableContainer({
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
-    handlePageLimit(pageNumber);
+    setChangeValue(!changeValue);
   };
+
+  const [changeValue, setChangeValue] = useState(false);
 
   // console.log(posts);
   // useEffect(() => {
-  //   fetch("http://localhost:3000/public/Data/ProductPrep/TableData.json")
+  //   fetch("http://192.168.7.23:5000/orders/lists/4")
   //     .then((res) => res.json())
-  //     .then((res) => setData(res.TableData));
+  //     .then((res) => setData(res.data.order_lists));
   // }, []);
 
-  useEffect(() => {
-    fetch(`https://jsonplaceholder.typicode.com/comments`)
-      .then((res) => res.json())
-      .then((res) => setData(res));
-  }, []);
+  // useEffect(() => {
+  //   fetch(`https://jsonplaceholder.typicode.com/comments`)
+  //     .then((res) => res.json())
+  //     .then((res) => setData(res));
+  // }, []);
 
-  const sortByDate = (e) => {
-    if (e.target.value === "reverse") {
-      const sorted = [...data].sort((a, b) => {
-        return b.postId - a.postId;
-      });
-      setData(sorted);
+  const sortByDate = async (e) => {
+    if (e.target.value === "1") {
       setCurrentPage(1);
-    } else if (e.target.value === "recent") {
-      const sorted = [...data].sort((a, b) => {
-        return a.postId - b.postId;
-      });
-      setData(sorted);
+      setFilteredData({ filter_ordering: 1 });
+    } else if (e.target.value === "2") {
       setCurrentPage(1);
+      setFilteredData({ filter_ordering: 2 });
     }
+    setChangeValue(!changeValue);
   };
 
-  // 잘라온 current
   const checkAllHandler = (checked) => {
     if (checked) {
       const array = [];
-      currentPosts.forEach((el) => array.push(el.id));
+      currentPosts.forEach((el) => array.push(el.order_id));
       setIsChecked(array);
     } else {
       setIsChecked([]);
     }
+    setChangeValue(!changeValue);
   };
 
   const handleChecked = (checked, id) => {
@@ -78,7 +77,7 @@ function TableContainer({
     } else {
       setIsChecked(isChecked.filter((el) => el !== id));
     }
-    setFilteredData({ ...filteredData, isChecked: isChecked });
+    setChangeValue(!changeValue);
     // setIsChecked((prev) => {
     //   if (prev.includes(id)) {
     //     return prev.filter((x) => x !== id);
@@ -87,21 +86,35 @@ function TableContainer({
     //   }
     // });
   };
+  // async function fetchData() {
+  //   const result = await axios.get(
+  //     `http://192.168.7.23:5000/orders/lists/4`,
+  //     {
+  //       params: {
+  //         limit: postsPerPage,
+  //         offset: indexOfFirstPost,
+  //         filter_ordering: filteredData.filter_ordering,
+  //       },
+  //     },
+  //     {
+  //       headers: {
+  //         Authorization: localStorage.getItem("access_token"),
+  //       },
+  //     }
+  //   );
+  //   setFilteredData(result);
+  // }
 
-  useEffect(() => {
-    console.log(filteredData && filteredData);
-  }, [filteredData]);
+  // useEffect(() => {
+  //   fetchData();
+  // }, [changeValue]);
 
-  const handlePageLimit = (e) => {
+  const handlePageLimit = async (e) => {
     // 리밋 필터를 누를 때마다 페이지를 1로 되돌려주면서 체크박스를 초기화 시킨다.
-    setFilteredData({
-      ...filteredData,
-      limit: postsPerPage,
-      offset: indexOfFirstPost,
-    });
-    setPostPerPage(Number(e.target.value));
-    setCurrentPage(1);
-    setIsChecked([]);
+    setPostPerPage(e.target.value);
+    // setCurrentPage(1);
+    // setIsChecked([]);
+    setChangeValue(!changeValue);
   };
 
   if (loading) {
@@ -133,8 +146,8 @@ function TableContainer({
           </PageInfos>
           <ListOrdersFilter>
             <OrderFilter onChange={sortByDate}>
-              <option value="recent">최신주문일순</option>
-              <option value="reverse">주문일의 역순</option>
+              <option value="1">최신주문일순</option>
+              <option value="2">주문일의 역순</option>
             </OrderFilter>
             <LimitFilter defaultValue="50" onChange={handlePageLimit}>
               <option value="10">10개씩 보기</option>
@@ -154,7 +167,9 @@ function TableContainer({
                   <input
                     type={"checkbox"}
                     onChange={(e) => checkAllHandler(e.target.checked)}
-                    checked={isChecked.length === postsPerPage ? true : false}
+                    checked={
+                      isChecked.length === currentPosts.length ? true : false
+                    }
                   ></input>
                 </HeaderTh>
                 <HeaderTh>결제일자</HeaderTh>
@@ -196,6 +211,9 @@ function TableContainer({
               loading={loading}
               data={data}
               handlePageLimit={handlePageLimit}
+              indexOfFirstPost={indexOfFirstPost}
+              setFilteredData={setFilteredData}
+              filteredData={filteredData}
             />
           </PaginWrapper>
         </TableWrapper>

@@ -11,28 +11,35 @@ function MappingTr({
   handleChecked,
   data,
 }) {
+  const orderStatus = {
+    1: "상품준비",
+    2: "배송준비",
+    3: "배송중",
+    4: "배송완료",
+    5: "구매확정",
+  };
   return (
     <MappingContainer>
       <td>
         <input
           type={"checkbox"}
-          onChange={(e) => handleChecked(e.target.checked, el.id)}
-          checked={isChecked.includes(el.id) ? true : false}
+          onChange={(e) => handleChecked(e.target.checked, el.order_id)}
+          checked={isChecked.includes(el.order_id) ? true : false}
         ></input>
       </td>
-      <td>{el.postId}</td>
+      <td>{el.paid_date}</td>
+      <td>{el.order_number}</td>
       <td>
-        <Link to="/orderDetails">{el.name}</Link>
+        <Link to="/orderDetails">{el.detailed_order_number}</Link>
       </td>
-      <td>{el.email}</td>
-      <td>{el.body}</td>
+      <td>{el.seller_name}</td>
       <td>{el.product_name}</td>
-      <td>{el.option_info}</td>
+      <td>{el.color + "/" + el.size}</td>
       <td>{el.quantity}</td>
-      <td>{el.orderer_name}</td>
+      <td>{el.customer_name}</td>
       <td>{el.phone_number}</td>
-      <td>{el.payment_amount}</td>
-      <td>{el.order_status}</td>
+      <td>{el.paid_total}</td>
+      <td>{orderStatus[el.order_status_id]}</td>
     </MappingContainer>
   );
 }

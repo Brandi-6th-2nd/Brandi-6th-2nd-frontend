@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from "react";
+import { Route, Link } from "react-router-dom";
 import SubList from "./SubList";
 import styled, { css } from "styled-components";
 
@@ -15,6 +16,7 @@ function SideBarContents({
   subCategory,
   handlePage,
   activateToggler,
+  homeUrl,
 }) {
   const currentSubOpen = currentIndex === subIsOpen;
   const currentOpen = currentIndex === isOpen;
@@ -46,7 +48,7 @@ function SideBarContents({
             <SpanWrapper>
               <i className={tabIcon} />
               <TabName smallTab={toggleActive === currentIndex}>
-                {tabName}
+                <Link to={homeUrl && homeUrl}>{tabName}</Link>
               </TabName>
             </SpanWrapper>
             {subCategory && toggleActive === currentIndex && (
@@ -62,7 +64,9 @@ function SideBarContents({
           <Fragment>
             <SpanWrapper>
               <i className={tabIcon} />
-              <span>{tabName}</span>
+              <span>
+                <Link to={homeUrl && homeUrl}>{tabName}</Link>
+              </span>
             </SpanWrapper>
             {subCategory && (
               <SubBtnIcon>

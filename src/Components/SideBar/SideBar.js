@@ -7,6 +7,7 @@ import MasterMenuContent from "./Components/MasterMenuData";
 function SideBar() {
   const [isOpen, setIsOpen] = useState(0);
   const [subIsOpen, setSubIsOpen] = useState(0);
+
   const [activateToggler, setActivateToggler] = useState(false);
   const handlePage = (tabName) => {
     setIsOpen(tabName);
@@ -27,7 +28,7 @@ function SideBar() {
               }
             ></i>
           </SideBarToggler>
-          {SellerMenuContent.map((el, idx) => (
+          {MasterMenuContent.map((el, idx) => (
             <SideBarContents
               setIsOpen={(e) => setIsOpen(e)}
               isOpen={isOpen}
@@ -36,6 +37,7 @@ function SideBar() {
               key={idx}
               currentIndex={el.id}
               tabIcon={el.tabIcon}
+              homeUrl={el.homeUrl}
               tabName={el.tabName}
               arrowIcon={el.arrowIcon}
               subCategory={el.subCategory}

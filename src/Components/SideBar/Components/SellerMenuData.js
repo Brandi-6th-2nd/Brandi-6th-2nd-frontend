@@ -4,6 +4,7 @@ const SellerMenuContent = [
     tabIcon: "fas fa-home",
     tabName: "홈",
     arrowIcon: "",
+    homeUrl: "/home",
   },
   {
     id: 2,
@@ -32,12 +33,12 @@ const SellerMenuContent = [
     tabName: "주문관리",
     arrowIcon: "fas fa-angle-left",
     subCategory: [
-      { id: 1, subName: "전체주문관리" },
-      { id: 2, subName: "상품준비관리" },
-      { id: 3, subName: "배송준비관리" },
-      { id: 4, subName: "배송중관리" },
-      { id: 5, subName: "배송완료관리" },
-      { id: 6, subName: "구매확정관리" },
+      { id: 1, subName: "전체주문관리", url: "/productPrep" },
+      { id: 2, subName: "상품준비관리", url: "/productPrep" },
+      { id: 3, subName: "배송준비관리", url: "/productPrep" },
+      { id: 4, subName: "배송중관리", url: "/productPrep" },
+      { id: 5, subName: "배송완료관리", url: "/productPrep" },
+      { id: 6, subName: "구매확정관리", url: "/productPrep" },
     ],
   },
   {
@@ -60,8 +61,8 @@ const SellerMenuContent = [
     tabName: "상품관리",
     arrowIcon: "fas fa-angle-left",
     subCategory: [
-      { id: 1, subName: "상품관리" },
-      { id: 2, subName: "상품등록" },
+      { id: 1, subName: "상품관리", url: "/productManage" },
+      { id: 2, subName: "상품등록", url: "/productAdd" },
     ],
   },
   {
@@ -101,9 +102,9 @@ const SellerMenuContent = [
     tabName: "회원관리",
     arrowIcon: "fas fa-angle-left",
     subCategory: [
-      { id: 1, subName: "셀러 정보 관리" },
-      { id: 2, subName: "페널티 셀러 관리" },
-      { id: 2, subName: "도매처 관리" },
+      { id: 1, subName: "셀러 정보 관리", url: "/accountManage" },
+      { id: 2, subName: "페널티 셀러 관리", url: "/accountManage" },
+      { id: 2, subName: "도매처 관리", url: "/accountManage" },
     ],
   },
   {

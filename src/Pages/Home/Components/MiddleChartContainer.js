@@ -1,6 +1,7 @@
 import React from "react";
-import { Line } from "react-chartjs-2";
 import styled from "styled-components";
+
+import { Line } from "react-chartjs-2";
 
 function MiddleChartContainer({ middleChartData }) {
   // 차트 데이터 관련 코드 시작

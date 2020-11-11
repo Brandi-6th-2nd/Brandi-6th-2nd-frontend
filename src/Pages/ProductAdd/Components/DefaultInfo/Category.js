@@ -15,8 +15,8 @@ export default function Category({}) {
   // 상품 등록 페이지에 필요한 데이터들을 서버에 요청하여 setData 함수 실행
   useEffect(() => {
     axios
-      // .get(`public/Data/ProductAdd/mockData.json`)
-      .get(`http://10.251.1.99:5000/product`)
+      .get(`public/Data/ProductAdd/mockData.json`)
+      // .get(`http://10.251.1.99:5000/product`)
       .then((res) => setData(res));
   }, []);
 

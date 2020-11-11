@@ -1,4 +1,5 @@
 import React, { Fragment, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 
@@ -13,7 +14,6 @@ import { GlobalContext } from "../../contexts/globalContext";
 
 export default function ProductAdd() {
   const { state } = useContext(GlobalContext);
-  // 서버로 보내는 항목인지 아닌지 애매한 것들은 주석처리 해두었음
   const {
     sellOption,
     displayOption,
@@ -45,15 +45,19 @@ export default function ProductAdd() {
     productDetailInfo: productDetailInfo,
   };
 
+  const history = useHistory();
+
   // 선택된, 혹은 작성된 데이터들을 서버에 전송하기 위한 함수
   const sendData = async () => {
     const formData = new FormData();
-    formData.append("defaultInfoData", defaultInfoData);
-    formData.append("productImageFirst", productImage.first);
-    formData.append("productImageSecond", productImage.second);
-    formData.append("productImageThird", productImage.third);
-    formData.append("productImageFourth", productImage.fourth);
-    formData.append("productImageFifth", productImage.fifth);
+    Object.keys(defaultInfoData).forEach((key) =>
+      formData.append(key, defaultInfoData[key])
+    );
+    formData.append("image_1", productImage.first);
+    formData.append("image_2", productImage.second);
+    formData.append("image_3", productImage.third);
+    formData.append("image_4", productImage.fourth);
+    formData.append("image_5", productImage.fifth);
     formData.append("productDetailInfoImage", productDetailInfoImage);
 
     // validation
@@ -65,11 +69,19 @@ export default function ProductAdd() {
       alert(`대표 이미지 등록은 필수입니다.`);
     } else {
       // 서버 통신 시 사용할 코드
-      // await axios.post(`${apiAdress}`, formData, {
-      //   headers: {
-      //     Authorization: localStorage.getItem("token"),
-      //   },
-      // });
+      await axios
+        .post(`http://10.58.2.181:5000/product`, formData, {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        })
+        .then((res) => {
+          alert("상품 등록을 성공하였습니다.");
+          history.push("/productmanage");
+        })
+        .catch((res) => {
+          alert("상품 등록이 실패하였습니다.");
+        });
 
       // formData 삽입값 확인용 코드
       // for (var value of formData.values()) {
@@ -77,7 +89,13 @@ export default function ProductAdd() {
       // }
 
       // 이미지 데이터를 제외한 모든 기본 정보 데이터 확인
-      console.log(defaultInfoData);
+      // console.log(defaultInfoData);
+    }
+  };
+
+  const cancleProductAdd = () => {
+    if (confirm("정말 취소하시겠습니까?")) {
+      history.push("/productmanage");
     }
   };
 
@@ -103,7 +121,9 @@ export default function ProductAdd() {
           <SellInfo />
           <BtnGroup>
             <Btn onClick={sendData}>등록</Btn>
-            <Btn cancle>취소</Btn>
+            <Btn onClick={cancleProductAdd} cancle>
+              취소
+            </Btn>
           </BtnGroup>
         </Article>
       </Container>
@@ -165,4 +185,5 @@ const Btn = styled.button`
   margin: 15px 2px 0;
   background: ${({ cancle }) => (cancle ? "#D95350" : "#5DB85C")};
   color: #ffffff;
+  outline: none;
 `;

@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import { Route, Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 function SubList({ subCategory, currentIndex, handlePage, activateToggler }) {
@@ -11,7 +12,7 @@ function SubList({ subCategory, currentIndex, handlePage, activateToggler }) {
             onClick={() => handlePage(currentIndex)}
             activateToggler={activateToggler}
           >
-            {el.subName}
+            <Link to={el.url && el.url}> {el.subName}</Link>
           </SubCategories>
         ))}
       </SubContainer>

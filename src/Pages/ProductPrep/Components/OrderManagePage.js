@@ -4,9 +4,14 @@ import TableContainer from "../Components/TableContainer";
 import styled from "styled-components";
 
 function OrderManagePage() {
+  const [data, setData] = useState([]);
   const [isAllChecked, setIsAllChecked] = useState(false);
   const [isChecked, setIsChecked] = useState([]);
-  const [filteredData, setFilteredData] = useState({});
+  const [filteredData, setFilteredData] = useState({
+    limit: "50",
+    offset: "0",
+    filter_ordering: 1,
+  });
   return (
     <Fragment>
       <ContentsWrapper>
@@ -25,6 +30,8 @@ function OrderManagePage() {
         <FilterArea
           filteredData={filteredData}
           setFilteredData={setFilteredData}
+          data={data}
+          setData={setData}
         />
         <TableContainer
           filteredData={filteredData}
@@ -33,6 +40,8 @@ function OrderManagePage() {
           setIsAllChecked={setIsAllChecked}
           isChecked={isChecked}
           setIsChecked={setIsChecked}
+          data={data}
+          setData={setData}
         />
       </ContentsWrapper>
     </Fragment>
@@ -45,6 +54,7 @@ const ContentsWrapper = styled.section`
   padding: 70px 20px 20px 20px;
   width: 100%;
   background-color: #fafafa;
+  height: calc(100% + 0px);
 `;
 
 const PageTitle = styled.h3`

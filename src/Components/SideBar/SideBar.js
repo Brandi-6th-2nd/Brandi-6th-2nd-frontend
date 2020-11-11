@@ -28,7 +28,7 @@ function SideBar() {
               }
             ></i>
           </SideBarToggler>
-          {MasterMenuContent.map((el, idx) => (
+          {SellerMenuContent.map((el, idx) => (
             <SideBarContents
               setIsOpen={(e) => setIsOpen(e)}
               isOpen={isOpen}

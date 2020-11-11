@@ -16,6 +16,7 @@ export default function Category({}) {
   useEffect(() => {
     axios
       .get(`public/Data/ProductAdd/mockData.json`)
+      // .get(`http://10.251.1.99:5000/product`)
       .then((res) => setData(res));
   }, []);
 

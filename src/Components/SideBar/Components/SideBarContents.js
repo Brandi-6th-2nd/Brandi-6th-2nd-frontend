@@ -128,6 +128,10 @@ const SpanWrapper = styled.div`
     font-size: 14px;
     font-weight: 300;
     display: ${(props) => (props.display ? "none" : "")};
+    a:hover {
+      color: #cecfd3;
+      text-decoration: none;
+    }
   }
 `;
 
@@ -146,6 +150,15 @@ const TabName = styled.div`
   padding-left: 20px;
   display: ${(props) => (props.smallTab ? "block" : "none")};
   z-index: 10;
+  a {
+    display: block !important;
+    width: 178px;
+    height: 30px;
+    line-height: 30px;
+  }
+  a:hover {
+    color: #cecfd3;
+  }
 `;
 
 const SmallCategory = styled.div`

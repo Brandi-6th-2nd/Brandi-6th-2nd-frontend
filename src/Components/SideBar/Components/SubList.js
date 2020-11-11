@@ -48,8 +48,20 @@ const SubCategories = styled.li`
   height: 37px;
   color: #cecfd3;
   cursor: pointer;
+  a {
+    display: block !important;
+    width: 178px;
+    height: 30px;
+    line-height: 30px;
+  }
+  a:hover {
+    color: #cecfd3;
+  }
 
   &:hover {
     background-color: #222222;
+    a {
+      text-decoration: none;
+    }
   }
 `;

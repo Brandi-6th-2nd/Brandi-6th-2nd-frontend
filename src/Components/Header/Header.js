@@ -9,7 +9,7 @@ function Header() {
           <HeaderLogo>
             <LogoDrop>
               <img
-                src="public/Images/Header/logo_2.png"
+                src="/public/Images/Header/logo_2.png"
                 alt="LogoImage"
                 className="Logo"
               />

@@ -1,0 +1,53 @@
+{
+    "data": [
+        {
+            "account": "test_account1",
+            "action": [
+                "입점승인",
+                "입점거절"
+            ],
+            "eng_name": "test1",
+            "id": 1,
+            "kor_name": "테스트1",
+            "manager_email": null,
+            "manager_name": null,
+            "manager_phone_number": "010-5678-1234",
+            "seller_category": "쇼핑몰",
+            "status_name": "입점대기",
+            "register_date": null
+        },
+        {
+            "account": "test_account2",
+            "action": [
+                "입점승인",
+                "입점거절"
+            ],
+            "eng_name": "test2",
+            "id": 2,
+            "kor_name": "테스트2",
+            "manager_email": null,
+            "manager_name": null,
+            "manager_phone_number": "010-6789-2345",
+            "seller_category": "쇼핑몰",
+            "status_name": "입점대기",
+            "register_date": null
+        },
+        {
+            "account": "test_account1",
+            "action": [
+                "휴점신청",
+                "퇴점확정처리",
+                "퇴점철회처리"
+            ],
+            "eng_name": "test3",
+            "id": 3,
+            "kor_name": "테스트3",
+            "manager_email": null,
+            "manager_name": null,
+            "manager_phone_number": "010-7890-3456",
+            "seller_category": "쇼핑몰",
+            "status_name": "입점대기",
+            "register_date": null
+        }
+    ]
+}

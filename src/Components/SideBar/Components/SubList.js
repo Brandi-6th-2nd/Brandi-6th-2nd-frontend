@@ -12,7 +12,7 @@ function SubList({ subCategory, currentIndex, handlePage, activateToggler }) {
             onClick={() => handlePage(currentIndex)}
             activateToggler={activateToggler}
           >
-            <Link to={el.url && el.url}> {el.subName}</Link>
+            <Link to={`${el.url && el.url}`}> {el.subName}</Link>
           </SubCategories>
         ))}
       </SubContainer>

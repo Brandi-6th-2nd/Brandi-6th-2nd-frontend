@@ -98,7 +98,6 @@ function FilterArea({ filteredData, setFilteredData, data, setData }) {
     //   setIsProperty(["1"]);
     // }
   };
-  console.log(">>>>>>>>>>>>>>", isProperty);
 
   const handleSearch = async (e) => {
     // if (isSelect != "" && isTyped.length > 0) {
@@ -171,7 +170,6 @@ function FilterArea({ filteredData, setFilteredData, data, setData }) {
     });
     setData(result.data.order_lists);
   };
-  console.log("wwww>>>>", filteredData);
 
   const handleSelecter = (e) => {
     setIsSelect(e.target.value);

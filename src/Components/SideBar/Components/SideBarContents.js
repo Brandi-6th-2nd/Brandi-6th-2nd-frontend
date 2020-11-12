@@ -48,7 +48,7 @@ function SideBarContents({
             <SpanWrapper>
               <i className={tabIcon} />
               <TabName smallTab={toggleActive === currentIndex}>
-                <Link to={homeUrl && homeUrl}>{tabName}</Link>
+                <Link to={`${homeUrl && homeUrl}`}>{tabName}</Link>
               </TabName>
             </SpanWrapper>
             {subCategory && toggleActive === currentIndex && (
@@ -65,7 +65,7 @@ function SideBarContents({
             <SpanWrapper>
               <i className={tabIcon} />
               <span>
-                <Link to={homeUrl && homeUrl}>{tabName}</Link>
+                <Link to={`${homeUrl && homeUrl}`}>{tabName}</Link>
               </span>
             </SpanWrapper>
             {subCategory && (
@@ -154,7 +154,7 @@ const TabName = styled.div`
     display: block !important;
     width: 178px;
     height: 30px;
-    line-height: 30px;
+    /* line-height: 30px; */
   }
   a:hover {
     color: #cecfd3;

@@ -18,7 +18,7 @@ function SignUp() {
   // router로 관리하는 페이지로 넘어가기 위해 사용하는 useHistory()를 변수로 담음
   const history = useHistory();
 
-  // 신청버튼 눌렀을 시, 데이터가 전송됨 (현재는 콘솔로만 찍히게 함)
+  // 신청버튼 눌렀을 시, 데이터가 서버로 전송됨
   const onSubmit = (data) => {
     fetch(`${API}/sign_up`, {
       method: "POST",
@@ -37,7 +37,7 @@ function SignUp() {
     })
       .then((response) => response.json())
       .then((res) => {
-        if (res.status === 200) {
+        if (res.message === "REGISTER_SUCCESS") {
           alert("회원가입이 되었습니다.");
           history.push("/");
         } else {

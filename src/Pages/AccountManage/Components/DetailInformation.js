@@ -42,16 +42,17 @@ function DetailInformation({
   const handleChangeFile = (event) => {
     let reader = new FileReader();
 
+    if (event.target.files[0]) {
+      reader.readAsDataURL(event.target.files[0]); // 파일을 읽어 버퍼에 저장.
+      setBackground(event.target.files[0]); // 파일 상태 업데이트
+    }
+
     reader.onloadend = () => {
       const base64 = reader.result;
       if (base64) {
         setImgBase64(base64.toString()); // 파일 base64 상태 업데이트
       }
     };
-    if (event.target.files[0]) {
-      reader.readAsDataURL(event.target.files[0]); // 파일을 읽어 버퍼에 저장.
-      setBackground(event.target.files[0]); // 파일 상태 업데이트
-    }
   };
 
   return (

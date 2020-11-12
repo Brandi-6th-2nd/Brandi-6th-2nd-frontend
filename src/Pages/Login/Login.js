@@ -1,11 +1,11 @@
 import React, { useContext, useEffect } from "react";
-import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import LoginFooter from "../../Components/LoginFooter/LoginFooter";
 import { API } from "../../config";
 import { GlobalContext } from "../../contexts/globalContext";
+import LoginFooter from "../../Components/LoginFooter/LoginFooter";
+import styled from "styled-components";
 
 function Login() {
   const { state, dispatch } = useContext(GlobalContext);

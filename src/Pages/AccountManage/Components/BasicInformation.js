@@ -2,21 +2,23 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 function BasicInformation({ sellerDetail, register, setProfile }) {
-  const [imgBase64, setImgBase64] = useState(""); // 파일 base64
+  const [imgBase64, setImgBase64] = useState(""); // 미리보기를 위한 base64 인코딩 할 값
 
   const handleChangeFile = (event) => {
     let reader = new FileReader();
 
+    if (event.target.files[0]) {
+      reader.readAsDataURL(event.target.files[0]); // 파일을 읽어 버퍼에 저장
+      setProfile(event.target.files[0]); // 파일을 저장함
+    }
+
     reader.onloadend = () => {
+      // 파일 읽기가 완료되면 아래 코드가 실행됌
       const base64 = reader.result;
       if (base64) {
         setImgBase64(base64.toString()); // 파일 base64 상태 업데이트
       }
     };
-    if (event.target.files[0]) {
-      reader.readAsDataURL(event.target.files[0]); // 파일을 읽어 버퍼에 저장
-      setProfile(event.target.files[0]); // 파일 상태 업데이트
-    }
   };
 
   return (

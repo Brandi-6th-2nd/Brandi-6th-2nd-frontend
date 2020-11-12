@@ -33,7 +33,7 @@ const ModifyButton = styled.input`
   border-radius: 4px;
 
   :hover {
-    background-color: #398439;
+    background-color: ${({ disabled }) => (disabled ? "#449d44" : "#398439")};
   }
 `;
 

@@ -32,7 +32,7 @@ function SellerInfoManage() {
     fetch(`${API}/master/sellerInfo/${id}`)
       .then((response) => response.json())
       .then((res) => {
-        console.log("셀러인포", res.data);
+        console.log(res.data);
         setSellerDetail(res.data);
         setIsDisabled(false);
       });
@@ -44,19 +44,24 @@ function SellerInfoManage() {
   }, [sellerDetail]);
 
   const onSubmit = async (data) => {
+    // formData를 생성해줌
     const formData = new FormData();
+    // formData에 profile 사진과 background 사진을 각각 파일 형태로 추가하고,
     formData.append("profile", profile);
     formData.append("background", background);
+    // 다른 데이터들(우편번호, 배송정보 등등)을 각각 추가시킴
     Object.keys(data).forEach((key) => formData.append(key, data[key]));
+    setIsDisabled(true);
 
     await axios
+      // 아이디 주소에 formData를 POST함
       .post(`${API}/master/sellerInfo/${id}`, formData)
       .then((res) => {
         alert("수정을 성공하셨습니다~!");
-        setIsDisabled(true); //순서조정
       })
       .catch((err) => {
         alert("실패하였습니다.");
+        setIsDisabled(false);
       });
   };
 

@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import MaskedInput from "react-input-mask";
 import styled from "styled-components";
 import LoginFooter from "../../Components/LoginFooter/LoginFooter";
-import { api } from "../../config";
+import { API } from "../../config";
 
 function SignUp() {
   const { register, handleSubmit, errors, watch, reset } = useForm({
@@ -18,9 +18,9 @@ function SignUp() {
   // router로 관리하는 페이지로 넘어가기 위해 사용하는 useHistory()를 변수로 담음
   const history = useHistory();
 
-  // 신청버튼 눌렀을 시, 데이터가 전송됨 (현재는 콘솔로만 찍히게 함)
+  // 신청버튼 눌렀을 시, 데이터가 서버로 전송됨
   const onSubmit = (data) => {
-    fetch(`${api}/sign_up`, {
+    fetch(`${API}/sign_up`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -37,11 +37,11 @@ function SignUp() {
     })
       .then((response) => response.json())
       .then((res) => {
-        if (res.status === 400) {
-          alert("다시 한 번 확인해주세요!");
-        } else if (res.status === 200) {
+        if (res.message === "REGISTER_SUCCESS") {
           alert("회원가입이 되었습니다.");
           history.push("/");
+        } else {
+          alert("다시 한 번 확인해주세요!");
         }
       });
   };

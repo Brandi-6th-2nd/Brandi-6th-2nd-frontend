@@ -84,13 +84,11 @@ function FilterArea({ filteredData, setFilteredData, data, setData }) {
   };
   const handlePropertyBtn = (e) => {
     const { name } = e.target;
-    // setRenderValue(!renderValue);
     if (name === "1" || isProperty.length === 6) {
       setIsProperty(["1"]);
     } else if (isProperty.find((e) => e === name)) {
       setIsProperty(isProperty.filter((e) => e !== name));
       isProperty.length === 1 && setIsProperty(["1"]);
-      // setIsProperty(["1"]);
     } else if (isProperty.length > 0) {
       setIsProperty([...isProperty.filter((e) => e !== "1"), name]);
     }
@@ -100,7 +98,6 @@ function FilterArea({ filteredData, setFilteredData, data, setData }) {
     //   setIsProperty(["1"]);
     // }
   };
-  console.log(">>>>>>>>>>>>>>", isProperty);
 
   const handleSearch = async (e) => {
     // if (isSelect != "" && isTyped.length > 0) {
@@ -131,7 +128,7 @@ function FilterArea({ filteredData, setFilteredData, data, setData }) {
     setRenderValue(!renderValue);
     const result = await axios.request({
       method: "GET",
-      url: `http://192.168.7.23:5000/orders/lists/4`,
+      url: `http://10.58.0.237:5000/orders/lists/5`,
       headers: {
         Authorization: localStorage.getItem("access_token"),
       },
@@ -159,7 +156,7 @@ function FilterArea({ filteredData, setFilteredData, data, setData }) {
     setRenderValue(!renderValue);
     const result = await axios.request({
       method: "GET",
-      url: `http://192.168.7.23:5000/orders/lists/4`,
+      url: `http://10.58.0.237:5000/orders/lists/5`,
       headers: {
         Authorization: localStorage.getItem("access_token"),
       },
@@ -173,7 +170,6 @@ function FilterArea({ filteredData, setFilteredData, data, setData }) {
     });
     setData(result.data.order_lists);
   };
-  console.log("wwww>>>>", filteredData);
 
   const handleSelecter = (e) => {
     setIsSelect(e.target.value);
@@ -194,19 +190,6 @@ function FilterArea({ filteredData, setFilteredData, data, setData }) {
       searching: isTyped,
       searching_category: isSelect,
     });
-    // setFilteredData({ ...filteredData });
-    // async function fetchData() {
-    //   const result = await axios.request({
-    //     method: "GET",
-    //     url: `http://192.168.7.23:5000/orders/lists/4`,
-    //     headers: {
-    //       Authorization: localStorage.getItem("access_token"),
-    //     },
-    //     params: filteredData,
-    //   });
-    //   setData(result.data.order_lists);
-    // }
-    // fetchData();
   }, [renderValue]);
 
   return (

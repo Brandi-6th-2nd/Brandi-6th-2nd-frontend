@@ -1,0 +1,22 @@
+{
+    "data":
+        {
+            "account": "juheetest",
+            "background_image": null,
+            "category_name": "쇼핑몰",
+            "delivery_info": null,
+            "detail_intro": null,
+            "eng_name": "heeshop",
+            "exchange_info": null,
+            "intro": null,
+            "kor_name": "heeshop",
+            "manager_email": null,
+            "manager_name": null,
+            "manager_phone": "010-7890-3456",
+            "post_address": null,
+            "post_detail_address": null,
+            "post_number": null,
+            "seller_image": null,
+            "status_name": "입점"
+        }
+}

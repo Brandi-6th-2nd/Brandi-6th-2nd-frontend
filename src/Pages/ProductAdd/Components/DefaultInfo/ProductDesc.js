@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 
 import { GlobalContext } from "../../../../contexts/globalContext";
@@ -12,12 +12,12 @@ export default function ProductDesc() {
   };
 
   return (
-    <Fragment>
+    <tr>
       <Td>한줄 상품 설명</Td>
       <Td>
         <Input type="text" value={productDesc} onChange={handleProductDesc} />
       </Td>
-    </Fragment>
+    </tr>
   );
 }
 

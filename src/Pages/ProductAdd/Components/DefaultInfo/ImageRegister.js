@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 
 import { GlobalContext } from "../../../../contexts/globalContext";
@@ -52,7 +52,7 @@ export default function ImageRegister() {
   };
 
   return (
-    <Fragment>
+    <tr>
       <Td>이미지 등록</Td>
       <Td>
         <ImgContainer>
@@ -177,7 +177,7 @@ export default function ImageRegister() {
           </span>
         </WarnMsg>
       </Td>
-    </Fragment>
+    </tr>
   );
 }
 

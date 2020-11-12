@@ -13,7 +13,7 @@ import Footer from "../../Components/Footer/Footer";
 import { GlobalContext } from "../../contexts/globalContext";
 
 export default function ProductAdd() {
-  const { state } = useContext(GlobalContext);
+  const { state, dispatch } = useContext(GlobalContext);
   const {
     sellOption,
     displayOption,
@@ -70,7 +70,7 @@ export default function ProductAdd() {
     } else {
       // 서버 통신 시 사용할 코드
       await axios
-        .post(`http://10.58.2.181:5000/product`, formData, {
+        .post(`http://10.251.1.158:5000/product`, formData, {
           headers: {
             Authorization: localStorage.getItem("token"),
           },
@@ -82,6 +82,9 @@ export default function ProductAdd() {
         .catch((res) => {
           alert("상품 등록이 실패하였습니다.");
         });
+
+      // 상품 등록 후 적용되었던 상태값들 초기화
+      dispatch({ type: "reset", value: state });
 
       // formData 삽입값 확인용 코드
       // for (var value of formData.values()) {

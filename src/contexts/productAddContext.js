@@ -26,8 +26,6 @@ export const productAddInitialState = {
 };
 
 export const productAddReducer = (state, action) => {
-  // console.log("product", state, action);
-
   switch (action.type) {
     case "setSellOption":
       return {
@@ -149,5 +147,6 @@ export const productAddReducer = (state, action) => {
       return productAddInitialState;
     default:
       return state;
+    // 초기 설정했던 값: throw new Error();
   }
 };

@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 
 import { GlobalContext } from "../../../../contexts/globalContext";
@@ -12,7 +12,7 @@ export default function ProductName() {
   };
 
   return (
-    <Fragment>
+    <tr>
       <Td>
         상품명 <mark>*</mark>
       </Td>
@@ -29,7 +29,7 @@ export default function ProductName() {
           <span>상품명에는 4byte 이모지를 포함할 수 없습니다.</span>
         </WarnMsg> */}
       </Td>
-    </Fragment>
+    </tr>
   );
 }
 

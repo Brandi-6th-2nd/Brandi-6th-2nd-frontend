@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 
 import { GlobalContext } from "../../../../contexts/globalContext";
@@ -13,7 +13,7 @@ export default function SellOption() {
   };
 
   return (
-    <Fragment>
+    <tr>
       <Td>판매 여부</Td>
       <Td>
         <InputGroup>
@@ -48,7 +48,7 @@ export default function SellOption() {
           <span>미판매 선택시 앱에서 Sold Out으로 표시됩니다.</span>
         </WarnMsg>
       </Td>
-    </Fragment>
+    </tr>
   );
 }
 

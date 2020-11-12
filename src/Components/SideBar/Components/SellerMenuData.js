@@ -104,7 +104,7 @@ const SellerMenuContent = [
     subCategory: [
       { id: 1, subName: "셀러 정보 관리", url: "/accountManage" },
       { id: 2, subName: "페널티 셀러 관리", url: "/accountManage" },
-      { id: 2, subName: "도매처 관리", url: "/accountManage" },
+      { id: 3, subName: "도매처 관리", url: "/accountManage" },
     ],
   },
   {

@@ -12,7 +12,6 @@ const [globalReducer, globalInitialState] = combineReducers({
 
 function GlobalProvider({ children }) {
   const [state, dispatch] = useReducer(globalReducer, globalInitialState);
-
   return (
     <GlobalContext.Provider value={{ state, dispatch }}>
       {children}

@@ -6,11 +6,6 @@ import "react-datepicker/src/stylesheets/datepicker.scss";
 function SellerFilterBox() {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const handleChangeRaw = (value) => {
-    if (value === "tomorrow") {
-      setStartDate(addDays(new Date(), 1));
-    }
-  };
 
   return (
     <Wrapper>
@@ -21,7 +16,6 @@ function SellerFilterBox() {
             selected={startDate}
             onChange={(date) => setStartDate(date)}
             placeholderText="클릭해주세요."
-            onChangeRaw={(event) => handleChangeRaw(event.target.value)}
             maxDate={endDate}
           />
         </DatePickerWrap>
@@ -31,7 +25,6 @@ function SellerFilterBox() {
             selected={endDate}
             onChange={(date) => setEndDate(date)}
             placeholderText="클릭해주세요."
-            onChangeRaw={(event) => handleChangeRaw(event.target.value)}
             minDate={startDate}
           />
         </DatePickerWrap>
@@ -99,6 +92,7 @@ const ItemWrapper = styled.div`
 
   input {
     display: inline-block;
+    font-size: 13px;
     max-width: 100px;
     width: 100%;
     height: 34px;
@@ -161,12 +155,13 @@ const SearchBar = styled.input`
 `;
 
 const Select = styled.select`
+  font-size: 13px;
   width: 100px;
   padding: 2px 10px;
   border: 1px solid #e5e5e5;
   border-radius: 4px;
   outline: none;
-  font-weight: 100;
+  font-weight: 300;
   &:focus {
     border: 0.5px solid #adb3af;
     transition: border 0.2s ease-in-out;

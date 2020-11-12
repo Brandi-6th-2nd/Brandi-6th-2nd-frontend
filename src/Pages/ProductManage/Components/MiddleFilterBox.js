@@ -66,6 +66,7 @@ const PageStatus = styled.div`
 `;
 
 const Select = styled.select`
+  font-size: 13px;
   width: 120px;
   height: 30px;
   padding: 2px 10px;

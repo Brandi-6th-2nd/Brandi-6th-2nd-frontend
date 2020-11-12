@@ -1,11 +1,12 @@
 import React, { Fragment, useState, useEffect } from "react";
+import styled from "styled-components";
+import axios from "axios";
+
 import Header from "../../Components/Header/Header";
 import SideBar from "../../Components/SideBar/SideBar";
 import MasterProductManage from "./Components/MasterProductManage";
 import SellerProductManage from "./Components/SellerProductManage";
 import Footer from "../../Components/Footer/Footer";
-import axios from "axios";
-import styled from "styled-components";
 
 function ProductManage() {
   const [masterData, setMasterData] = useState("");

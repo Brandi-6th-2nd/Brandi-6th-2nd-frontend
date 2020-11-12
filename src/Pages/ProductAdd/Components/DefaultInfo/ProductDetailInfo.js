@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import CKEditor from "ckeditor4-react";
 
@@ -32,7 +32,7 @@ export default function ProductDetailInfo() {
   };
 
   return (
-    <Fragment>
+    <tr>
       <Td>
         상세 상품 정보 <mark>*</mark>
       </Td>
@@ -101,7 +101,7 @@ export default function ProductDetailInfo() {
           </ProductDetailWrapper>
         )}
       </Td>
-    </Fragment>
+    </tr>
   );
 }
 

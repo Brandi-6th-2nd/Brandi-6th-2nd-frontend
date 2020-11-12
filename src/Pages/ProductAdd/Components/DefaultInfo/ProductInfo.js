@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import DatePicker from "react-datepicker";
 
@@ -48,7 +48,7 @@ export default function ProductInfo() {
   };
 
   return (
-    <Fragment>
+    <tr>
       <Td>
         상품 정보 고시 <mark>*</mark>
       </Td>
@@ -111,7 +111,7 @@ export default function ProductInfo() {
           </Wrapper>
         </InputDirectContainer>
       </Td>
-    </Fragment>
+    </tr>
   );
 }
 

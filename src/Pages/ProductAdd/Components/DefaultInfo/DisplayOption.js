@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 
 import { GlobalContext } from "../../../../contexts/globalContext";
@@ -13,7 +13,7 @@ export default function DisplayOption() {
   };
 
   return (
-    <Fragment>
+    <tr>
       <Td>진열 여부</Td>
       <Td>
         <InputGroup>
@@ -45,7 +45,7 @@ export default function DisplayOption() {
           <span>미진열 선택시 앱에서 노출되지 않습니다.</span>
         </WarnMsg>
       </Td>
-    </Fragment>
+    </tr>
   );
 }
 

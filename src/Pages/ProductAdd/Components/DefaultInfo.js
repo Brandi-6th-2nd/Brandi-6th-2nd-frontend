@@ -22,30 +22,14 @@ export default function DefaultInfo() {
           </tr>
         </Thead>
         <Tbody>
-          <tr>
-            <SellOption />
-          </tr>
-          <tr>
-            <DisplayOption />
-          </tr>
-          <tr>
-            <Category />
-          </tr>
-          <tr>
-            <ProductInfo />
-          </tr>
-          <tr>
-            <ProductName />
-          </tr>
-          <tr>
-            <ProductDesc />
-          </tr>
-          <tr>
-            <ImageRegister />
-          </tr>
-          <tr>
-            <ProductDetailInfo />
-          </tr>
+          <SellOption />
+          <DisplayOption />
+          <Category />
+          <ProductInfo />
+          <ProductName />
+          <ProductDesc />
+          <ImageRegister />
+          <ProductDetailInfo />
         </Tbody>
       </Table>
     </Fragment>

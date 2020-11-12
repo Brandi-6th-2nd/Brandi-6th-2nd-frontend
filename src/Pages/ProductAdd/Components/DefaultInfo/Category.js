@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import styled from "styled-components";
 import axios from "axios";
 
@@ -15,8 +15,7 @@ export default function Category({}) {
   // 상품 등록 페이지에 필요한 데이터들을 서버에 요청하여 setData 함수 실행
   useEffect(() => {
     axios
-      .get(`public/Data/ProductAdd/mockData.json`)
-      // .get(`http://10.251.1.99:5000/product`)
+      .get(`http://10.251.1.158:5000/product/category`)
       .then((res) => setData(res));
   }, []);
 
@@ -54,7 +53,7 @@ export default function Category({}) {
   };
 
   return (
-    <Fragment>
+    <tr>
       <Td>
         카테고리 <mark>*</mark>
       </Td>
@@ -111,7 +110,7 @@ export default function Category({}) {
           </Tbody>
         </Table>
       </Td>
-    </Fragment>
+    </tr>
   );
 }
 

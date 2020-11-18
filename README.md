@@ -10,8 +10,6 @@
   - Styled-Component
   - Axios, Chartjs, DatePicker, CKEditor 등 다수 third-party-library 사용  
 
-* [Daily-Report](https://www.notion.so/Daily-Report-56d651b0dbe04b9c8758bbcbe88e3c5d)
-
 * 작업 사항
   - 회원가입 페이지 레이아웃 및 기능 구현
   - 로그인 페이지 레이아웃 및 기능 구현
@@ -24,3 +22,5 @@
   - 상품등록(셀러) 페이지 레이아웃 및 axios를 사용한 데이터 전송
   - 셀러 계정 관리 페이지
   - 셀러정보 수정페이지
+
+* [Daily-Report](https://www.notion.so/Daily-Report-56d651b0dbe04b9c8758bbcbe88e3c5d)
